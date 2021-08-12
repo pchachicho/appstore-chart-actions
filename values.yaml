@@ -76,7 +76,9 @@ helx_ui:
   # -- Enable/Disable helx-ui workspaces.
   REACT_APP_WORKSPACES_ENABLED: "true"
   # -- Helx Search URL
-  REACT_APP_HELX_SEARCH_URL: ""
+  REACT_APP_HELX_SEARCH_URL: "https://helx.renci.org"
+  # -- Helx Branding (cat, braini, restartr, scidas, eduhelx)
+  REACT_APP_UI_BRAND_NAME: "cat"
 
 django:
   # -- create test users for load testing
