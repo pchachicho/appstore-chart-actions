@@ -81,6 +81,7 @@ helx_ui:
   REACT_APP_UI_BRAND_NAME: ""
 
 gunicorn:
+  # -- Set the number of gunicorn workers.
   workers: 5
 
 django:
