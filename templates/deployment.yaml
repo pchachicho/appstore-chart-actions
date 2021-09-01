@@ -34,6 +34,11 @@ spec:
         resources:
           {{- toYaml .Values.resources | nindent 10 }}
         env:
+        - name: GUNICORN_WORKERS
+          valueFrom:
+            configMapKeyRef:
+              key: GUNICORN_WORKERS
+              name: {{ include "appstore.fullname" . }}-env
         - name: REACT_APP_HELX_SEARCH_URL
           valueFrom:
             configMapKeyRef:

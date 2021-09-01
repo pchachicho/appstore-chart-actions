@@ -80,6 +80,9 @@ helx_ui:
 # -- Helx Branding (cat, braini, restartr, scidas, eduhelx)
   REACT_APP_UI_BRAND_NAME: ""
 
+gunicorn:
+  workers: 5
+
 django:
   # -- create test users for load testing
   CREATE_TEST_USERS: "false"
