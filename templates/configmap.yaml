@@ -32,3 +32,4 @@ data:
   REACT_APP_WORKSPACES_ENABLED: "{{ .Values.helx_ui.REACT_APP_WORKSPACES_ENABLED }}"
   REACT_APP_HELX_SEARCH_URL: '{{ .Values.helx_ui.REACT_APP_HELX_SEARCH_URL }}'
   REACT_APP_UI_BRAND_NAME: "{{ .Values.helx_ui.REACT_APP_UI_BRAND_NAME }}"
+  GUNICORN_WORKERS: "{{ .Values.gunicorn.workers }}"
