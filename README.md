@@ -1,6 +1,6 @@
 # appstore
 
-![Version: 0.3.0-dev](https://img.shields.io/badge/Version-0.3.0--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.2.dev-f4e6de7e](https://img.shields.io/badge/AppVersion-1.2.dev--f4e6de7e-informational?style=flat-square)
+![Version: 0.4.0-dev](https://img.shields.io/badge/Version-0.4.0--dev-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.2.dev-5554e8fe](https://img.shields.io/badge/AppVersion-1.2.dev--5554e8fe-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
