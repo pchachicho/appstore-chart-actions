@@ -17,6 +17,8 @@ spec:
       labels:
         {{- include "appstore.selectorLabels" . | nindent 8 }}
     spec:
+      strategy:
+        type: "{{ .Values.updateStrategy.type }}"
       serviceAccountName: {{ include "appstore.fullname" . }}-sa
       initContainers:
       {{- if .Values.securityContext }}

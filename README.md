@@ -93,6 +93,7 @@ A Helm chart for Kubernetes
 | shared_dir | string | `"shared"` | name of directory to use for shared data |
 | subpath_dir | string | `nil` | Name of directory to use for a user's home directory.  If null then the user's username will be used. |
 | tolerations | list | `[]` |  |
+| updateStrategy.type | string | `"Recreate"` | 'RollingUpdate' or 'Recreate'. Must use Recreate if mounting PVCs due to multi-attach errors. |
 | useSparkServiceAccount | bool | `true` | Set to true, when using blackbalsam. |
 | userStorage.createPVC | bool | `false` | Create a PVC for user's files.  If false then the PVC needs to be created outside of the appstore chart. |
 | userStorage.nfs.createPV | bool | `false` |  |

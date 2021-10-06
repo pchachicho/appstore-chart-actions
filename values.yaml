@@ -19,6 +19,10 @@ fullnameOverride: ""
 
 podAnnotations: {}
 
+updateStrategy:
+  # -- 'RollingUpdate' or 'Recreate'. Must use Recreate if mounting PVCs due to multi-attach errors.
+  type: Recreate
+
 serviceAccount:
   # -- specifies whether a service account should be created
   create: true
