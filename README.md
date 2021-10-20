@@ -34,7 +34,6 @@ A Helm chart for Kubernetes
 | django.SESSION_IDLE_TIMEOUT | int | `3600` | idle timeout for user web session |
 | django.TEST_USERS_PATH | string | `"/tmp"` | parent directory where the users.txt would be mounted |
 | django.TEST_USERS_SECRET | string | `"test-users-secret"` | secret file deployed on the cluster to fetch the test users |
-| django.WHITELIST_REDIRECT | string | `"true"` | redirect unauthorized users of return a 403 |
 | django.oauth.GITHUB_CLIENT_ID | string | `""` |  |
 | django.oauth.GITHUB_KEY | string | `""` |  |
 | django.oauth.GITHUB_NAME | string | `""` |  |

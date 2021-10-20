@@ -108,8 +108,6 @@ django:
   EMAIL_HOST_USER: ""
   # -- password of account to use for outgoing emails
   EMAIL_HOST_PASSWORD: ""
-  # -- redirect unauthorized users of return a 403
-  WHITELIST_REDIRECT: "true"
   # -- Specify URL to use for the "Image Download" link on the top part of website.
   IMAGE_DOWNLOAD_URL: ""
   # -- idle timeout for user web session
