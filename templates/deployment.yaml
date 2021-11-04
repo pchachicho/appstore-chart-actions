@@ -4,6 +4,9 @@ metadata:
   name: {{ include "appstore.fullname" . }}
   labels:
     {{- include "appstore.labels" . | nindent 4 }}
+    {{- with .Values.networkPolicyLabels }}
+    {{ toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   selector:
     matchLabels:
@@ -16,6 +19,9 @@ spec:
     {{- end }}
       labels:
         {{- include "appstore.selectorLabels" . | nindent 8 }}
+        {{- with .Values.networkPolicyLabels }}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       serviceAccountName: {{ include "appstore.fullname" . }}-sa
       initContainers:
@@ -306,6 +312,33 @@ spec:
             secretKeyRef:
               key: RECIPIENT_EMAILS
               name: {{ include "appstore.fullname" . }}
+        {{- if .Values.postgresql.global.postgresql }}
+        - name: PG_DB_ENGINE
+          valueFrom:
+            secretKeyRef:
+              key: PG_DB_ENGINE
+              name: {{ include "appstore.fullname" . }}
+        - name: PG_DB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              key: PG_DB_DATABASE
+              name: {{ include "appstore.fullname" . }}
+        - name: PG_DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: PG_DB_USERNAME
+              name: {{ include "appstore.fullname" . }}
+        - name: PG_DB_HOST
+          valueFrom:
+            secretKeyRef:
+              key: PG_DB_HOST
+              name: {{ include "appstore.fullname" . }}
+        - name: PG_DB_PORT
+          valueFrom:
+            secretKeyRef:
+              key: PG_DB_PORT
+              name: {{ include "appstore.fullname" . }}
+        {{- end }}
         {{- range $key, $value := .Values.extraEnv }}
         - name: {{ $key }}
           value: {{ $value | quote }}
