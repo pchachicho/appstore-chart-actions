@@ -5,6 +5,8 @@ metadata:
   labels:
     {{- include "appstore.labels" . | nindent 4 }}
 spec:
+  strategy:
+    type: "{{ .Values.updateStrategy.type }}"
   selector:
     matchLabels:
       {{- include "appstore.selectorLabels" . | nindent 6 }}
@@ -17,8 +19,6 @@ spec:
       labels:
         {{- include "appstore.selectorLabels" . | nindent 8 }}
     spec:
-      strategy:
-        type: "{{ .Values.updateStrategy.type }}"
       serviceAccountName: {{ include "appstore.fullname" . }}-sa
       initContainers:
       {{- if .Values.securityContext }}
