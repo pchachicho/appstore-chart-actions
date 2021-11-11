@@ -4,6 +4,12 @@
 
 A Helm chart for Kubernetes
 
+## Requirements
+
+| Repository | Name | Version |
+|------------|------|---------|
+| https://charts.bitnami.com/bitnami | postgresql | 10.12.7 |
+
 ## Values
 
 | Key | Type | Default | Description |
@@ -18,7 +24,9 @@ A Helm chart for Kubernetes
 | apps.DICOMGH_GOOGLE_CLIENT_ID | string | `""` |  |
 | appstoreEntrypointArgs | string | `"make start"` | Allow for a custom entrypoint command via the values file. |
 | createHomeDirs | bool | `true` | Create Home directories for users |
+| db.host | string | `"postgresql"` |  |
 | db.name | string | `"appstore"` |  |
+| db.port | int | `5432` |  |
 | django.ALLOW_DJANGO_LOGIN | string | `""` | show Django log in fields (true | false) |
 | django.ALLOW_SAML_LOGIN | string | `""` | show SAML log in fields (true | false) |
 | django.APPSTORE_DJANGO_PASSWORD | string | `""` |  |
@@ -73,12 +81,20 @@ A Helm chart for Kubernetes
 | irods.enabled | bool | `false` | enable irods support (true | false) |
 | loadTest | bool | `false` | When this is true, set CREATE_TEST_USERS, TEST_USERS_PATH, TEST_USERS_SECRET under django settings. |
 | nameOverride | string | `""` |  |
+| networkPolicyLabels.role | string | `"appstore"` |  |
 | nodeSelector | object | `{}` |  |
 | oauth.claimName | string | `"appstore-oauth-pvc"` |  |
 | oauth.existingClaim | bool | `false` |  |
 | oauth.storageClass | string | `nil` |  |
 | parent_dir | string | `"/home"` | directory that will be used to mount user's home directories in |
 | podAnnotations | object | `{}` |  |
+| postgresql | object | `{"audit":{"logConnections":true,"logHostname":true},"global":{"postgresql":{"postgresqlDatabase":"appstore-oauth","postgresqlPassword":"renci","postgresqlUsername":"renci"}},"networkPolicyEnabled":true,"persistence":{"existingClaim":"appstore-oauth-pvc","mountPath":"/postgresql/12","subPath":"postgresql12"},"postgresqlDataDir":"/postgresql/12/data","postgresqlPostgresPassword":"renciAdmin","primary":{"labels":{"np-label":"appstore-db"},"podLabels":{"np-label":"appstore-db"}},"volumePermissions":{"enabled":true}}` | postgresql settings |
+| postgresql.audit | object | `{"logConnections":true,"logHostname":true}` | postgresql logs |
+| postgresql.global.postgresql | object | `{"postgresqlDatabase":"appstore-oauth","postgresqlPassword":"renci","postgresqlUsername":"renci"}` | postgresql credentials |
+| postgresql.networkPolicyEnabled | bool | `true` | enable/disable postgresql network policy, allows traffic to and from appstore pod only. |
+| postgresql.persistence | object | `{"existingClaim":"appstore-oauth-pvc","mountPath":"/postgresql/12","subPath":"postgresql12"}` | postgresql persistence storage  |
+| postgresql.postgresqlDataDir | string | `"/postgresql/12/data"` | postgresql DATA DIR |
+| postgresql.primary | object | `{"labels":{"np-label":"appstore-db"},"podLabels":{"np-label":"appstore-db"}}` | postgresql labels |
 | replicaCount | int | `1` |  |
 | resources.limits.cpu | string | `"400m"` |  |
 | resources.limits.memory | string | `"625Mi"` |  |
