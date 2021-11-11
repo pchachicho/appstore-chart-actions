@@ -88,7 +88,7 @@ A Helm chart for Kubernetes
 | oauth.storageClass | string | `nil` |  |
 | parent_dir | string | `"/home"` | directory that will be used to mount user's home directories in |
 | podAnnotations | object | `{}` |  |
-| postgresql | object | `{"audit":{"logConnections":true,"logHostname":true},"global":{"postgresql":{"postgresqlDatabase":"appstore-oauth","postgresqlPassword":"renci","postgresqlUsername":"renci"}},"networkPolicyEnabled":true,"persistence":{"existingClaim":"appstore-oauth-pvc","mountPath":"/postgresql/12","subPath":"postgresql12"},"postgresqlDataDir":"/postgresql/12/data","postgresqlPostgresPassword":"renciAdmin","primary":{"labels":{"np-label":"appstore-db"},"podLabels":{"np-label":"appstore-db"}},"volumePermissions":{"enabled":true}}` | postgresql settings |
+| postgresql | object | `{"audit":{"logConnections":true,"logHostname":true},"enabled":true,"global":{"postgresql":{"postgresqlDatabase":"appstore-oauth","postgresqlPassword":"renci","postgresqlUsername":"renci"}},"networkPolicyEnabled":true,"persistence":{"existingClaim":"appstore-oauth-pvc","mountPath":"/postgresql/12","subPath":"postgresql12"},"postgresqlDataDir":"/postgresql/12/data","postgresqlPostgresPassword":"renciAdmin","primary":{"labels":{"np-label":"appstore-db"},"podLabels":{"np-label":"appstore-db"}},"volumePermissions":{"enabled":true}}` | postgresql settings |
 | postgresql.audit | object | `{"logConnections":true,"logHostname":true}` | postgresql logs |
 | postgresql.global.postgresql | object | `{"postgresqlDatabase":"appstore-oauth","postgresqlPassword":"renci","postgresqlUsername":"renci"}` | postgresql credentials |
 | postgresql.networkPolicyEnabled | bool | `true` | enable/disable postgresql network policy, allows traffic to and from appstore pod only. |

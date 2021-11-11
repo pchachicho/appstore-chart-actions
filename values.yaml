@@ -206,6 +206,7 @@ db:
 
 # -- postgresql settings
 postgresql:
+  enabled: true
   global:
     # -- postgresql credentials
     postgresql:
