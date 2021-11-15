@@ -17,6 +17,8 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+networkPolicyLabels: {"role": "appstore"}
+
 podAnnotations: {}
 
 updateStrategy:
@@ -57,9 +59,6 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
-
-db:
-  name: appstore
 
 ambassador:
    # -- register appstore with ambassador flag: <True or False>
@@ -199,3 +198,40 @@ global:
   stdnfsPvc: stdnfs
   # -- specify the id of the ambassador for Tycho-launched services.
   ambassador_id:
+
+#############################################################################
+# -- appstore database settings
+db:
+  name: appstore
+  host: postgresql
+  port: 5432
+
+# -- postgresql settings
+postgresql:
+  enabled: true
+  global:
+    # -- postgresql credentials
+    postgresql:
+      postgresqlPassword: "renci"
+      postgresqlDatabase: "appstore-oauth"
+      postgresqlUsername: "renci"
+  postgresqlPostgresPassword: "renciAdmin"
+  # -- postgresql DATA DIR
+  postgresqlDataDir: "/postgresql/12/data"
+  # -- postgresql labels
+  primary:
+    labels: {"np-label": "appstore-db"}
+    podLabels: {"np-label": "appstore-db"}
+  # -- postgresql logs
+  audit:
+    logHostname: true
+    logConnections: true
+  # -- postgresql persistence storage 
+  persistence:
+    existingClaim: "appstore-oauth-pvc"
+    mountPath: /postgresql/12
+    subPath: postgresql12
+  volumePermissions:
+    enabled: true
+  # -- enable/disable postgresql network policy, allows traffic to and from appstore pod only.
+  networkPolicyEnabled: true
