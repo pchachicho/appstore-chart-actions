@@ -3,3 +3,7 @@
 
 # Deployment configs
 env/
+
+# Helm intermediates
+charts
+Chart.lock
