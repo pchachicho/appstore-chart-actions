@@ -4,6 +4,6 @@
 # Deployment configs
 env/
 
-# Helm intermediates
+# Helm intermediates and artifacts
 charts
-Chart.lock
+*.tgz
