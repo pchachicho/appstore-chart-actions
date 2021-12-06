@@ -3,3 +3,7 @@
 
 # Deployment configs
 env/
+
+# Helm intermediates and artifacts
+charts
+*.tgz
