@@ -3,6 +3,8 @@ kind: ServiceAccount
 metadata:
   name: {{ include "appstore.fullname" . }}-sa
 ---
+# These permissions must only encompass the API calls that Tycho makes.
+# Ref: https://github.com/helxplatform/tycho/blob/master/tycho/kube.py
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
@@ -10,21 +12,9 @@ metadata:
 rules:
 - apiGroups:
   - ""
-  attributeRestrictions: null
   resources:
-  - namespaces
-  verbs:
-  - get
-  - list
-  - watch
-- apiGroups:
-  - ""
-  resources:
-    - configmaps
     - pods
-    - secrets
     - services
-    - persistentvolumeclaims
   verbs:
     - create
     - delete
@@ -34,13 +24,18 @@ rules:
     - patch
     - update
     - watch
+- apiGroups:
+  - ""
+  resources:
+    - secrets
+    - persistentvolumeclaims
+  vebs:
+    # Listing secrets can be removed after https://github.com/helxplatform/development/issues/852
+    - list
 - apiGroups:
   - "apps"
   resources:
     - deployments
-    - deployments/scale
-    - replicasets
-    - replicasets/scale
   verbs:
     - create
     - delete
@@ -50,39 +45,6 @@ rules:
     - patch
     - update
     - watch
-- apiGroups:
-  - extensions
-  attributeRestrictions: null
-  resources:
-    - deployments
-    - deployments/scale
-    - ingresses
-    - replicasets
-    - replicasets/scale
-  verbs:
-    - create
-    - delete
-    - deletecollection
-    - get
-    - list
-    - patch
-    - update
-    - watch
-- apiGroups:
-  - extensions
-  - networking.k8s.io
-  attributeRestrictions: null
-  resources:
-  - networkpolicies
-  verbs:
-  - create
-  - delete
-  - deletecollection
-  - get
-  - list
-  - patch
-  - update
-  - watch
 ---
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
