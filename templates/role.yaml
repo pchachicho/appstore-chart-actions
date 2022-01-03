@@ -29,7 +29,7 @@ rules:
   resources:
     - secrets
     - persistentvolumeclaims
-  vebs:
+  verbs:
     # Listing secrets can be removed after https://github.com/helxplatform/development/issues/852
     - list
 - apiGroups:
