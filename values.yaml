@@ -117,6 +117,7 @@ django:
   SESSION_IDLE_TIMEOUT: 3600
   # -- list of appstore registration emails
   RECIPIENT_EMAILS: ""
+  DEV_PHASE: "prod"
   oauth:
     # -- oauth providers separated by commas (google, github)
     OAUTH_PROVIDERS: ""
@@ -226,7 +227,7 @@ postgresql:
   audit:
     logHostname: true
     logConnections: true
-  # -- postgresql persistence storage 
+  # -- postgresql persistence storage
   persistence:
     existingClaim: "appstore-oauth-pvc"
     mountPath: /postgresql/12
