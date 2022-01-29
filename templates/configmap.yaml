@@ -19,8 +19,6 @@ data:
   NRC_PORT: "1247"
   ALLOW_DJANGO_LOGIN: "{{ .Values.django.ALLOW_DJANGO_LOGIN }}"
   ALLOW_SAML_LOGIN: "{{ .Values.django.ALLOW_SAML_LOGIN }}"
-  SAML2_AUTH_ASSERTION_URL: "{{ .Values.django.saml2auth.ASSERTION_URL }}"
-  SAML2_AUTH_ENTITY_ID: "{{ .Values.django.saml2auth.ENTITY_ID }}"
   IMAGE_DOWNLOAD_URL: "{{ .Values.django.IMAGE_DOWNLOAD_URL }}"
   DJANGO_SESSION_IDLE_TIMEOUT: "{{ .Values.django.SESSION_IDLE_TIMEOUT }}"
   TYCHO_INIT_RESOURCES_CPUS: "{{ .Values.init.resources.cpus }}"
@@ -31,4 +29,14 @@ data:
   REACT_APP_WORKSPACES_ENABLED: "{{ .Values.helx_ui.REACT_APP_WORKSPACES_ENABLED }}"
   REACT_APP_HELX_SEARCH_URL: '{{ .Values.helx_ui.REACT_APP_HELX_SEARCH_URL }}'
   REACT_APP_UI_BRAND_NAME: "{{ .Values.helx_ui.REACT_APP_UI_BRAND_NAME }}"
+  {{- if .Values.saml.cache.enabled }}
+  SAML_METADATA_SOURCE: "{{ .Values.saml.cache.APPSTORE_DIRECTORY }}/{{ .Values.saml.cache.APPSTORE_FILE }}"
+  {{- else }}
+  SAML_METADATA_SOURCE: {{ .Values.saml.AUTHORITY_URL }}
+  {{- end }}
+  SAML_FETCH_URL: "{{ .Values.saml.AUTHORITY_URL }}"
+  SAML_FETCH_FILE: "{{ .Values.saml.cache.FETCH_FILE }}"
+  SAML_FETCH_INTERVAL: "{{ .Values.saml.cache.FETCH_INTERVAL }}"
+  SAML_AUTH_ASSERTION_URL: "{{ .Values.saml.ASSERTION_URL }}"
+  SAML_AUTH_ENTITY_ID: "{{ .Values.saml.ENTITY_ID }}"
   GUNICORN_WORKERS: "{{ .Values.gunicorn.workers }}"

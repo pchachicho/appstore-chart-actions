@@ -34,6 +34,7 @@ spec:
         fsGroup: {{ .Values.securityContext.fsGroup }}
       {{- end }}
       containers:
+      
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -105,12 +106,17 @@ spec:
         - name: SAML2_AUTH_ASSERTION_URL
           valueFrom:
             configMapKeyRef:
-              key: SAML2_AUTH_ASSERTION_URL
+              key: SAML_AUTH_ASSERTION_URL
               name: {{ include "appstore.fullname" . }}-env
         - name: SAML2_AUTH_ENTITY_ID
           valueFrom:
             configMapKeyRef:
-              key: SAML2_AUTH_ENTITY_ID
+              key: SAML_AUTH_ENTITY_ID
+              name: {{ include "appstore.fullname" . }}-env
+        - name: SAML_METADATA_SOURCE
+          valueFrom:
+            configMapKeyRef:
+              key: SAML_METADATA_SOURCE
               name: {{ include "appstore.fullname" . }}-env
         - name: OAUTH_DB_DIR
           valueFrom:
@@ -200,7 +206,7 @@ spec:
             secretKeyRef:
               key: OAUTH_PROVIDERS
               name: {{ include "appstore.fullname" . }}
-        {{ if .Values.django.oauth.GITHUB_NAME }}
+        {{ if .Values.oauth.GITHUB_NAME }}
         - name: GITHUB_NAME
           valueFrom:
             secretKeyRef:
@@ -216,22 +222,22 @@ spec:
             secretKeyRef:
               key: GITHUB_SECRET
               name: {{ include "appstore.fullname" . }}
-          {{ if .Values.django.oauth.GITHUB_KEY }}
+        {{ if .Values.oauth.GITHUB_KEY }}
         - name: GITHUB_KEY
           valueFrom:
             secretKeyRef:
               key: GITHUB_KEY
               name: {{ include "appstore.fullname" . }}
-          {{- end }}
-          {{ if .Values.django.oauth.GITHUB_SITES }}
+        {{- end }}
+        {{ if .Values.oauth.GITHUB_SITES }}
         - name: GITHUB_SITES
           valueFrom:
             secretKeyRef:
               key: GITHUB_SITES
               name: {{ include "appstore.fullname" . }}
-          {{- end }}
         {{- end }}
-        {{ if .Values.django.oauth.GOOGLE_NAME }}
+        {{- end }}
+        {{ if .Values.oauth.GOOGLE_NAME }}
         - name: GOOGLE_NAME
           valueFrom:
             secretKeyRef:
@@ -247,20 +253,20 @@ spec:
             secretKeyRef:
               key: GOOGLE_SECRET
               name: {{ include "appstore.fullname" . }}
-          {{ if .Values.django.oauth.GOOGLE_KEY }}
+        {{ if .Values.oauth.GOOGLE_KEY }}
         - name: GOOGLE_KEY
           valueFrom:
             secretKeyRef:
               key: GOOGLE_KEY
               name: {{ include "appstore.fullname" . }}
-          {{- end }}
-          {{ if .Values.django.oauth.GOOGLE_SITES }}
+        {{- end }}
+        {{ if .Values.oauth.GOOGLE_SITES }}
         - name: GOOGLE_SITES
           valueFrom:
             secretKeyRef:
               key: GOOGLE_SITES
               name: {{ include "appstore.fullname" . }}
-          {{- end }}
+        {{- end }}
         {{- end }}
         {{- if .Values.irods.enabled }}
         - name: BRAINI_RODS
@@ -325,6 +331,11 @@ spec:
             secretKeyRef:
               key: PG_DB_USERNAME
               name: {{ include "appstore.fullname" . }}
+        - name: PG_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: PG_DB_PASSWORD
+              name: {{ include "appstore.fullname" . }}
         - name: PG_DB_HOST
           valueFrom:
             secretKeyRef:
@@ -374,6 +385,10 @@ spec:
             mountPath: /usr/src/inst-mgmt/log
             subPath: log
           {{- end}}
+          {{- if .Values.saml.cache.claimName and .Values.saml.cache.enabled }}
+          - name: saml-claim
+            mountPath: {{ .Values.saml.cache.APPSTORE_DIRECTORY }}
+          {{- end }}
       {{- else if .Values.oauth.claimName }}
         volumeMounts:
           {{- if .Values.loadTest }}
@@ -387,6 +402,34 @@ spec:
             mountPath: /usr/src/inst-mgmt/log
             subPath: log
           {{- end}}
+          {{- if and .Values.saml.cache.claimName .Values.saml.cache.enabled }}
+          - name: saml-claim
+            mountPath: {{ .Values.saml.cache.APPSTORE_DIRECTORY }}
+          {{- end }}
+      {{- end }}
+      {{- if .Values.saml.cache.enabled }}
+      - name: {{ .Chart.Name }}-saml-fetch
+        image: wateim/url-fetch:develop
+        imagePullPolicy: Always
+        env:
+        - name: FETCH_URL
+          valueFrom:
+            configMapKeyRef:
+              key: SAML_FETCH_URL
+              name: {{ include "appstore.fullname" . }}-env
+        - name: FETCH_FILE
+          valueFrom:
+            configMapKeyRef:
+              key: SAML_FETCH_FILE
+              name: {{ include "appstore.fullname" . }}-env
+        - name: FETCH_INTERVAL
+          valueFrom:
+            configMapKeyRef:
+              key: SAML_FETCH_INTERVAL
+              name: {{ include "appstore.fullname" . }}-env
+        volumeMounts:
+        - name: saml-claim
+          mountPath: /data
       {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -408,4 +451,9 @@ spec:
         - name: app-mounts-claim
           persistentVolumeClaim:
             claimName: {{ .Values.appStorage.claimName }}
+      {{- end }}
+      {{- if .Values.saml.cache.claimName }}
+        - name: saml-claim
+          persistentVolumeClaim:
+            claimName: {{ .Values.saml.cache.claimName }}
       {{- end }}
