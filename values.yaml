@@ -12,6 +12,14 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag:
 
+fetcherImage:
+  # -- repository where image is located
+  repository: helxplatform/url-fetch
+  # -- pull policy
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: latest
+
 # -- credentials for a private repo
 imagePullSecrets: []
 nameOverride: ""
@@ -49,6 +57,9 @@ resources:
   requests:
     cpu: 100m
     memory: 300Mi
+
+security:
+  isolatedApps: true
 
 # -- Choose http or https for the protocol that is used by external users to access
 # the appstore web service.
@@ -142,7 +153,6 @@ saml:
     claimName: "saml-cache"
     storageSize: "20M"
     storageClass: ""
-    FETCH_URL: ""
     FETCH_FILE: "/data/saml_metadata.xml"
     FETCH_INTERVAL: "60000"
     APPSTORE_DIRECTORY: "/saml"

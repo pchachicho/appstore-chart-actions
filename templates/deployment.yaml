@@ -98,6 +98,7 @@ spec:
             configMapKeyRef:
               key: ALLOW_DJANGO_LOGIN
               name: {{ include "appstore.fullname" . }}-env
+        {{- if .Values.saml.AUTHORITY_URL }}
         - name: ALLOW_SAML_LOGIN
           valueFrom:
             configMapKeyRef:
@@ -118,6 +119,7 @@ spec:
             configMapKeyRef:
               key: SAML_METADATA_SOURCE
               name: {{ include "appstore.fullname" . }}-env
+        {{- end }}
         - name: OAUTH_DB_DIR
           valueFrom:
             configMapKeyRef:
@@ -385,7 +387,7 @@ spec:
             mountPath: /usr/src/inst-mgmt/log
             subPath: log
           {{- end}}
-          {{- if .Values.saml.cache.claimName and .Values.saml.cache.enabled }}
+          {{- if and .Values.saml.cache.claimName .Values.saml.cache.enabled }}
           - name: saml-claim
             mountPath: {{ .Values.saml.cache.APPSTORE_DIRECTORY }}
           {{- end }}
@@ -409,8 +411,8 @@ spec:
       {{- end }}
       {{- if .Values.saml.cache.enabled }}
       - name: {{ .Chart.Name }}-saml-fetch
-        image: wateim/url-fetch:develop
-        imagePullPolicy: Always
+        image: "{{ .Values.fetcherImage.repository }}:{{ .Values.fetcherImage.tag }}"
+        imagePullPolicy: {{ .Values.fetcherImage.pullPolicy }}
         env:
         - name: FETCH_URL
           valueFrom:
@@ -452,7 +454,7 @@ spec:
           persistentVolumeClaim:
             claimName: {{ .Values.appStorage.claimName }}
       {{- end }}
-      {{- if .Values.saml.cache.claimName }}
+      {{- if and .Values.saml.cache.enabled .Values.saml.cache.claimName }}
         - name: saml-claim
           persistentVolumeClaim:
             claimName: {{ .Values.saml.cache.claimName }}

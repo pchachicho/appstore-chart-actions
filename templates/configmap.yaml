@@ -31,7 +31,7 @@ data:
   REACT_APP_UI_BRAND_NAME: "{{ .Values.helx_ui.REACT_APP_UI_BRAND_NAME }}"
   {{- if .Values.saml.cache.enabled }}
   SAML_METADATA_SOURCE: "{{ .Values.saml.cache.APPSTORE_DIRECTORY }}/{{ .Values.saml.cache.APPSTORE_FILE }}"
-  {{- else }}
+  {{- else if .Values.saml.AUTHORITY_URL }}
   SAML_METADATA_SOURCE: {{ .Values.saml.AUTHORITY_URL }}
   {{- end }}
   SAML_FETCH_URL: "{{ .Values.saml.AUTHORITY_URL }}"
