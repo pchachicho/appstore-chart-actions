@@ -59,7 +59,7 @@ resources:
     memory: 300Mi
 
 security:
-  isolatedApps: false
+  isolatedApps: true
 
 # -- Choose http or https for the protocol that is used by external users to access
 # the appstore web service.
