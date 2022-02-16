@@ -377,6 +377,11 @@ spec:
             configMapKeyRef:
               key: IMAGE_DOWNLOAD_URL
               name: {{ include "appstore.fullname" . }}-env
+        - name: SET_BUILD_ENV_FROM_FILE
+          valueFrom:
+            configMapKeyRef:
+              key: SET_BUILD_ENV_FROM_FILE
+              name: {{ include "appstore.fullname" . }}-env
         ports:
         - containerPort: 8000
       {{- if .Values.oauth.existingClaim }}

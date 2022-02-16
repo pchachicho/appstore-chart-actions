@@ -65,6 +65,9 @@ security:
 # the appstore web service.
 ACCOUNT_DEFAULT_HTTP_PROTOCOL: http
 
+# -- Set environment variables from a file.
+SET_BUILD_ENV_FROM_FILE: false
+
 nodeSelector: {}
 
 tolerations: []
