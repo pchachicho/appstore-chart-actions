@@ -40,3 +40,4 @@ data:
   SAML_AUTH_ASSERTION_URL: "{{ .Values.saml.ASSERTION_URL }}"
   SAML_AUTH_ENTITY_ID: "{{ .Values.saml.ENTITY_ID }}"
   GUNICORN_WORKERS: "{{ .Values.gunicorn.workers }}"
+  SET_BUILD_ENV_FROM_FILE: "{{ .Values.SET_BUILD_ENV_FROM_FILE }}"
