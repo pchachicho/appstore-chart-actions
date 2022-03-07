@@ -254,9 +254,10 @@ postgresql:
     logConnections: true
   # -- postgresql persistence storage
   persistence:
-    existingClaim: "appstore-oauth-pvc"
+    existingClaim: "appstore-postgresql-pvc"
     mountPath: /postgresql/12
     subPath: postgresql12
+    storageClass:
   volumePermissions:
     enabled: true
   # -- enable/disable postgresql network policy, allows traffic to and from appstore pod only.
