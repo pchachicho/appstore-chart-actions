@@ -5,6 +5,7 @@ metadata:
   annotations:
     "helm.sh/hook": test
 spec:
+  serviceAccountName: {{ include "appstore.fullname" . }}-sa
   {{- if .Values.securityContext }}
   securityContext:
     runAsUser: {{ .Values.securityContext.runAsUser }}
@@ -17,10 +18,21 @@ spec:
       imagePullPolicy: {{ .Values.image.pullPolicy }}
       command: ['/bin/bash', '-ec']
       args: ["make test.artillery"]
+      resources:
+        {{- toYaml .Values.resources | nindent 10 }}
       envFrom:
         - configMapRef:
             name: {{ include "appstore.fullname" . }}-env
+        - secretRef:
+            name: {{ include "appstore.fullname" . }}
       env:
         - name: ARTILLERY_ENVIRONMENT
           value: smoke
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              key: APPSTORE_SECRET_KEY
+              name: {{ include "appstore.fullname" . }}
+      ports:
+        - containerPort: 8000
   restartPolicy: Never
