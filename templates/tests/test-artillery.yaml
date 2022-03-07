@@ -5,11 +5,17 @@ metadata:
   annotations:
     "helm.sh/hook": test
 spec:
+  {{- if .Values.securityContext }}
+  securityContext:
+    runAsUser: {{ .Values.securityContext.runAsUser }}
+    runAsGroup: {{ .Values.securityContext.runAsGroup }}
+    fsGroup: {{ .Values.securityContext.fsGroup }}
+  {{- end }}
   containers:
-    - name: {{ include "appstore.fullname" . }}-artillery-test
+    - name: {{ .Chart.Name }}
       image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
       imagePullPolicy: {{ .Values.image.pullPolicy }}
-      command: ['/bin/bash', '-c']
+      command: ['/bin/bash', '-ec']
       args: ["make test.artillery"]
       envFrom:
         - configMapRef:
@@ -17,3 +23,4 @@ spec:
       env:
         - name: ARTILLERY_ENVIRONMENT
           value: smoke
+  restartPolicy: Never
