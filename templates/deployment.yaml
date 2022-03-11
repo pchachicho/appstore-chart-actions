@@ -403,10 +403,10 @@ spec:
           {{- end }}
       {{- else if .Values.oauth.claimName }}
         volumeMounts:
-          {{- if .Values.loadTest }}
-          - mountPath: {{ .Values.django.TEST_USERS_PATH }}/test-users/
-            name: test-users-volume
-          {{- end }}
+          # {{- if .Values.loadTest }}
+          # - mountPath: {{ .Values.django.TEST_USERS_PATH }}/test-users/
+          #   name: test-users-volume
+          # {{- end }}
           - mountPath: /var/lib/sqlite3
             name: appstore-oauth-volume
           {{- if .Values.appStorage.claimName }}
@@ -450,11 +450,11 @@ spec:
       restartPolicy: Always
       {{- if .Values.oauth.claimName }}
       volumes:
-        {{- if .Values.loadTest }}
-        - name: test-users-volume
-          secret:
-            secretName: {{ .Values.django.TEST_USERS_SECRET }}
-        {{- end }}
+        # {{- if .Values.loadTest }}
+        # - name: test-users-volume
+        #   secret:
+        #     secretName: {{ .Values.django.TEST_USERS_SECRET }}
+        # {{- end }}
         - name: appstore-oauth-volume
           persistentVolumeClaim:
             claimName: {{ .Values.oauth.claimName }}

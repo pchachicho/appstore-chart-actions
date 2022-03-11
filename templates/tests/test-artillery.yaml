@@ -4,6 +4,11 @@ metadata:
   name: {{ include "appstore.fullname" . }}-artillery-test
   annotations:
     "helm.sh/hook": test
+  labels:
+    {{- include "appstore.artillery.selectorLabels" . | nindent 4 }}
+    {{- with .Values.networkPolicyLabels }}
+    {{ toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   serviceAccountName: {{ include "appstore.fullname" . }}-sa
   {{- if .Values.securityContext }}
@@ -17,7 +22,10 @@ spec:
       image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
       imagePullPolicy: {{ .Values.image.pullPolicy }}
       command: ['/bin/bash', '-ec']
-      args: ["make test.artillery"]
+      args:
+        - "export ARTILLERY_ENVIRONMENT=smoke && make test.artillery"
+        - "export ARTILLERY_ENVIRONMENT=load && make test.artillery"
+      # args: ["tail -f /dev/null"]
       resources:
         {{- toYaml .Values.resources | nindent 10 }}
       envFrom:
@@ -26,13 +34,11 @@ spec:
         - secretRef:
             name: {{ include "appstore.fullname" . }}
       env:
-        - name: ARTILLERY_ENVIRONMENT
-          value: smoke
+        - name: ARTILLERY_TARGET
+          value: http://{{ include "appstore.fullname" . }}:8000
         - name: SECRET_KEY
           valueFrom:
             secretKeyRef:
               key: APPSTORE_SECRET_KEY
               name: {{ include "appstore.fullname" . }}
-      ports:
-        - containerPort: 8000
   restartPolicy: Never

@@ -105,7 +105,7 @@ django:
   # -- create test users for load testing
   CREATE_TEST_USERS: "false"
   # -- parent directory where the users.txt would be mounted
-  TEST_USERS_PATH: "/tmp"
+  TEST_USERS_PATH: "/usr/src/inst-mgmt/artillery-tests/payloads"
   # -- secret file deployed on the cluster to fetch the test users
   TEST_USERS_SECRET: "test-users-secret"
   # -- user emails for oauth providers
