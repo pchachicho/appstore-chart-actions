@@ -53,6 +53,7 @@ A Helm chart for Kubernetes
 | global.ambassador_id | string | `nil` | specify the id of the ambassador for Tycho-launched services. |
 | global.stdnfsPvc | string | `"stdnfs"` | the name of the PVC to use for user's files |
 | gunicorn.workers | int | `5` | Set the number of gunicorn workers. |
+| logLevel | string | `"info"` | Set the log level for the application. Overriden to be "debug" if DEBUG setting is True in the configmap. |
 | helx_ui | object | `{"REACT_APP_HELX_SEARCH_URL":"","REACT_APP_SEMANTIC_SEARCH_ENABLED":"true","REACT_APP_UI_BRAND_NAME":"","REACT_APP_WORKSPACES_ENABLED":"true"}` | Setting for helx-ui |
 | helx_ui.REACT_APP_HELX_SEARCH_URL | string | `""` | Helx Search URL |
 | helx_ui.REACT_APP_SEMANTIC_SEARCH_ENABLED | string | `"true"` | Enable/Disable helx-ui search. |

@@ -29,6 +29,9 @@ networkPolicyLabels: {"role": "appstore"}
 
 podAnnotations: {}
 
+# -- Set the log level for the application. Overriden to be "debug" if DEBUG setting is true in the configmap.
+logLevel: "info"
+
 updateStrategy:
   # -- 'RollingUpdate' or 'Recreate'. Must use Recreate if mounting PVCs due to multi-attach errors.
   type: Recreate
