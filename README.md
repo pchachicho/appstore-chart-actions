@@ -1,6 +1,6 @@
 # appstore
 
-![Version: 0.7.0](https://img.shields.io/badge/Version-0.7.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.3.dev](https://img.shields.io/badge/AppVersion-1.3.dev-informational?style=flat-square)
+![Version: 0.7.1](https://img.shields.io/badge/Version-0.7.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.3.0-alpha](https://img.shields.io/badge/AppVersion-1.3.0--alpha-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -53,7 +53,6 @@ A Helm chart for Kubernetes
 | global.ambassador_id | string | `nil` | specify the id of the ambassador for Tycho-launched services. |
 | global.stdnfsPvc | string | `"stdnfs"` | the name of the PVC to use for user's files |
 | gunicorn.workers | int | `5` | Set the number of gunicorn workers. |
-| logLevel | string | `"info"` | Set the log level for the application. Overriden to be "debug" if DEBUG setting is True in the configmap. |
 | helx_ui | object | `{"REACT_APP_HELX_SEARCH_URL":"","REACT_APP_SEMANTIC_SEARCH_ENABLED":"true","REACT_APP_UI_BRAND_NAME":"","REACT_APP_WORKSPACES_ENABLED":"true"}` | Setting for helx-ui |
 | helx_ui.REACT_APP_HELX_SEARCH_URL | string | `""` | Helx Search URL |
 | helx_ui.REACT_APP_SEMANTIC_SEARCH_ENABLED | string | `"true"` | Enable/Disable helx-ui search. |
@@ -72,6 +71,7 @@ A Helm chart for Kubernetes
 | irods.RODS_USERNAME | string | `""` |  |
 | irods.enabled | bool | `false` | enable irods support (true | false) |
 | loadTest | bool | `false` | When this is true, set CREATE_TEST_USERS, TEST_USERS_PATH, TEST_USERS_SECRET under django settings. |
+| logLevel | string | `"info"` | Set the log level for the application. Overriden to be "debug" if DEBUG setting is true in the configmap. |
 | nameOverride | string | `""` |  |
 | networkPolicyLabels.role | string | `"appstore"` |  |
 | nodeSelector | object | `{}` |  |
