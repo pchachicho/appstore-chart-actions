@@ -23,9 +23,8 @@ spec:
       imagePullPolicy: {{ .Values.image.pullPolicy }}
       command: ['/bin/bash', '-ec']
       args:
-        - "export ARTILLERY_ENVIRONMENT=smoke && make test.artillery"
-        - "export ARTILLERY_ENVIRONMENT=load && make test.artillery"
-      # args: ["tail -f /dev/null"]
+        - export ARTILLERY_ENVIRONMENT=smoke && make test.artillery;
+          export ARTILLERY_ENVIRONMENT=load && make test.artillery
       resources:
         {{- toYaml .Values.resources | nindent 10 }}
       envFrom:
