@@ -386,7 +386,7 @@ spec:
         - containerPort: 8000
       {{- if .Values.oauth.existingClaim }}
         volumeMounts:
-          {{- if .Values.loadTest }}
+          {{- if or .Values.artillery.loadTest .Values.artillery.smokeTest }}
           - mountPath: {{ .Values.django.TEST_USERS_PATH }}/test-users/
             name: test-users-volume
           {{- end }}

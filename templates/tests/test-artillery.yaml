@@ -23,8 +23,8 @@ spec:
       imagePullPolicy: {{ .Values.image.pullPolicy }}
       command: ['/bin/bash', '-ec']
       args:
-        - export ARTILLERY_ENVIRONMENT=smoke && make test.artillery;
-          export ARTILLERY_ENVIRONMENT=load && make test.artillery
+        - "$RUN_SMOKE_TESTS && (export ARTILLERY_ENVIRONMENT=smoke && make test.artillery) || echo 'Skipping smoke tests.';
+          $RUN_LOAD_TESTS && (export ARTILLERY_ENVIRONMENT=load && make test.artillery) || echo 'Skipping load tests'"
       resources:
         {{- toYaml .Values.resources | nindent 10 }}
       envFrom:
@@ -40,4 +40,8 @@ spec:
             secretKeyRef:
               key: APPSTORE_SECRET_KEY
               name: {{ include "appstore.fullname" . }}
+        - name: RUN_SMOKE_TESTS
+          value: "{{ .Values.artillery.smokeTest | default false }}"
+        - name: RUN_LOAD_TESTS
+          value: "{{ .Values.artillery.loadTest | default false }}"
   restartPolicy: Never

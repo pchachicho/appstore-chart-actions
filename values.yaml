@@ -83,8 +83,14 @@ djangoSettings: cat
 # -- Allow for a custom entrypoint command via the values file.
 appstoreEntrypointArgs: "make start"
 
-# -- When this is true, set CREATE_TEST_USERS, TEST_USERS_PATH, TEST_USERS_SECRET under django settings.
-loadTest: false
+artillery:
+  # -- When either smokeTest or loadTest is true, set CREATE_TEST_USERS, TEST_USERS_PATH under django settings.
+  smokeTest: false
+  loadTest: false
+  loadDuration: 10
+  loadArrivalRate: 10
+
+
 
 # -- Setting for helx-ui
 helx_ui:
