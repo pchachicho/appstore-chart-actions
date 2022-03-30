@@ -48,6 +48,11 @@ spec:
             configMapKeyRef:
               key: GUNICORN_WORKERS
               name: {{ include "appstore.fullname" . }}-env
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              key: LOG_LEVEL
+              name: {{ include "appstore.fullname" . }}-env
         - name: REACT_APP_HELX_SEARCH_URL
           valueFrom:
             configMapKeyRef:
