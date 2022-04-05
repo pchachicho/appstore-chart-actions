@@ -29,6 +29,9 @@ networkPolicyLabels: {"role": "appstore"}
 
 podAnnotations: {}
 
+# -- Set the log level for the application. Overriden to be "debug" if DEBUG setting is true in the configmap.
+logLevel: "info"
+
 updateStrategy:
   # -- 'RollingUpdate' or 'Recreate'. Must use Recreate if mounting PVCs due to multi-attach errors.
   type: Recreate
@@ -64,6 +67,9 @@ security:
 # -- Choose http or https for the protocol that is used by external users to access
 # the appstore web service.
 ACCOUNT_DEFAULT_HTTP_PROTOCOL: http
+
+# -- Set environment variables from a file.
+SET_BUILD_ENV_FROM_FILE: false
 
 nodeSelector: {}
 
@@ -253,9 +259,10 @@ postgresql:
     logConnections: true
   # -- postgresql persistence storage
   persistence:
-    existingClaim: "appstore-oauth-pvc"
+    existingClaim: "appstore-postgresql-pvc"
     mountPath: /postgresql/12
     subPath: postgresql12
+    storageClass:
   volumePermissions:
     enabled: true
   # -- enable/disable postgresql network policy, allows traffic to and from appstore pod only.

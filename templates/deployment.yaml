@@ -48,6 +48,11 @@ spec:
             configMapKeyRef:
               key: GUNICORN_WORKERS
               name: {{ include "appstore.fullname" . }}-env
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              key: LOG_LEVEL
+              name: {{ include "appstore.fullname" . }}-env
         - name: REACT_APP_HELX_SEARCH_URL
           valueFrom:
             configMapKeyRef:
@@ -354,6 +359,11 @@ spec:
               key: PG_DB_PORT
               name: {{ include "appstore.fullname" . }}
         {{- end }}
+        - name: POSTGRES_ENABLED
+          valueFrom:
+            secretKeyRef:
+              key: POSTGRES_ENABLED
+              name: {{ include "appstore.fullname" . }}
         {{- range $key, $value := .Values.extraEnv }}
         - name: {{ $key }}
           value: {{ $value | quote }}
@@ -376,6 +386,11 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: IMAGE_DOWNLOAD_URL
+              name: {{ include "appstore.fullname" . }}-env
+        - name: SET_BUILD_ENV_FROM_FILE
+          valueFrom:
+            configMapKeyRef:
+              key: SET_BUILD_ENV_FROM_FILE
               name: {{ include "appstore.fullname" . }}-env
         ports:
         - containerPort: 8000
