@@ -103,8 +103,10 @@ helx_ui:
   REACT_APP_WORKSPACES_ENABLED: "true"
   # -- Helx Search URL
   REACT_APP_HELX_SEARCH_URL: ""
-# -- Helx Branding (cat, braini, restartr, scidas, eduhelx)
+  # -- Helx Branding (cat, braini, restartr, scidas, eduhelx)
   REACT_APP_UI_BRAND_NAME: ""
+  # -- HeLx Mixpanel project analytics token
+  REACT_APP_ANALYTICS: ""
 
 gunicorn:
   # -- Set the number of gunicorn workers.
