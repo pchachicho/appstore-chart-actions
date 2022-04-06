@@ -86,8 +86,14 @@ djangoSettings: cat
 # -- Allow for a custom entrypoint command via the values file.
 appstoreEntrypointArgs: "make start"
 
-# -- When this is true, set CREATE_TEST_USERS, TEST_USERS_PATH, TEST_USERS_SECRET under django settings.
-loadTest: false
+artillery:
+  # -- When either smokeTest or loadTest is true, set CREATE_TEST_USERS, TEST_USERS_PATH under django settings.
+  smokeTest: false
+  loadTest: false
+  loadDuration: 10
+  loadArrivalRate: 10
+
+
 
 # -- Setting for helx-ui
 helx_ui:
@@ -108,7 +114,7 @@ django:
   # -- create test users for load testing
   CREATE_TEST_USERS: "false"
   # -- parent directory where the users.txt would be mounted
-  TEST_USERS_PATH: "/tmp"
+  TEST_USERS_PATH: "/usr/src/inst-mgmt/artillery-tests/payloads"
   # -- secret file deployed on the cluster to fetch the test users
   TEST_USERS_SECRET: "test-users-secret"
   # -- user emails for oauth providers
