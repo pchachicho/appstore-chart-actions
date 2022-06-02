@@ -51,6 +51,11 @@ app.kubernetes.io/name: {{ include "appstore.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
+{{- define "appstore.artillery.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "appstore.name" . }}-artillery
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
+
 {{/*
 Create the name of the service account to use
 */}}
