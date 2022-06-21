@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   # -- repository where image is located
-  repository: helxplatform/appstore
+  repository: containers.renci.org/helxplatform/appstore
   # -- pull policy
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
@@ -92,8 +92,6 @@ artillery:
   loadTest: false
   loadDuration: 10
   loadArrivalRate: 10
-
-
 
 # -- Setting for helx-ui
 helx_ui:
@@ -209,7 +207,7 @@ userStorage:
 extraEnv: {}
 
 # -- Set to true, when using blackbalsam.
-useSparkServiceAccount: true
+useSparkServiceAccount: false
 
 # -- Create Home directories for users
 createHomeDirs: true
