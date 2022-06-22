@@ -6,18 +6,35 @@ replicaCount: 1
 
 image:
   # -- repository where image is located
-  repository: helxplatform/appstore
+  repository: containers.renci.org/helxplatform/appstore
   # -- pull policy
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag:
+
+fetcherImage:
+  # -- repository where image is located
+  repository: helxplatform/url-fetch
+  # -- pull policy
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: latest
 
 # -- credentials for a private repo
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+networkPolicyLabels: {"role": "appstore"}
+
 podAnnotations: {}
+
+# -- Set the log level for the application. Overriden to be "debug" if DEBUG setting is true in the configmap.
+logLevel: "info"
+
+updateStrategy:
+  # -- 'RollingUpdate' or 'Recreate'. Must use Recreate if mounting PVCs due to multi-attach errors.
+  type: Recreate
 
 serviceAccount:
   # -- specifies whether a service account should be created
@@ -44,18 +61,21 @@ resources:
     cpu: 100m
     memory: 300Mi
 
+security:
+  isolatedApps: true
+
 # -- Choose http or https for the protocol that is used by external users to access
 # the appstore web service.
 ACCOUNT_DEFAULT_HTTP_PROTOCOL: http
+
+# -- Set environment variables from a file.
+SET_BUILD_ENV_FROM_FILE: false
 
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
-
-db:
-  name: appstore
 
 ambassador:
    # -- register appstore with ambassador flag: <True or False>
@@ -66,8 +86,12 @@ djangoSettings: cat
 # -- Allow for a custom entrypoint command via the values file.
 appstoreEntrypointArgs: "make start"
 
-# -- When this is true, set CREATE_TEST_USERS, TEST_USERS_PATH, TEST_USERS_SECRET under django settings.
-loadTest: false
+artillery:
+  # -- When either smokeTest or loadTest is true, set CREATE_TEST_USERS, TEST_USERS_PATH under django settings.
+  smokeTest: false
+  loadTest: false
+  loadDuration: 10
+  loadArrivalRate: 10
 
 # -- Setting for helx-ui
 helx_ui:
@@ -77,8 +101,10 @@ helx_ui:
   REACT_APP_WORKSPACES_ENABLED: "true"
   # -- Helx Search URL
   REACT_APP_HELX_SEARCH_URL: ""
-# -- Helx Branding (cat, braini, restartr, scidas, eduhelx)
+  # -- Helx Branding (cat, braini, restartr, scidas, eduhelx)
   REACT_APP_UI_BRAND_NAME: ""
+  # -- HeLx Mixpanel project analytics token
+  REACT_APP_ANALYTICS: ""
 
 gunicorn:
   # -- Set the number of gunicorn workers.
@@ -88,7 +114,7 @@ django:
   # -- create test users for load testing
   CREATE_TEST_USERS: "false"
   # -- parent directory where the users.txt would be mounted
-  TEST_USERS_PATH: "/tmp"
+  TEST_USERS_PATH: "/usr/src/inst-mgmt/artillery-tests/payloads"
   # -- secret file deployed on the cluster to fetch the test users
   TEST_USERS_SECRET: "test-users-secret"
   # -- user emails for oauth providers
@@ -108,30 +134,45 @@ django:
   EMAIL_HOST_USER: ""
   # -- password of account to use for outgoing emails
   EMAIL_HOST_PASSWORD: ""
-  # -- redirect unauthorized users of return a 403
-  WHITELIST_REDIRECT: "true"
   # -- Specify URL to use for the "Image Download" link on the top part of website.
   IMAGE_DOWNLOAD_URL: ""
   # -- idle timeout for user web session
   SESSION_IDLE_TIMEOUT: 3600
   # -- list of appstore registration emails
   RECIPIENT_EMAILS: ""
-  oauth:
-    # -- oauth providers separated by commas (google, github)
-    OAUTH_PROVIDERS: ""
-    GITHUB_NAME: ""
-    GITHUB_KEY: ""
-    GITHUB_SITES: ""
-    GITHUB_CLIENT_ID: ""
-    GITHUB_SECRET: ""
-    GOOGLE_NAME: ""
-    GOOGLE_KEY: ""
-    GOOGLE_SITES: ""
-    GOOGLE_CLIENT_ID: ""
-    GOOGLE_SECRET: ""
-  saml2auth:
-    ASSERTION_URL: ""
-    ENTITY_ID: ""
+  DEV_PHASE: "prod"
+
+oauth:
+  existingClaim: false
+  claimName: appstore-oauth-pvc
+  storageClass:
+  # -- oauth providers separated by commas (google, github)
+  OAUTH_PROVIDERS: ""
+  GITHUB_NAME: ""
+  GITHUB_KEY: ""
+  GITHUB_SITES: ""
+  GITHUB_CLIENT_ID: ""
+  GITHUB_SECRET: ""
+  GOOGLE_NAME: ""
+  GOOGLE_KEY: ""
+  GOOGLE_SITES: ""
+  GOOGLE_CLIENT_ID: ""
+  GOOGLE_SECRET: ""
+
+saml:
+  cache:
+    enabled: false
+    claimName: "saml-cache"
+    storageSize: "20M"
+    storageClass: ""
+    FETCH_FILE: "/data/saml_metadata.xml"
+    FETCH_INTERVAL: "60000"
+    APPSTORE_DIRECTORY: "/saml"
+    APPSTORE_FILE: "saml_metadata.xml"
+  AUTHORITY_URL: ""
+  ASSERTION_URL: ""
+  ENTITY_ID: ""
+
 irods:
   # -- enable irods support (true | false)
   enabled: false
@@ -162,16 +203,11 @@ userStorage:
     path:
     server:
 
-oauth:
-  existingClaim: false
-  claimName: appstore-oauth-pvc
-  storageClass:
-
 # Add any extra environment variables not already defined in the chart.
 extraEnv: {}
 
 # -- Set to true, when using blackbalsam.
-useSparkServiceAccount: true
+useSparkServiceAccount: false
 
 # -- Create Home directories for users
 createHomeDirs: true
@@ -197,3 +233,41 @@ global:
   stdnfsPvc: stdnfs
   # -- specify the id of the ambassador for Tycho-launched services.
   ambassador_id:
+
+#############################################################################
+# -- appstore database settings
+db:
+  name: appstore
+  host: postgresql
+  port: 5432
+
+# -- postgresql settings
+postgresql:
+  enabled: true
+  global:
+    # -- postgresql credentials
+    postgresql:
+      postgresqlPassword: "renci"
+      postgresqlDatabase: "appstore-oauth"
+      postgresqlUsername: "renci"
+  postgresqlPostgresPassword: "renciAdmin"
+  # -- postgresql DATA DIR
+  postgresqlDataDir: "/postgresql/12/data"
+  # -- postgresql labels
+  primary:
+    labels: {"np-label": "appstore-db"}
+    podLabels: {"np-label": "appstore-db"}
+  # -- postgresql logs
+  audit:
+    logHostname: true
+    logConnections: true
+  # -- postgresql persistence storage
+  persistence:
+    existingClaim: "appstore-postgresql-pvc"
+    mountPath: /postgresql/12
+    subPath: postgresql12
+    storageClass:
+  volumePermissions:
+    enabled: true
+  # -- enable/disable postgresql network policy, allows traffic to and from appstore pod only.
+  networkPolicyEnabled: true

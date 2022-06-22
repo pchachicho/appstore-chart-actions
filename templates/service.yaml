@@ -4,6 +4,9 @@ metadata:
   name: {{ include "appstore.fullname" . }}
   labels:
     {{- include "appstore.labels" . | nindent 4 }}
+    {{- with .Values.networkPolicyLabels }}
+    {{ toYaml . | nindent 4 }}
+    {{- end }}
   {{- if .Values.ambassador.flag }}
   annotations:
     getambassador.io/config: |

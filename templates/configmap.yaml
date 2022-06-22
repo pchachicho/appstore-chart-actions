@@ -10,18 +10,16 @@ data:
   DJANGO_SETTINGS_MODULE: appstore.settings.{{ .Values.djangoSettings }}_settings
   # Default is always "True" on the server. Change to "False" in prod.
   DEBUG: "True"
+  LOG_LEVEL: "{{ .Values.logLevel }}"
   OAUTH_DB_DIR: /var/lib/sqlite3
   OAUTH_DB_FILE: DATABASE.sqlite3
   ACCOUNT_DEFAULT_HTTP_PROTOCOL: "{{ .Values.ACCOUNT_DEFAULT_HTTP_PROTOCOL }}"
-  DEV_PHASE: prod
+  DEV_PHASE: "{{ .Values.django.DEV_PHASE }}"
   # Just adding these ports temporarily until they have a default value in the code.
   BRAINI_PORT: "1247"
   NRC_PORT: "1247"
   ALLOW_DJANGO_LOGIN: "{{ .Values.django.ALLOW_DJANGO_LOGIN }}"
   ALLOW_SAML_LOGIN: "{{ .Values.django.ALLOW_SAML_LOGIN }}"
-  WHITELIST_REDIRECT: "{{ .Values.django.WHITELIST_REDIRECT }}"
-  SAML2_AUTH_ASSERTION_URL: "{{ .Values.django.saml2auth.ASSERTION_URL }}"
-  SAML2_AUTH_ENTITY_ID: "{{ .Values.django.saml2auth.ENTITY_ID }}"
   IMAGE_DOWNLOAD_URL: "{{ .Values.django.IMAGE_DOWNLOAD_URL }}"
   DJANGO_SESSION_IDLE_TIMEOUT: "{{ .Values.django.SESSION_IDLE_TIMEOUT }}"
   TYCHO_INIT_RESOURCES_CPUS: "{{ .Values.init.resources.cpus }}"
@@ -32,4 +30,20 @@ data:
   REACT_APP_WORKSPACES_ENABLED: "{{ .Values.helx_ui.REACT_APP_WORKSPACES_ENABLED }}"
   REACT_APP_HELX_SEARCH_URL: '{{ .Values.helx_ui.REACT_APP_HELX_SEARCH_URL }}'
   REACT_APP_UI_BRAND_NAME: "{{ .Values.helx_ui.REACT_APP_UI_BRAND_NAME }}"
+  REACT_APP_ANALYTICS: "{{ .Values.helx_ui.REACT_APP_ANALYTICS }}"
+  {{- if .Values.saml.cache.enabled }}
+  SAML_METADATA_SOURCE: "{{ .Values.saml.cache.APPSTORE_DIRECTORY }}/{{ .Values.saml.cache.APPSTORE_FILE }}"
+  {{- else if .Values.saml.AUTHORITY_URL }}
+  SAML_METADATA_SOURCE: {{ .Values.saml.AUTHORITY_URL }}
+  {{- end }}
+  SAML_FETCH_URL: "{{ .Values.saml.AUTHORITY_URL }}"
+  SAML_FETCH_FILE: "{{ .Values.saml.cache.FETCH_FILE }}"
+  SAML_FETCH_INTERVAL: "{{ .Values.saml.cache.FETCH_INTERVAL }}"
+  SAML_AUTH_ASSERTION_URL: "{{ .Values.saml.ASSERTION_URL }}"
+  SAML_AUTH_ENTITY_ID: "{{ .Values.saml.ENTITY_ID }}"
   GUNICORN_WORKERS: "{{ .Values.gunicorn.workers }}"
+  SET_BUILD_ENV_FROM_FILE: "{{ .Values.SET_BUILD_ENV_FROM_FILE }}"
+  {{- if .Values.artillery.loadTest }}
+  ARTILLERY_DURATION: "{{ .Values.artillery.loadDuration }}"
+  ARTILLERY_ARRIVAL_RATE: "{{ .Values.artillery.loadArrivalRate }}"
+  {{- end }}

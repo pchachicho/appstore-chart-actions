@@ -4,7 +4,12 @@ metadata:
   name: {{ include "appstore.fullname" . }}
   labels:
     {{- include "appstore.labels" . | nindent 4 }}
+    {{- with .Values.networkPolicyLabels }}
+    {{ toYaml . | nindent 4 }}
+    {{- end }}
 spec:
+  strategy:
+    type: "{{ .Values.updateStrategy.type }}"
   selector:
     matchLabels:
       {{- include "appstore.selectorLabels" . | nindent 6 }}
@@ -16,6 +21,9 @@ spec:
     {{- end }}
       labels:
         {{- include "appstore.selectorLabels" . | nindent 8 }}
+        {{- with .Values.networkPolicyLabels }}
+        {{ toYaml . | nindent 8 }}
+        {{- end }}
     spec:
       serviceAccountName: {{ include "appstore.fullname" . }}-sa
       initContainers:
@@ -26,6 +34,7 @@ spec:
         fsGroup: {{ .Values.securityContext.fsGroup }}
       {{- end }}
       containers:
+      
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -38,6 +47,11 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: GUNICORN_WORKERS
+              name: {{ include "appstore.fullname" . }}-env
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              key: LOG_LEVEL
               name: {{ include "appstore.fullname" . }}-env
         - name: REACT_APP_HELX_SEARCH_URL
           valueFrom:
@@ -58,6 +72,11 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: REACT_APP_UI_BRAND_NAME
+              name: {{ include "appstore.fullname" . }}-env
+        - name: REACT_APP_ANALYTICS
+          valueFrom:
+            configMapKeyRef:
+              key: REACT_APP_ANALYTICS
               name: {{ include "appstore.fullname" . }}-env
         - name: CREATE_TEST_USERS
           valueFrom:
@@ -89,11 +108,7 @@ spec:
             configMapKeyRef:
               key: ALLOW_DJANGO_LOGIN
               name: {{ include "appstore.fullname" . }}-env
-        - name: WHITELIST_REDIRECT
-          valueFrom:
-            configMapKeyRef:
-              key: WHITELIST_REDIRECT
-              name: {{ include "appstore.fullname" . }}-env
+        {{- if .Values.saml.AUTHORITY_URL }}
         - name: ALLOW_SAML_LOGIN
           valueFrom:
             configMapKeyRef:
@@ -102,13 +117,19 @@ spec:
         - name: SAML2_AUTH_ASSERTION_URL
           valueFrom:
             configMapKeyRef:
-              key: SAML2_AUTH_ASSERTION_URL
+              key: SAML_AUTH_ASSERTION_URL
               name: {{ include "appstore.fullname" . }}-env
         - name: SAML2_AUTH_ENTITY_ID
           valueFrom:
             configMapKeyRef:
-              key: SAML2_AUTH_ENTITY_ID
+              key: SAML_AUTH_ENTITY_ID
               name: {{ include "appstore.fullname" . }}-env
+        - name: SAML_METADATA_SOURCE
+          valueFrom:
+            configMapKeyRef:
+              key: SAML_METADATA_SOURCE
+              name: {{ include "appstore.fullname" . }}-env
+        {{- end }}
         - name: OAUTH_DB_DIR
           valueFrom:
             configMapKeyRef:
@@ -197,7 +218,7 @@ spec:
             secretKeyRef:
               key: OAUTH_PROVIDERS
               name: {{ include "appstore.fullname" . }}
-        {{ if .Values.django.oauth.GITHUB_NAME }}
+        {{ if .Values.oauth.GITHUB_NAME }}
         - name: GITHUB_NAME
           valueFrom:
             secretKeyRef:
@@ -213,22 +234,22 @@ spec:
             secretKeyRef:
               key: GITHUB_SECRET
               name: {{ include "appstore.fullname" . }}
-          {{ if .Values.django.oauth.GITHUB_KEY }}
+        {{ if .Values.oauth.GITHUB_KEY }}
         - name: GITHUB_KEY
           valueFrom:
             secretKeyRef:
               key: GITHUB_KEY
               name: {{ include "appstore.fullname" . }}
-          {{- end }}
-          {{ if .Values.django.oauth.GITHUB_SITES }}
+        {{- end }}
+        {{ if .Values.oauth.GITHUB_SITES }}
         - name: GITHUB_SITES
           valueFrom:
             secretKeyRef:
               key: GITHUB_SITES
               name: {{ include "appstore.fullname" . }}
-          {{- end }}
         {{- end }}
-        {{ if .Values.django.oauth.GOOGLE_NAME }}
+        {{- end }}
+        {{ if .Values.oauth.GOOGLE_NAME }}
         - name: GOOGLE_NAME
           valueFrom:
             secretKeyRef:
@@ -244,20 +265,20 @@ spec:
             secretKeyRef:
               key: GOOGLE_SECRET
               name: {{ include "appstore.fullname" . }}
-          {{ if .Values.django.oauth.GOOGLE_KEY }}
+        {{ if .Values.oauth.GOOGLE_KEY }}
         - name: GOOGLE_KEY
           valueFrom:
             secretKeyRef:
               key: GOOGLE_KEY
               name: {{ include "appstore.fullname" . }}
-          {{- end }}
-          {{ if .Values.django.oauth.GOOGLE_SITES }}
+        {{- end }}
+        {{ if .Values.oauth.GOOGLE_SITES }}
         - name: GOOGLE_SITES
           valueFrom:
             secretKeyRef:
               key: GOOGLE_SITES
               name: {{ include "appstore.fullname" . }}
-          {{- end }}
+        {{- end }}
         {{- end }}
         {{- if .Values.irods.enabled }}
         - name: BRAINI_RODS
@@ -306,6 +327,43 @@ spec:
             secretKeyRef:
               key: RECIPIENT_EMAILS
               name: {{ include "appstore.fullname" . }}
+        {{- if .Values.postgresql.global.postgresql }}
+        - name: PG_DB_ENGINE
+          valueFrom:
+            secretKeyRef:
+              key: PG_DB_ENGINE
+              name: {{ include "appstore.fullname" . }}
+        - name: PG_DB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              key: PG_DB_DATABASE
+              name: {{ include "appstore.fullname" . }}
+        - name: PG_DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: PG_DB_USERNAME
+              name: {{ include "appstore.fullname" . }}
+        - name: PG_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: PG_DB_PASSWORD
+              name: {{ include "appstore.fullname" . }}
+        - name: PG_DB_HOST
+          valueFrom:
+            secretKeyRef:
+              key: PG_DB_HOST
+              name: {{ include "appstore.fullname" . }}
+        - name: PG_DB_PORT
+          valueFrom:
+            secretKeyRef:
+              key: PG_DB_PORT
+              name: {{ include "appstore.fullname" . }}
+        {{- end }}
+        - name: POSTGRES_ENABLED
+          valueFrom:
+            secretKeyRef:
+              key: POSTGRES_ENABLED
+              name: {{ include "appstore.fullname" . }}
         {{- range $key, $value := .Values.extraEnv }}
         - name: {{ $key }}
           value: {{ $value | quote }}
@@ -329,11 +387,16 @@ spec:
             configMapKeyRef:
               key: IMAGE_DOWNLOAD_URL
               name: {{ include "appstore.fullname" . }}-env
+        - name: SET_BUILD_ENV_FROM_FILE
+          valueFrom:
+            configMapKeyRef:
+              key: SET_BUILD_ENV_FROM_FILE
+              name: {{ include "appstore.fullname" . }}-env
         ports:
         - containerPort: 8000
       {{- if .Values.oauth.existingClaim }}
         volumeMounts:
-          {{- if .Values.loadTest }}
+          {{- if or .Values.artillery.loadTest .Values.artillery.smokeTest }}
           - mountPath: {{ .Values.django.TEST_USERS_PATH }}/test-users/
             name: test-users-volume
           {{- end }}
@@ -344,12 +407,16 @@ spec:
             mountPath: /usr/src/inst-mgmt/log
             subPath: log
           {{- end}}
+          {{- if and .Values.saml.cache.claimName .Values.saml.cache.enabled }}
+          - name: saml-claim
+            mountPath: {{ .Values.saml.cache.APPSTORE_DIRECTORY }}
+          {{- end }}
       {{- else if .Values.oauth.claimName }}
         volumeMounts:
-          {{- if .Values.loadTest }}
-          - mountPath: {{ .Values.django.TEST_USERS_PATH }}/test-users/
-            name: test-users-volume
-          {{- end }}
+          # {{- if .Values.loadTest }}
+          # - mountPath: {{ .Values.django.TEST_USERS_PATH }}/test-users/
+          #   name: test-users-volume
+          # {{- end }}
           - mountPath: /var/lib/sqlite3
             name: appstore-oauth-volume
           {{- if .Values.appStorage.claimName }}
@@ -357,6 +424,34 @@ spec:
             mountPath: /usr/src/inst-mgmt/log
             subPath: log
           {{- end}}
+          {{- if and .Values.saml.cache.claimName .Values.saml.cache.enabled }}
+          - name: saml-claim
+            mountPath: {{ .Values.saml.cache.APPSTORE_DIRECTORY }}
+          {{- end }}
+      {{- end }}
+      {{- if .Values.saml.cache.enabled }}
+      - name: {{ .Chart.Name }}-saml-fetch
+        image: "{{ .Values.fetcherImage.repository }}:{{ .Values.fetcherImage.tag }}"
+        imagePullPolicy: {{ .Values.fetcherImage.pullPolicy }}
+        env:
+        - name: FETCH_URL
+          valueFrom:
+            configMapKeyRef:
+              key: SAML_FETCH_URL
+              name: {{ include "appstore.fullname" . }}-env
+        - name: FETCH_FILE
+          valueFrom:
+            configMapKeyRef:
+              key: SAML_FETCH_FILE
+              name: {{ include "appstore.fullname" . }}-env
+        - name: FETCH_INTERVAL
+          valueFrom:
+            configMapKeyRef:
+              key: SAML_FETCH_INTERVAL
+              name: {{ include "appstore.fullname" . }}-env
+        volumeMounts:
+        - name: saml-claim
+          mountPath: /data
       {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -365,11 +460,11 @@ spec:
       restartPolicy: Always
       {{- if .Values.oauth.claimName }}
       volumes:
-        {{- if .Values.loadTest }}
-        - name: test-users-volume
-          secret:
-            secretName: {{ .Values.django.TEST_USERS_SECRET }}
-        {{- end }}
+        # {{- if .Values.loadTest }}
+        # - name: test-users-volume
+        #   secret:
+        #     secretName: {{ .Values.django.TEST_USERS_SECRET }}
+        # {{- end }}
         - name: appstore-oauth-volume
           persistentVolumeClaim:
             claimName: {{ .Values.oauth.claimName }}
@@ -378,4 +473,9 @@ spec:
         - name: app-mounts-claim
           persistentVolumeClaim:
             claimName: {{ .Values.appStorage.claimName }}
+      {{- end }}
+      {{- if and .Values.saml.cache.enabled .Values.saml.cache.claimName }}
+        - name: saml-claim
+          persistentVolumeClaim:
+            claimName: {{ .Values.saml.cache.claimName }}
       {{- end }}
