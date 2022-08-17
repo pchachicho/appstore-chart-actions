@@ -1,0 +1,3 @@
+logLevel: "debug"
+django:
+  DEV_PHASE: dev

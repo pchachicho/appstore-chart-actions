@@ -1,0 +1,3 @@
+logLevel: "info"
+django:
+  DEV_PHASE: prod
