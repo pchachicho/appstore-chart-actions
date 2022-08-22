@@ -1,3 +1,7 @@
 logLevel: "info"
+
 django:
   DEV_PHASE: val
+
+userStorage:
+  createPVC: true

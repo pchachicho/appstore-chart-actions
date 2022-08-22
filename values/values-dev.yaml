@@ -1,3 +1,8 @@
 logLevel: "debug"
+
 django:
   DEV_PHASE: dev
+  DOCKSTORE_APPS_BRANCH: "develop"
+
+userStorage:
+  createPVC: true
