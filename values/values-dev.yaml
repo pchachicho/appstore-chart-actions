@@ -6,3 +6,6 @@ django:
 
 userStorage:
   createPVC: true
+
+ACCOUNT_DEFAULT_HTTP_PROTOCOL: https
+
