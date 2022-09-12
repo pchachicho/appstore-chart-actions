@@ -1,11 +1,36 @@
-logLevel: "debug"
-
 django:
+  ALLOW_SAML_LOGIN: true
   DEV_PHASE: dev
   DOCKSTORE_APPS_BRANCH: "develop"
+
+djangoSettings: eduhelx
+
+fetcherImage:
+  repository: wateim/url-fetch
+  tag: develop
+  pullPolicy: Always
+
+helx_ui:
+  REACT_APP_HELX_SEARCH_URL: ""
+  REACT_APP_SEMANTIC_SEARCH_ENABLED: "false"
+  REACT_APP_UI_BRAND_NAME: eduhelx
+  REACT_APP_WORKSPACES_ENABLED: "true"
+
+logLevel: "debug"
+
+oauth:
+  OAUTH_PROVIDERS: ""
+
+saml:
+  AUTHORITY_URL: "https://sso.unc.edu/metadata/unc"
+  ASSERTION_URL: https://eduhelx-dev.renci.org
+  ENTITY_ID: "https://eduhelx-dev.renci.org/saml2_auth/acs/"
+  cache:
+     enabled: true
+     storageSize: "50M"
+     FETCH_INTERVAL: 3600000
 
 userStorage:
   createPVC: true
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL: https
-
