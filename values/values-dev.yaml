@@ -25,7 +25,7 @@ oauth:
 
 saml:
   AUTHORITY_URL: "https://sso.unc.edu/metadata/unc"
-  ASSERTION_URL: https://helx-dev.spps.renci.org
+  ASSERTION_URL: https://helx-dev.apps.renci.org
   ENTITY_ID: "https://helx-dev.apps.renci.org/saml2_auth/acs/"
   cache:
      enabled: true
