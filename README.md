@@ -1,6 +1,6 @@
 # appstore
 
-![Version: 1.2.0](https://img.shields.io/badge/Version-1.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.4.0](https://img.shields.io/badge/AppVersion-1.4.0-informational?style=flat-square)
+![Version: 1.3.0](https://img.shields.io/badge/Version-1.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: init-create-subdirs-v11](https://img.shields.io/badge/AppVersion-init--create--subdirs--v11-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -28,10 +28,7 @@ A Helm chart for Kubernetes
 | artillery.loadDuration | int | `10` |  |
 | artillery.loadTest | bool | `false` |  |
 | artillery.smokeTest | bool | `false` | When either smokeTest or loadTest is true, set CREATE_TEST_USERS, TEST_USERS_PATH under django settings. |
-| createHomeDirs | bool | `true` | Create Home directories for users |
-| db.host | string | `"postgresql"` |  |
-| db.name | string | `"appstore"` |  |
-| db.port | int | `5432` |  |
+| db | object | `{"host":"postgresql","name":"appstore","port":5432}` | appstore database settings |
 | django.ALLOW_DJANGO_LOGIN | string | `""` | show Django log in fields (true | false) |
 | django.ALLOW_SAML_LOGIN | string | `""` | show SAML log in fields (true | false) |
 | django.APPSTORE_DJANGO_PASSWORD | string | `""` |  |
@@ -67,7 +64,6 @@ A Helm chart for Kubernetes
 | image.repository | string | `"containers.renci.org/helxplatform/appstore"` | repository where image is located |
 | image.tag | string | `nil` |  |
 | imagePullSecrets | list | `[]` | credentials for a private repo |
-| init | object | `{"resources":{"cpus":"250m","memory":"250Mi"}}` | Resource for Tycho init container. Defaults cpus|250m memory|250Mi |
 | irods.BRAINI_RODS | string | `""` |  |
 | irods.IROD_COLLECTIONS | string | `""` |  |
 | irods.IROD_ZONE | string | `""` |  |
@@ -93,7 +89,6 @@ A Helm chart for Kubernetes
 | oauth.claimName | string | `"appstore-oauth-pvc"` |  |
 | oauth.existingClaim | bool | `false` |  |
 | oauth.storageClass | string | `nil` |  |
-| parent_dir | string | `"/home"` | directory that will be used to mount user's home directories in |
 | podAnnotations | object | `{}` |  |
 | postgresql | object | `{"audit":{"logConnections":true,"logHostname":true},"enabled":true,"global":{"postgresql":{"postgresqlDatabase":"appstore-oauth","postgresqlPassword":"renci","postgresqlUsername":"renci"}},"networkPolicyEnabled":true,"persistence":{"existingClaim":"appstore-postgresql-pvc","mountPath":"/postgresql/12","storageClass":null,"subPath":"postgresql12"},"postgresqlDataDir":"/postgresql/12/data","postgresqlPostgresPassword":"renciAdmin","primary":{"labels":{"np-label":"appstore-db"},"podLabels":{"np-label":"appstore-db"}},"volumePermissions":{"enabled":true}}` | postgresql settings |
 | postgresql.audit | object | `{"logConnections":true,"logHostname":true}` | postgresql logs |
@@ -107,7 +102,6 @@ A Helm chart for Kubernetes
 | resources.limits.memory | string | `"625Mi"` |  |
 | resources.requests.cpu | string | `"100m"` |  |
 | resources.requests.memory | string | `"300Mi"` |  |
-| runAsRoot | bool | `true` |  |
 | saml.ASSERTION_URL | string | `""` |  |
 | saml.AUTHORITY_URL | string | `""` |  |
 | saml.ENTITY_ID | string | `""` |  |
@@ -120,14 +114,25 @@ A Helm chart for Kubernetes
 | saml.cache.storageClass | string | `""` |  |
 | saml.cache.storageSize | string | `"20M"` |  |
 | security.isolatedApps | bool | `true` |  |
+| securityContext.fsGroup | int | `0` |  |
+| securityContext.runAsGroup | int | `0` |  |
+| securityContext.runAsUser | int | `0` |  |
 | service.name | string | `"http"` |  |
 | service.port | int | `80` |  |
 | service.type | string | `"ClusterIP"` |  |
 | serviceAccount.create | bool | `true` | specifies whether a service account should be created |
 | serviceAccount.name | string | `nil` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
-| shared_dir | string | `"shared"` | name of directory to use for shared data |
-| subpath_dir | string | `nil` | Name of directory to use for a user's home directory.  If null then the user's username will be used. |
 | tolerations | list | `[]` |  |
+| tycho.createHomeDirs | bool | `true` | Create Home and shared directories for users. |
+| tycho.enableInitContainer | bool | `true` | Start the init container to take care of any needed tasks before the main container is started.  This can be to create certain directories or set file permissions. |
+| tycho.fsGroup | int | `1000` | Application processes launched will also be part of this supplimentary group. |
+| tycho.init | object | `{"resources":{"cpus":"250m","memory":"250Mi"}}` | Resource for Tycho init container. Defaults cpus|250m memory|250Mi |
+| tycho.parent_dir | string | `"/home"` | directory that will be used to mount user's home directories in |
+| tycho.runAsGroup | int | `1000` | Application processes launched will have this group permissions. |
+| tycho.runAsRoot | bool | `true` |  |
+| tycho.runAsUser | int | `1000` | Application processes launched will run as this user. |
+| tycho.shared_dir | string | `"shared"` | name of directory to use for shared data |
+| tycho.subpath_dir | string | `nil` | Name of directory to use for a user's home directory.  If null then the user's username will be used. |
 | updateStrategy.type | string | `"Recreate"` | 'RollingUpdate' or 'Recreate'. Must use Recreate if mounting PVCs due to multi-attach errors. |
 | useSparkServiceAccount | bool | `false` | Set to true, when using blackbalsam. |
 | userStorage.createPVC | bool | `false` | Create a PVC for user's files.  If false then the PVC needs to be created outside of the appstore chart. |
@@ -138,4 +143,4 @@ A Helm chart for Kubernetes
 | userStorage.storageSize | string | `"10Gi"` |  |
 
 ----------------------------------------------
-Autogenerated from chart metadata using [helm-docs v1.5.0](https://github.com/norwoodj/helm-docs/releases/v1.5.0)
+Autogenerated from chart metadata using [helm-docs v1.11.0](https://github.com/norwoodj/helm-docs/releases/v1.11.0)
