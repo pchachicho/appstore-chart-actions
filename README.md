@@ -1,6 +1,6 @@
 # appstore
 
-![Version: 1.2.0](https://img.shields.io/badge/Version-1.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.4.0](https://img.shields.io/badge/AppVersion-1.4.0-informational?style=flat-square)
+![Version: 1.2.1](https://img.shields.io/badge/Version-1.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.4.1](https://img.shields.io/badge/AppVersion-1.4.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -22,7 +22,13 @@ A Helm chart for Kubernetes
 | appStorage.existingClaim | bool | `false` |  |
 | appStorage.storageClass | string | `nil` |  |
 | appStorage.storageSize | string | `"2Gi"` |  |
+| apps.DATASOURCE_PASSWORD | string | `""` |  |
+| apps.DATASOURCE_URL | string | `""` |  |
+| apps.DATASOURCE_USERNAME | string | `""` |  |
 | apps.DICOMGH_GOOGLE_CLIENT_ID | string | `""` |  |
+| apps.FLYWAY_DATASOURCE_PASSWORD | string | `""` |  |
+| apps.FLYWAY_DATASOURCE_URL | string | `""` |  |
+| apps.FLYWAY_DATASOURCE_USERNAME | string | `""` |  |
 | appstoreEntrypointArgs | string | `"make start"` | Allow for a custom entrypoint command via the values file. |
 | artillery.loadArrivalRate | int | `10` |  |
 | artillery.loadDuration | int | `10` |  |
