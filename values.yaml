@@ -81,8 +81,8 @@ ambassador:
    # -- register appstore with ambassador flag: <True or False>
    flag: true
 
-# -- set the theme for appstore (cat, braini, restartr, scidas)
-djangoSettings: cat
+# -- set the theme for appstore (bdc, braini, restartr, scidas)
+djangoSettings: bdc
 # -- Allow for a custom entrypoint command via the values file.
 appstoreEntrypointArgs: "make start"
 
@@ -222,7 +222,6 @@ tycho:
   enableInitContainer: true
   # -- Create Home and shared directories for users.
   createHomeDirs: true
-  runAsRoot: true
   # -- directory that will be used to mount user's home directories in
   parent_dir: "/home"
   # -- Name of directory to use for a user's home directory.  If null then the
