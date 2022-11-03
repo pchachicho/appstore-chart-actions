@@ -1,6 +1,6 @@
 # appstore
 
-![Version: 1.3.0](https://img.shields.io/badge/Version-1.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: init-create-subdirs-v11](https://img.shields.io/badge/AppVersion-init--create--subdirs--v11-informational?style=flat-square)
+![Version: 1.3.0](https://img.shields.io/badge/Version-1.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: develop](https://img.shields.io/badge/AppVersion-develop-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -22,7 +22,13 @@ A Helm chart for Kubernetes
 | appStorage.existingClaim | bool | `false` |  |
 | appStorage.storageClass | string | `nil` |  |
 | appStorage.storageSize | string | `"2Gi"` |  |
+| apps.DATASOURCE_PASSWORD | string | `""` |  |
+| apps.DATASOURCE_URL | string | `""` |  |
+| apps.DATASOURCE_USERNAME | string | `""` |  |
 | apps.DICOMGH_GOOGLE_CLIENT_ID | string | `""` |  |
+| apps.FLYWAY_DATASOURCE_PASSWORD | string | `""` |  |
+| apps.FLYWAY_DATASOURCE_URL | string | `""` |  |
+| apps.FLYWAY_DATASOURCE_USERNAME | string | `""` |  |
 | appstoreEntrypointArgs | string | `"make start"` | Allow for a custom entrypoint command via the values file. |
 | artillery.loadArrivalRate | int | `10` |  |
 | artillery.loadDuration | int | `10` |  |
@@ -45,7 +51,7 @@ A Helm chart for Kubernetes
 | django.SESSION_IDLE_TIMEOUT | int | `3600` | idle timeout for user web session |
 | django.TEST_USERS_PATH | string | `"/usr/src/inst-mgmt/artillery-tests/payloads"` | parent directory where the users.txt would be mounted |
 | django.TEST_USERS_SECRET | string | `"test-users-secret"` | secret file deployed on the cluster to fetch the test users |
-| djangoSettings | string | `"cat"` | set the theme for appstore (cat, braini, restartr, scidas) |
+| djangoSettings | string | `"bdc"` | set the theme for appstore (bdc, braini, restartr, scidas) |
 | extraEnv | object | `{}` |  |
 | fetcherImage.pullPolicy | string | `"IfNotPresent"` | pull policy |
 | fetcherImage.repository | string | `"helxplatform/url-fetch"` | repository where image is located |
@@ -65,6 +71,7 @@ A Helm chart for Kubernetes
 | image.tag | string | `nil` |  |
 | imagePullSecrets | list | `[]` | credentials for a private repo |
 | irods.BRAINI_RODS | string | `""` |  |
+| irods.IROD_APPROVED_USERS | string | `""` |  |
 | irods.IROD_COLLECTIONS | string | `""` |  |
 | irods.IROD_ZONE | string | `""` |  |
 | irods.NRC_MICROSCOPY_IRODS | string | `""` |  |
@@ -129,7 +136,6 @@ A Helm chart for Kubernetes
 | tycho.init | object | `{"resources":{"cpus":"250m","memory":"250Mi"}}` | Resource for Tycho init container. Defaults cpus|250m memory|250Mi |
 | tycho.parent_dir | string | `"/home"` | directory that will be used to mount user's home directories in |
 | tycho.runAsGroup | int | `1000` | Application processes launched will have this group permissions. |
-| tycho.runAsRoot | bool | `true` |  |
 | tycho.runAsUser | int | `1000` | Application processes launched will run as this user. |
 | tycho.shared_dir | string | `"shared"` | name of directory to use for shared data |
 | tycho.subpath_dir | string | `nil` | Name of directory to use for a user's home directory.  If null then the user's username will be used. |
