@@ -22,8 +22,11 @@ data:
   ALLOW_SAML_LOGIN: "{{ .Values.django.ALLOW_SAML_LOGIN }}"
   IMAGE_DOWNLOAD_URL: "{{ .Values.django.IMAGE_DOWNLOAD_URL }}"
   DJANGO_SESSION_IDLE_TIMEOUT: "{{ .Values.django.SESSION_IDLE_TIMEOUT }}"
-  TYCHO_INIT_RESOURCES_CPUS: "{{ .Values.init.resources.cpus }}"
-  TYCHO_INIT_RESOURCES_MEMORY: "{{ .Values.init.resources.memory }}"
+
+  # Tycho-launched app pod settings
+  TYCHO_INIT_RESOURCES_CPUS: "{{ .Values.tycho.init.resources.cpus }}"
+  TYCHO_INIT_RESOURCES_MEMORY: "{{ .Values.tycho.init.resources.memory }}"
+
   CREATE_TEST_USERS: "{{ .Values.django.CREATE_TEST_USERS }}"
   TEST_USERS_PATH: "{{ .Values.django.TEST_USERS_PATH }}"
   REACT_APP_SEMANTIC_SEARCH_ENABLED: "{{ .Values.helx_ui.REACT_APP_SEMANTIC_SEARCH_ENABLED }}"

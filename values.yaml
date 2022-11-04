@@ -43,10 +43,10 @@ serviceAccount:
   # If not set and create is true, a name is generated using the fullname template
   name:
 
-# securityContext:
-#   runAsUser: 1000
-#   runAsGroup: 1000
-#   fsGroup: 1000
+securityContext:
+  runAsUser: 0
+  runAsGroup: 0
+  fsGroup: 0
 
 service:
   type: ClusterIP
@@ -81,8 +81,8 @@ ambassador:
    # -- register appstore with ambassador flag: <True or False>
    flag: true
 
-# -- set the theme for appstore (cat, braini, restartr, scidas)
-djangoSettings: cat
+# -- set the theme for appstore (bdc, braini, restartr, scidas)
+djangoSettings: bdc
 # -- Allow for a custom entrypoint command via the values file.
 appstoreEntrypointArgs: "make start"
 
@@ -216,24 +216,31 @@ extraEnv: {}
 # -- Set to true, when using blackbalsam.
 useSparkServiceAccount: false
 
-# -- Create Home directories for users
-createHomeDirs: true
-
-runAsRoot: true
-
-# -- directory that will be used to mount user's home directories in
-parent_dir: "/home"
-# -- Name of directory to use for a user's home directory.  If null then the
-# user's username will be used.
-subpath_dir: null
-# -- name of directory to use for shared data
-shared_dir: "shared"
-
-# -- Resource for Tycho init container. Defaults cpus|250m memory|250Mi
-init:
-  resources:
-    cpus: 250m
-    memory: 250Mi
+tycho:
+  # -- Application processes launched will run as this user.
+  runAsUser: 1000
+  # -- Application processes launched will have this group permissions.
+  runAsGroup: 1000
+  # -- Application processes launched will also be part of this supplimentary group.
+  fsGroup: 1000
+  # -- Start the init container to take care of any needed tasks before the
+  # main container is started.  This can be to create certain directories or
+  # set file permissions.
+  enableInitContainer: true
+  # -- Create Home and shared directories for users.
+  createHomeDirs: true
+  # -- directory that will be used to mount user's home directories in
+  parent_dir: "/home"
+  # -- Name of directory to use for a user's home directory.  If null then the
+  # user's username will be used.
+  subpath_dir: null
+  # -- name of directory to use for shared data
+  shared_dir: "shared"
+  # -- Resource for Tycho init container. Defaults cpus|250m memory|250Mi
+  init:
+    resources:
+      cpus: 250m
+      memory: 250Mi
 
 global:
   # -- the name of the PVC to use for user's files
