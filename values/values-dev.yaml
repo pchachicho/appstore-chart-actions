@@ -32,5 +32,13 @@ saml:
      storageSize: "50M"
      FETCH_INTERVAL: 3600000
 
-userStorage:
-  createPVC: true
+# userStorage:
+#   createPVC: true
+
+tycho:
+  runAsUser: 30000
+  runAsGroup: 1136
+  fsGroup: 1136
+
+global:
+  stdnfsPvc: helx-dev-projects-helx-users-pvc
