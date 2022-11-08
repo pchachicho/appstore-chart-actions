@@ -3,7 +3,8 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL: https
 django:
   ALLOW_SAML_LOGIN: true
   DEV_PHASE: dev
-  DOCKSTORE_APPS_BRANCH: "develop"
+  # DOCKSTORE_APPS_BRANCH: "develop"
+  DOCKSTORE_APPS_BRANCH: "projects-volume"
 
 djangoSettings: eduhelx
 
