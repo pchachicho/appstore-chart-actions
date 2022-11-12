@@ -54,6 +54,23 @@ spec:
             configMapKeyRef:
               key: LOG_LEVEL
               name: {{ include "appstore.fullname" . }}-env
+        - name: REACT_APP_ANALYTICS
+          valueFrom:
+            configMapKeyRef:
+              key: REACT_APP_ANALYTICS
+              name: {{ include "appstore.fullname" . }}-env
+        - name: REACT_APP_APPSTORE_ASSET_BRANCH
+          valueFrom:
+            configMapKeyRef:
+              key: REACT_APP_APPSTORE_ASSET_BRANCH
+              name: {{ include "appstore.fullname" . }}-env
+        {{ if .Values.django.DOCKSTORE_APPS_BRANCH }}
+        - name: REACT_APP_DOCKSTORE_BRANCH
+          valueFrom:
+            secretKeyRef:
+              key: DOCKSTORE_APPS_BRANCH
+              name: {{ include "appstore.fullname" . }}
+        {{- end }}
         - name: REACT_APP_HELX_SEARCH_URL
           valueFrom:
             configMapKeyRef:
@@ -64,20 +81,15 @@ spec:
             configMapKeyRef:
               key: REACT_APP_SEMANTIC_SEARCH_ENABLED
               name: {{ include "appstore.fullname" . }}-env
-        - name: REACT_APP_WORKSPACES_ENABLED
-          valueFrom:
-            configMapKeyRef:
-              key: REACT_APP_WORKSPACES_ENABLED
-              name: {{ include "appstore.fullname" . }}-env
         - name: REACT_APP_UI_BRAND_NAME
           valueFrom:
             configMapKeyRef:
               key: REACT_APP_UI_BRAND_NAME
               name: {{ include "appstore.fullname" . }}-env
-        - name: REACT_APP_ANALYTICS
+        - name: REACT_APP_WORKSPACES_ENABLED
           valueFrom:
             configMapKeyRef:
-              key: REACT_APP_ANALYTICS
+              key: REACT_APP_WORKSPACES_ENABLED
               name: {{ include "appstore.fullname" . }}-env
         - name: CREATE_TEST_USERS
           valueFrom:

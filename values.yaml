@@ -93,18 +93,28 @@ artillery:
   loadDuration: 10
   loadArrivalRate: 10
 
-# -- Setting for helx-ui
+#  Various settings for helx-ui which will get expressed as env variables in container
+# 
+#  REACT_APP_ANALYTICS (string) HeLx Mixpanel project analytics token
+#  REACT_APP_APPSTORE_ASSET_BRANCH: (string) branchname of appstore branch
+#  REACT_APP_HELX_SEARCH_URL: (url)  URL of tranql
+#  REACT_APP_SEMANTIC_SEARCH_ENABLED: (boolean) Enable/Disable helx-ui search.
+#  REACT_APP_UI_BRAND_NAME: (string)
+#    values:
+#      cat
+#      braini
+#      restartr
+#      scidas
+#      eduhelx
+#      tracs
+#  REACT_APP_WORKSPACES_ENABLED: (boolean) Enable/Disable workspaces
 helx_ui:
-  # -- Enable/Disable helx-ui search.
-  REACT_APP_SEMANTIC_SEARCH_ENABLED: "true"
-  # -- Enable/Disable helx-ui workspaces.
-  REACT_APP_WORKSPACES_ENABLED: "true"
-  # -- Helx Search URL
-  REACT_APP_HELX_SEARCH_URL: ""
-  # -- Helx Branding (cat, braini, restartr, scidas, eduhelx)
-  REACT_APP_UI_BRAND_NAME: ""
-  # -- HeLx Mixpanel project analytics token
   REACT_APP_ANALYTICS: ""
+  REACT_APP_APPSTORE_ASSET_BRANCH: "master"
+  REACT_APP_HELX_SEARCH_URL: ""
+  REACT_APP_SEMANTIC_SEARCH_ENABLED: "true"
+  REACT_APP_UI_BRAND_NAME: ""
+  REACT_APP_WORKSPACES_ENABLED: "true"
 
 gunicorn:
   # -- Set the number of gunicorn workers.
