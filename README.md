@@ -1,6 +1,6 @@
 # appstore
 
-![Version: 1.2.1](https://img.shields.io/badge/Version-1.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.4.1](https://img.shields.io/badge/AppVersion-1.4.1-informational?style=flat-square)
+![Version: 1.3.1](https://img.shields.io/badge/Version-1.3.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.5.0](https://img.shields.io/badge/AppVersion-1.5.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -63,12 +63,12 @@ A Helm chart for Kubernetes
 | global.ambassador_id | string | `nil` | specify the id of the ambassador for Tycho-launched services. |
 | global.stdnfsPvc | string | `"stdnfs"` | the name of the PVC to use for user's files |
 | gunicorn.workers | int | `5` | Set the number of gunicorn workers. |
-| helx_ui | object | `{"REACT_APP_ANALYTICS":"","REACT_APP_HELX_SEARCH_URL":"","REACT_APP_SEMANTIC_SEARCH_ENABLED":"true","REACT_APP_UI_BRAND_NAME":"","REACT_APP_WORKSPACES_ENABLED":"true"}` | Setting for helx-ui |
-| helx_ui.REACT_APP_ANALYTICS | string | `""` | HeLx Mixpanel project analytics token |
-| helx_ui.REACT_APP_HELX_SEARCH_URL | string | `""` | Helx Search URL |
-| helx_ui.REACT_APP_SEMANTIC_SEARCH_ENABLED | string | `"true"` | Enable/Disable helx-ui search. |
-| helx_ui.REACT_APP_UI_BRAND_NAME | string | `""` | Helx Branding (cat, braini, restartr, scidas, eduhelx) |
-| helx_ui.REACT_APP_WORKSPACES_ENABLED | string | `"true"` | Enable/Disable helx-ui workspaces. |
+| helx_ui.REACT_APP_ANALYTICS | string | `""` |  |
+| helx_ui.REACT_APP_APPSTORE_ASSET_BRANCH | string | `"master"` |  |
+| helx_ui.REACT_APP_HELX_SEARCH_URL | string | `""` |  |
+| helx_ui.REACT_APP_SEMANTIC_SEARCH_ENABLED | string | `"true"` |  |
+| helx_ui.REACT_APP_UI_BRAND_NAME | string | `""` |  |
+| helx_ui.REACT_APP_WORKSPACES_ENABLED | string | `"true"` |  |
 | image.pullPolicy | string | `"IfNotPresent"` | pull policy |
 | image.repository | string | `"containers.renci.org/helxplatform/appstore"` | repository where image is located |
 | image.tag | string | `nil` |  |
