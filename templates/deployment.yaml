@@ -173,16 +173,6 @@ spec:
             configMapKeyRef:
               key: NRC_PORT
               name: {{ include "appstore.fullname" . }}-env
-        - name: INIT_MEMORY
-          valueFrom:
-            configMapKeyRef:
-              key: TYCHO_INIT_RESOURCES_MEMORY
-              name: {{ include "appstore.fullname" . }}-env
-        - name: INIT_CPUS
-          valueFrom:
-            configMapKeyRef:
-              key: TYCHO_INIT_RESOURCES_CPUS
-              name: {{ include "appstore.fullname" . }}-env
         - name: SECRET_KEY
           valueFrom:
             secretKeyRef:
@@ -324,6 +314,11 @@ spec:
             secretKeyRef:
               key: IROD_ZONE
               name: {{ include "appstore.fullname" . }}
+        - name: IROD_APPROVED_USERS
+          valueFrom:
+            secretKeyRef:
+              key: IROD_APPROVED_USERS
+              name: {{ include "appstore.fullname" . }}
         {{- end }}
         - name: EMAIL_HOST_USER
           valueFrom:
@@ -381,20 +376,6 @@ spec:
         - name: {{ $key }}
           value: {{ $value | quote }}
         {{- end }}
-        - name: CREATE_HOME_DIRS
-          value: "{{- .Values.createHomeDirs }}"
-        - name: STDNFS_PVC
-          value: "{{ .Values.global.stdnfsPvc }}"
-        - name: RUNASROOT
-          value: "{{ .Values.runAsRoot }}"
-        - name: PARENT_DIR
-          value: "{{ .Values.parent_dir }}"
-        {{- if .Values.subpath_dir }}
-        - name: SUBPATH_DIR
-          value: "{{ .Values.subpath_dir }}"
-        {{- end }}
-        - name: SHARED_DIR
-          value: "{{ .Values.shared_dir }}"
         - name: IMAGE_DOWNLOAD_URL
           valueFrom:
             configMapKeyRef:
@@ -405,6 +386,39 @@ spec:
             configMapKeyRef:
               key: SET_BUILD_ENV_FROM_FILE
               name: {{ include "appstore.fullname" . }}-env
+
+        # Tycho-launched app settings
+        - name: TYCHO_APP_INIT_MEMORY
+          valueFrom:
+            configMapKeyRef:
+              key: TYCHO_INIT_RESOURCES_MEMORY
+              name: {{ include "appstore.fullname" . }}-env
+        - name: TYCHO_APP_INIT_CPUS
+          valueFrom:
+            configMapKeyRef:
+              key: TYCHO_INIT_RESOURCES_CPUS
+              name: {{ include "appstore.fullname" . }}-env
+        - name: TYCHO_APP_RUN_AS_USER
+          value: "{{- .Values.tycho.runAsUser }}"
+        - name: TYCHO_APP_RUN_AS_GROUP
+          value: "{{- .Values.tycho.runAsGroup }}"
+        - name: TYCHO_APP_FS_GROUP
+          value: "{{- .Values.tycho.fsGroup }}"
+        - name: TYCHO_APP_ENABLE_INIT_CONTAINER
+          value: "{{- .Values.tycho.enableInitContainer }}"
+        - name: CREATE_HOME_DIRS
+          value: "{{- .Values.tycho.createHomeDirs }}"
+        - name: PARENT_DIR
+          value: "{{ .Values.tycho.parent_dir }}"
+        {{- if .Values.subpath_dir }}
+        - name: SUBPATH_DIR
+          value: "{{ .Values.tycho.subpath_dir }}"
+        {{- end }}
+        - name: SHARED_DIR
+          value: "{{ .Values.tycho.shared_dir }}"
+        - name: STDNFS_PVC
+          value: "{{ .Values.global.stdnfsPvc }}"
+
         ports:
         - containerPort: 8000
       {{- if .Values.oauth.existingClaim }}
