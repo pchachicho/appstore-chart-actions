@@ -228,11 +228,11 @@ useSparkServiceAccount: false
 
 tycho:
   # -- Application processes launched will run as this user.
-  runAsUser: 1000
+  runAsUser: 0
   # -- Application processes launched will have this group permissions.
-  runAsGroup: 1000
+  runAsGroup: 0
   # -- Application processes launched will also be part of this supplimentary group.
-  fsGroup: 1000
+  fsGroup: 0
   # -- Start the init container to take care of any needed tasks before the
   # main container is started.  This can be to create certain directories or
   # set file permissions.
