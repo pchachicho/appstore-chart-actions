@@ -237,6 +237,10 @@ tycho:
   # main container is started.  This can be to create certain directories or
   # set file permissions.
   enableInitContainer: true
+  # -- Init processes will run as this user.
+  initRunAsUser: 0
+  # -- Init processes will have this group permissions.
+  initRunAsGroup: 0
   # -- Create Home and shared directories for users.
   createHomeDirs: true
   # -- directory that will be used to mount user's home directories in
