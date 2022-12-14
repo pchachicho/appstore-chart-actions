@@ -201,7 +201,11 @@ apps:
   FLYWAY_DATASOURCE_CONNECTION_URL: ""
   FLYWAY_DATASOURCE_PASSWORD: ""
   DATASOURCE_USERNAME: "ohdsi"
-  FLYWAY_DATASOURCE_USERNAME: "ohdsi"  
+  FLYWAY_DATASOURCE_USERNAME: "ohdsi"
+  # -- PUID variable in webtop specifies the UID to switch the user to after initialization.
+  WEBTOP_PUID: "1000"
+  # -- PGID variable in webtop specifies the GID to switch the user to after initialization.
+  WEBTOP_PGID: "1000"
 
 appStorage:
   existingClaim: false
