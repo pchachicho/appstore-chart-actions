@@ -279,12 +279,11 @@ postgresql:
   global:
     # -- postgresql credentials
     postgresql:
-      postgresqlPassword: "renci"
-      postgresqlDatabase: "appstore-oauth"
-      postgresqlUsername: "renci"
-  postgresqlPostgresPassword: "renciAdmin"
-  # -- postgresql DATA DIR
-  postgresqlDataDir: "/postgresql/12/data"
+      auth:
+        postgresPassword: "adminPass"
+        database: "appstore-oauth"
+        username: "renci"
+        password: "renciAdmin"
   # -- postgresql labels
   primary:
     labels: {"np-label": "appstore-db"}
@@ -296,8 +295,6 @@ postgresql:
   # -- postgresql persistence storage
   persistence:
     existingClaim: "appstore-postgresql-pvc"
-    mountPath: /postgresql/12
-    subPath: postgresql12
     storageClass:
   volumePermissions:
     enabled: true
