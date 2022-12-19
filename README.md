@@ -1,6 +1,6 @@
 # appstore
 
-![Version: 1.5.1](https://img.shields.io/badge/Version-1.5.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.5.0](https://img.shields.io/badge/AppVersion-1.5.0-informational?style=flat-square)
+![Version: 1.5.3](https://img.shields.io/badge/Version-1.5.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.5.1](https://img.shields.io/badge/AppVersion-1.5.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -29,14 +29,14 @@ A Helm chart for Kubernetes
 | apps.FLYWAY_DATASOURCE_CONNECTION_URL | string | `""` |  |
 | apps.FLYWAY_DATASOURCE_PASSWORD | string | `""` |  |
 | apps.FLYWAY_DATASOURCE_USERNAME | string | `"ohdsi"` |  |
+| apps.WEBTOP_PGID | string | `"1000"` | PGID variable in webtop specifies the GID to switch the user to after initialization. |
+| apps.WEBTOP_PUID | string | `"1000"` | PUID variable in webtop specifies the UID to switch the user to after initialization. |
 | appstoreEntrypointArgs | string | `"make start"` | Allow for a custom entrypoint command via the values file. |
 | artillery.loadArrivalRate | int | `10` |  |
 | artillery.loadDuration | int | `10` |  |
 | artillery.loadTest | bool | `false` |  |
 | artillery.smokeTest | bool | `false` | When either smokeTest or loadTest is true, set CREATE_TEST_USERS, TEST_USERS_PATH under django settings. |
-| db.host | string | `"postgresql"` |  |
-| db.name | string | `"appstore"` |  |
-| db.port | int | `5432` |  |
+| db | object | `{"host":"postgresql","name":"appstore","port":5432}` | appstore database settings |
 | django.ALLOW_DJANGO_LOGIN | string | `""` | show Django log in fields (true | false) |
 | django.ALLOW_SAML_LOGIN | string | `""` | show SAML log in fields (true | false) |
 | django.APPSTORE_DJANGO_PASSWORD | string | `""` |  |
@@ -134,11 +134,13 @@ A Helm chart for Kubernetes
 | tolerations | list | `[]` |  |
 | tycho.createHomeDirs | bool | `true` | Create Home and shared directories for users. |
 | tycho.enableInitContainer | bool | `true` | Start the init container to take care of any needed tasks before the main container is started.  This can be to create certain directories or set file permissions. |
-| tycho.fsGroup | int | `1000` | Application processes launched will also be part of this supplimentary group. |
+| tycho.fsGroup | int | `0` | Application processes launched will also be part of this supplimentary group. |
 | tycho.init | object | `{"resources":{"cpus":"250m","memory":"250Mi"}}` | Resource for Tycho init container. Defaults cpus|250m memory|250Mi |
+| tycho.initRunAsGroup | int | `0` | Init processes will have this group permissions. |
+| tycho.initRunAsUser | int | `0` | Init processes will run as this user. |
 | tycho.parent_dir | string | `"/home"` | directory that will be used to mount user's home directories in |
-| tycho.runAsGroup | int | `1000` | Application processes launched will have this group permissions. |
-| tycho.runAsUser | int | `1000` | Application processes launched will run as this user. |
+| tycho.runAsGroup | int | `0` | Application processes launched will have this group permissions. |
+| tycho.runAsUser | int | `0` | Application processes launched will run as this user. |
 | tycho.shared_dir | string | `"shared"` | name of directory to use for shared data |
 | tycho.subpath_dir | string | `nil` | Name of directory to use for a user's home directory.  If null then the user's username will be used. |
 | updateStrategy.type | string | `"Recreate"` | 'RollingUpdate' or 'Recreate'. Must use Recreate if mounting PVCs due to multi-attach errors. |

@@ -404,6 +404,10 @@ spec:
           value: "{{- .Values.tycho.runAsGroup }}"
         - name: TYCHO_APP_FS_GROUP
           value: "{{- .Values.tycho.fsGroup }}"
+        - name: INIT_SC_RUN_AS_USER
+          value: "{{- .Values.tycho.initRunAsUser }}"
+        - name: INIT_SC_RUN_AS_GROUP
+          value: "{{- .Values.tycho.initRunAsGroup }}"
         - name: TYCHO_APP_ENABLE_INIT_CONTAINER
           value: "{{- .Values.tycho.enableInitContainer }}"
         - name: CREATE_HOME_DIRS
