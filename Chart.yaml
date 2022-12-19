@@ -14,14 +14,15 @@ type: application
 
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
-version: 1.5.3
+version: 1.6.0
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application.
-appVersion: 1.5.1
+# appVersion: 1.5.1 # (not released yet)
+appVersion: webtop-v0.0.26
 
 dependencies:
 - name: postgresql
   condition: postgresql.enabled
-  version: "10.16.2"
+  version: "11.6.26"
   repository: "https://charts.bitnami.com/bitnami"
