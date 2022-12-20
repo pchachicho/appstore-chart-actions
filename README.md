@@ -1,6 +1,6 @@
 # appstore
 
-![Version: 1.6.1](https://img.shields.io/badge/Version-1.6.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.6.0](https://img.shields.io/badge/AppVersion-1.6.0-informational?style=flat-square)
+![Version: 1.6.2](https://img.shields.io/badge/Version-1.6.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.6.0](https://img.shields.io/badge/AppVersion-1.6.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -44,7 +44,7 @@ A Helm chart for Kubernetes
 | django.AUTHORIZED_USERS | string | `""` | user emails for oauth providers |
 | django.CREATE_TEST_USERS | string | `"false"` | create test users for load testing |
 | django.DEV_PHASE | string | `"prod"` |  |
-| django.DOCKSTORE_APPS_BRANCH | string | `"master"` | Defaults to "master". Specify "develop" to switch. |
+| django.DOCKSTORE_APPS_BRANCH | string | `"v1.6.0"` | Defaults to "master". Specify "develop" to switch. |
 | django.EMAIL_HOST_PASSWORD | string | `""` | password of account to use for outgoing emails |
 | django.EMAIL_HOST_USER | string | `""` | email of account to use for outgoing emails |
 | django.IMAGE_DOWNLOAD_URL | string | `""` | Specify URL to use for the "Image Download" link on the top part of website. |
