@@ -46,6 +46,3 @@ tycho:
 
 global:
   stdnfsPvc: helx-dev-projects-helx-users-pvc
-
-postgresql:
-  enabled: false
