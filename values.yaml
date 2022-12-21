@@ -93,27 +93,20 @@ artillery:
   loadDuration: 10
   loadArrivalRate: 10
 
-#  Various settings for helx-ui which will get expressed as env variables in container
-# 
-#  REACT_APP_ANALYTICS (string) HeLx Mixpanel project analytics token
-#  REACT_APP_APPSTORE_ASSET_BRANCH: (string) branchname of appstore branch
-#  REACT_APP_HELX_SEARCH_URL: (url)  URL of tranql
-#  REACT_APP_SEMANTIC_SEARCH_ENABLED: (boolean) Enable/Disable helx-ui search.
-#  REACT_APP_UI_BRAND_NAME: (string)
-#    values:
-#      cat
-#      braini
-#      restartr
-#      scidas
-#      eduhelx
-#      tracs
-#  REACT_APP_WORKSPACES_ENABLED: (boolean) Enable/Disable workspaces
+# -- Various settings for helx-ui which will get expressed as env variables in container
 helx_ui:
+# -- REACT_APP_ANALYTICS (string) HeLx Mixpanel project analytics token
   REACT_APP_ANALYTICS: ""
+# -- REACT_APP_APPSTORE_ASSET_BRANCH: (string) branchname of appstore branch
   REACT_APP_APPSTORE_ASSET_BRANCH: "master"
+# -- REACT_APP_HELX_SEARCH_URL: (url)  URL of tranql
   REACT_APP_HELX_SEARCH_URL: ""
+# -- REACT_APP_SEMANTIC_SEARCH_ENABLED: (boolean) Enable/Disable helx-ui search.
   REACT_APP_SEMANTIC_SEARCH_ENABLED: "true"
+# -- REACT_APP_UI_BRAND_NAME: (string)
+# values: cat, braini, eduhelx, eduhelx-chip690, eduhelx-sandbox, restartr, scidas, tracs
   REACT_APP_UI_BRAND_NAME: ""
+# -- REACT_APP_WORKSPACES_ENABLED: (boolean) Enable/Disable workspaces
   REACT_APP_WORKSPACES_ENABLED: "true"
 
 gunicorn:
@@ -132,7 +125,7 @@ django:
   # -- user emails to remove from an already-existing database
   REMOVE_AUTHORIZED_USERS: ""
   # -- Defaults to "master". Specify "develop" to switch.
-  DOCKSTORE_APPS_BRANCH: "master"
+  DOCKSTORE_APPS_BRANCH: "v1.6.0"
   ###################################################
   APPSTORE_DJANGO_USERNAME: "admin"
   APPSTORE_DJANGO_PASSWORD: ""

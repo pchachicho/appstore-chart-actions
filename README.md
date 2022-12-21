@@ -1,6 +1,6 @@
 # appstore
 
-![Version: 1.6.1](https://img.shields.io/badge/Version-1.6.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.6.0](https://img.shields.io/badge/AppVersion-1.6.0-informational?style=flat-square)
+![Version: 1.6.2](https://img.shields.io/badge/Version-1.6.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.6.0](https://img.shields.io/badge/AppVersion-1.6.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -44,7 +44,7 @@ A Helm chart for Kubernetes
 | django.AUTHORIZED_USERS | string | `""` | user emails for oauth providers |
 | django.CREATE_TEST_USERS | string | `"false"` | create test users for load testing |
 | django.DEV_PHASE | string | `"prod"` |  |
-| django.DOCKSTORE_APPS_BRANCH | string | `"master"` | Defaults to "master". Specify "develop" to switch. |
+| django.DOCKSTORE_APPS_BRANCH | string | `"v1.6.0"` | Defaults to "master". Specify "develop" to switch. |
 | django.EMAIL_HOST_PASSWORD | string | `""` | password of account to use for outgoing emails |
 | django.EMAIL_HOST_USER | string | `""` | email of account to use for outgoing emails |
 | django.IMAGE_DOWNLOAD_URL | string | `""` | Specify URL to use for the "Image Download" link on the top part of website. |
@@ -62,12 +62,13 @@ A Helm chart for Kubernetes
 | global.ambassador_id | string | `nil` | specify the id of the ambassador for Tycho-launched services. |
 | global.stdnfsPvc | string | `"stdnfs"` | the name of the PVC to use for user's files |
 | gunicorn.workers | int | `5` | Set the number of gunicorn workers. |
-| helx_ui.REACT_APP_ANALYTICS | string | `""` |  |
-| helx_ui.REACT_APP_APPSTORE_ASSET_BRANCH | string | `"master"` |  |
-| helx_ui.REACT_APP_HELX_SEARCH_URL | string | `""` |  |
-| helx_ui.REACT_APP_SEMANTIC_SEARCH_ENABLED | string | `"true"` |  |
-| helx_ui.REACT_APP_UI_BRAND_NAME | string | `""` |  |
-| helx_ui.REACT_APP_WORKSPACES_ENABLED | string | `"true"` |  |
+| helx_ui | object | `{"REACT_APP_ANALYTICS":"","REACT_APP_APPSTORE_ASSET_BRANCH":"master","REACT_APP_HELX_SEARCH_URL":"","REACT_APP_SEMANTIC_SEARCH_ENABLED":"true","REACT_APP_UI_BRAND_NAME":"","REACT_APP_WORKSPACES_ENABLED":"true"}` | Various settings for helx-ui which will get expressed as env variables in container |
+| helx_ui.REACT_APP_ANALYTICS | string | `""` | REACT_APP_ANALYTICS (string) HeLx Mixpanel project analytics token |
+| helx_ui.REACT_APP_APPSTORE_ASSET_BRANCH | string | `"master"` | REACT_APP_APPSTORE_ASSET_BRANCH: (string) branchname of appstore branch |
+| helx_ui.REACT_APP_HELX_SEARCH_URL | string | `""` | REACT_APP_HELX_SEARCH_URL: (url)  URL of tranql |
+| helx_ui.REACT_APP_SEMANTIC_SEARCH_ENABLED | string | `"true"` | REACT_APP_SEMANTIC_SEARCH_ENABLED: (boolean) Enable/Disable helx-ui search. |
+| helx_ui.REACT_APP_UI_BRAND_NAME | string | `""` | REACT_APP_UI_BRAND_NAME: (string) values: cat, braini, eduhelx, eduhelx-chip690, eduhelx-sandbox, restartr, scidas, tracs |
+| helx_ui.REACT_APP_WORKSPACES_ENABLED | string | `"true"` | REACT_APP_WORKSPACES_ENABLED: (boolean) Enable/Disable workspaces |
 | image.pullPolicy | string | `"IfNotPresent"` | pull policy |
 | image.repository | string | `"containers.renci.org/helxplatform/appstore"` | repository where image is located |
 | image.tag | string | `nil` |  |
