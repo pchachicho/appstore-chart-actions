@@ -132,7 +132,7 @@ django:
   # -- user emails to remove from an already-existing database
   REMOVE_AUTHORIZED_USERS: ""
   # -- Defaults to "master". Specify "develop" to switch.
-  DOCKSTORE_APPS_BRANCH: "master"
+  DOCKSTORE_APPS_BRANCH: "v1.6.0"
   ###################################################
   APPSTORE_DJANGO_USERNAME: "admin"
   APPSTORE_DJANGO_PASSWORD: ""
