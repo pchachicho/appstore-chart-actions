@@ -293,3 +293,9 @@ postgresql:
     enabled: true
   # -- enable/disable postgresql network policy, allows traffic to and from appstore pod only.
   networkPolicyEnabled: true
+
+# -- gitea settings
+gitea:
+  enabled: true
+  host: "eduhelx-git.apps.renci.org"
+  user: "git"
