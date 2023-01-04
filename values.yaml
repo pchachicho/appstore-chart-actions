@@ -82,7 +82,7 @@ ambassador:
    flag: true
 
 # -- set the theme for appstore (bdc, braini, restartr, scidas)
-djangoSettings: bdc
+djangoSettings: helx
 # -- Allow for a custom entrypoint command via the values file.
 appstoreEntrypointArgs: "make start"
 
@@ -104,7 +104,7 @@ helx_ui:
 # -- REACT_APP_SEMANTIC_SEARCH_ENABLED: (boolean) Enable/Disable helx-ui search.
   REACT_APP_SEMANTIC_SEARCH_ENABLED: "true"
 # -- REACT_APP_UI_BRAND_NAME: (string)
-# values: cat, braini, eduhelx, eduhelx-chip690, eduhelx-sandbox, restartr, scidas, tracs
+# values: bdc, braini, eduhelx, eduhelx-chip690, eduhelx-sandbox, restartr, scidas, tracs
   REACT_APP_UI_BRAND_NAME: ""
 # -- REACT_APP_WORKSPACES_ENABLED: (boolean) Enable/Disable workspaces
   REACT_APP_WORKSPACES_ENABLED: "true"
@@ -143,7 +143,8 @@ django:
   SESSION_IDLE_TIMEOUT: 3600
   # -- list of appstore registration emails
   RECIPIENT_EMAILS: ""
-  DEV_PHASE: "prod"
+  # -- should be 'live' unless you are doing some kind of development
+  DEV_PHASE: "live"
 
 oauth:
   existingClaim: false
@@ -252,6 +253,15 @@ tycho:
     resources:
       cpus: 250m
       memory: 250Mi
+  # -- Can be set to a git repo URL for fetching the app registry file or
+  # defaults file.  Something in the form of 
+  # 'https://github.com/helxplatform/helx-apps/raw'.
+  appRegistryRepo: ""
+  # The branch that would be appended to 'appRegistryRepo' to retrieve the
+  # app registry and defaults files.  The full URL, if using the appRegistryRepo
+  # example for the app registry file would be 
+  # 'https://github.com/helxplatform/helx-apps/raw/master/app-registry.yaml'.
+  appRegistryBranch: "master"
 
 global:
   # -- the name of the PVC to use for user's files

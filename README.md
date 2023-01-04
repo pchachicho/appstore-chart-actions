@@ -1,6 +1,6 @@
 # appstore
 
-![Version: 1.6.2](https://img.shields.io/badge/Version-1.6.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.6.0](https://img.shields.io/badge/AppVersion-1.6.0-informational?style=flat-square)
+![Version: 1.6.3](https://img.shields.io/badge/Version-1.6.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.6.1](https://img.shields.io/badge/AppVersion-1.6.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -43,7 +43,7 @@ A Helm chart for Kubernetes
 | django.APPSTORE_DJANGO_USERNAME | string | `"admin"` |  |
 | django.AUTHORIZED_USERS | string | `""` | user emails for oauth providers |
 | django.CREATE_TEST_USERS | string | `"false"` | create test users for load testing |
-| django.DEV_PHASE | string | `"prod"` |  |
+| django.DEV_PHASE | string | `"live"` | should be 'live' unless you are doing some kind of development |
 | django.DOCKSTORE_APPS_BRANCH | string | `"v1.6.0"` | Defaults to "master". Specify "develop" to switch. |
 | django.EMAIL_HOST_PASSWORD | string | `""` | password of account to use for outgoing emails |
 | django.EMAIL_HOST_USER | string | `""` | email of account to use for outgoing emails |
@@ -53,7 +53,7 @@ A Helm chart for Kubernetes
 | django.SESSION_IDLE_TIMEOUT | int | `3600` | idle timeout for user web session |
 | django.TEST_USERS_PATH | string | `"/usr/src/inst-mgmt/artillery-tests/payloads"` | parent directory where the users.txt would be mounted |
 | django.TEST_USERS_SECRET | string | `"test-users-secret"` | secret file deployed on the cluster to fetch the test users |
-| djangoSettings | string | `"bdc"` | set the theme for appstore (bdc, braini, restartr, scidas) |
+| djangoSettings | string | `"helx"` | set the theme for appstore (bdc, braini, restartr, scidas) |
 | extraEnv | object | `{}` |  |
 | fetcherImage.pullPolicy | string | `"IfNotPresent"` | pull policy |
 | fetcherImage.repository | string | `"helxplatform/url-fetch"` | repository where image is located |
@@ -67,7 +67,7 @@ A Helm chart for Kubernetes
 | helx_ui.REACT_APP_APPSTORE_ASSET_BRANCH | string | `"master"` | REACT_APP_APPSTORE_ASSET_BRANCH: (string) branchname of appstore branch |
 | helx_ui.REACT_APP_HELX_SEARCH_URL | string | `""` | REACT_APP_HELX_SEARCH_URL: (url)  URL of tranql |
 | helx_ui.REACT_APP_SEMANTIC_SEARCH_ENABLED | string | `"true"` | REACT_APP_SEMANTIC_SEARCH_ENABLED: (boolean) Enable/Disable helx-ui search. |
-| helx_ui.REACT_APP_UI_BRAND_NAME | string | `""` | REACT_APP_UI_BRAND_NAME: (string) values: cat, braini, eduhelx, eduhelx-chip690, eduhelx-sandbox, restartr, scidas, tracs |
+| helx_ui.REACT_APP_UI_BRAND_NAME | string | `""` | REACT_APP_UI_BRAND_NAME: (string) values: bdc, braini, eduhelx, eduhelx-chip690, eduhelx-sandbox, restartr, scidas, tracs |
 | helx_ui.REACT_APP_WORKSPACES_ENABLED | string | `"true"` | REACT_APP_WORKSPACES_ENABLED: (boolean) Enable/Disable workspaces |
 | image.pullPolicy | string | `"IfNotPresent"` | pull policy |
 | image.repository | string | `"containers.renci.org/helxplatform/appstore"` | repository where image is located |
@@ -132,6 +132,8 @@ A Helm chart for Kubernetes
 | serviceAccount.create | bool | `true` | specifies whether a service account should be created |
 | serviceAccount.name | string | `nil` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 | tolerations | list | `[]` |  |
+| tycho.appRegistryBranch | string | `"master"` |  |
+| tycho.appRegistryRepo | string | `""` | Can be set to a git repo URL for fetching the app registry file or defaults file.  Something in the form of  'https://github.com/helxplatform/helx-apps/raw'. |
 | tycho.createHomeDirs | bool | `true` | Create Home and shared directories for users. |
 | tycho.enableInitContainer | bool | `true` | Start the init container to take care of any needed tasks before the main container is started.  This can be to create certain directories or set file permissions. |
 | tycho.fsGroup | int | `0` | Application processes launched will also be part of this supplimentary group. |
