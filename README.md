@@ -132,10 +132,12 @@ A Helm chart for Kubernetes
 | serviceAccount.create | bool | `true` | specifies whether a service account should be created |
 | serviceAccount.name | string | `nil` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 | tolerations | list | `[]` |  |
-| tycho.appRegistryBranch | string | `"master"` |  |
-| tycho.appRegistryRepo | string | `""` | Can be set to a git repo URL for fetching the app registry file or defaults file.  Something in the form of  'https://github.com/helxplatform/helx-apps/raw'. |
 | tycho.createHomeDirs | bool | `true` | Create Home and shared directories for users. |
 | tycho.enableInitContainer | bool | `true` | Start the init container to take care of any needed tasks before the main container is started.  This can be to create certain directories or set file permissions. |
+| tycho.externalAppRegistryAppSpecsDir | string | `"app-specs"` |  |
+| tycho.externalAppRegistryBranch | string | `"v1.7.0"` |  |
+| tycho.externalAppRegistryEnabled | bool | `false` | Enable/disable the external app registry file for Tycho. |
+| tycho.externalAppRegistryRepo | string | `"https://github.com/helxplatform/helx-apps/raw"` | Can be set to a git repo URL for fetching the app registry file or defaults file.  Something in the form of  'https://github.com/helxplatform/helx-apps/raw'. |
 | tycho.fsGroup | int | `0` | Application processes launched will also be part of this supplimentary group. |
 | tycho.init | object | `{"resources":{"cpus":"250m","memory":"250Mi"}}` | Resource for Tycho init container. Defaults cpus|250m memory|250Mi |
 | tycho.initRunAsGroup | int | `0` | Init processes will have this group permissions. |
