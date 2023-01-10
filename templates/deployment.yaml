@@ -404,10 +404,20 @@ spec:
           value: "{{- .Values.tycho.runAsGroup }}"
         - name: TYCHO_APP_FS_GROUP
           value: "{{- .Values.tycho.fsGroup }}"
-        - name: TYCHO_APP_REGISTRY_REPO
-          value: "{{- .Values.tycho.appRegistryRepo }}"
-        - name: TYCHO_APP_REGISTRY_BRANCH
-          value: "{{- .Values.tycho.appRegistryBranch }}"
+        - name: EXTERNAL_TYCHO_APP_REGISTRY_ENABLED
+          value: "{{- .Values.tycho.externalAppRegistryEnabled }}"
+        - name: EXTERNAL_TYCHO_APP_REGISTRY_REPO
+          value: "{{- .Values.tycho.externalAppRegistryRepo }}"
+        - name: EXTERNAL_TYCHO_APP_REGISTRY_BRANCH
+          value: "{{- .Values.tycho.externalAppRegistryBranch }}"
+        - name: EXTERNAL_TYCHO_APP_REGISTRY_APP_SPECS_DIR
+          value: "{{- .Values.tycho.externalAppRegistryAppSpecsDir }}"
+        - name: DOCKSTORE_APP_SPECS_DIR_URL
+          {{- if .Values.tycho.externalAppRegistryEnabled }}
+          value: "{{- .Values.tycho.externalAppRegistryRepo }}/{{- .Values.tycho.externalAppRegistryBranch }}/{{- .Values.tycho.externalAppRegistryAppSpecsDir }}"
+          {{- else }}
+          value: "{{- .Values.tycho.externalAppRegistryRepo }}/{{- .Values.django.DOCKSTORE_APPS_BRANCH }}/{{- .Values.tycho.externalAppRegistryAppSpecsDir }}"
+          {{- end }}
         - name: INIT_SC_RUN_AS_USER
           value: "{{- .Values.tycho.initRunAsUser }}"
         - name: INIT_SC_RUN_AS_GROUP
