@@ -9,8 +9,9 @@ image:
   repository: containers.renci.org/helxplatform/appstore
   # -- pull policy
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag:
+  # -- Overrides the image tag whose default is the chart appVersion.
+  # Set to "" before release!
+  tag: external-app-registry-v0.0.47
 
 fetcherImage:
   # -- repository where image is located
