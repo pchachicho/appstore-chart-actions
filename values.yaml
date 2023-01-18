@@ -111,7 +111,7 @@ helx_ui:
   REACT_APP_WORKSPACES_ENABLED: "true"
 
 gunicorn:
-  # -- Set the number of gunicorn workers.
+  # -- Set the number of gunicorn workers.  (2*CPU)+1 is recommended.
   workers: 5
 
 django:
