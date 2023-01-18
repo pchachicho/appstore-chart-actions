@@ -4,9 +4,11 @@ django:
   ALLOW_SAML_LOGIN: true
   DEV_PHASE: dev
   # DOCKSTORE_APPS_BRANCH: "develop"
-  DOCKSTORE_APPS_BRANCH: "projects-volume"
+  # DOCKSTORE_APPS_BRANCH: "projects-volume"
+  DOCKSTORE_APPS_BRANCH: "eduhelx_chip690_fix"
 
-djangoSettings: eduhelx
+# djangoSettings: eduhelx
+djangoSettings: eduhelx-chip690
 
 fetcherImage:
   repository: wateim/url-fetch
@@ -19,7 +21,7 @@ helx_ui:
   REACT_APP_UI_BRAND_NAME: eduhelx
   REACT_APP_WORKSPACES_ENABLED: "true"
 
-logLevel: "debug"
+logLevel: "error"
 
 oauth:
   OAUTH_PROVIDERS: ""
@@ -33,13 +35,13 @@ saml:
      storageSize: "50M"
      FETCH_INTERVAL: 3600000
 
-# userStorage:
-#   createPVC: true
+userStorage:
+  createPVC: true
 
 tycho:
   runAsUser: 30000
   runAsGroup: 1136
   fsGroup: 1136
 
-global:
-  stdnfsPvc: helx-dev-projects-helx-users-pvc
+# global:
+#   stdnfsPvc: helx-dev-projects-helx-users-pvc
