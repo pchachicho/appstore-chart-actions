@@ -1,6 +1,3 @@
-image:
-  tag: 2023-01-18T16.57Z
-
 ACCOUNT_DEFAULT_HTTP_PROTOCOL: https
 
 django:
