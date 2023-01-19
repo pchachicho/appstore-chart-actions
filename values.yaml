@@ -195,6 +195,7 @@ irodsUnbranded:
   IROD_PORT: ""
   IROD_HOST: ""
   IROD_USER_VALUES: {}
+  NFSRODS_HOST: ""
 
 
 apps:

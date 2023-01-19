@@ -346,6 +346,11 @@ spec:
             secretKeyRef:
               key: IROD_PORT
               name: {{ include "appstore.fullname" . }}
+        - name: NFSRODS_HOST
+          valueFrom:
+            secretKeyRef:
+              key: NFSRODS_HOST
+              name: {{ include "appstore.fullname" . }}
         {{- end }}
         - name: EMAIL_HOST_USER
           valueFrom:
