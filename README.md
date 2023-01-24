@@ -72,7 +72,7 @@ A Helm chart for Kubernetes
 | helx_ui.REACT_APP_WORKSPACES_ENABLED | string | `"true"` | REACT_APP_WORKSPACES_ENABLED: (boolean) Enable/Disable workspaces |
 | image.pullPolicy | string | `"IfNotPresent"` | pull policy |
 | image.repository | string | `"containers.renci.org/helxplatform/appstore"` | repository where image is located |
-| image.tag | string | `"pjl-202301231947"` |  |
+| image.tag | string | `"PR-238"` |  |
 | imagePullSecrets | list | `[]` | credentials for a private repo |
 | irods.BRAINI_RODS | string | `""` |  |
 | irods.IROD_APPROVED_USERS | string | `""` |  |
