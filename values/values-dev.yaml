@@ -38,7 +38,7 @@ saml:
      FETCH_INTERVAL: 3600000
 
 userStorage:
-  createPVC: true
+  createPVC: false
 
 tycho:
   runAsUser: 30000
