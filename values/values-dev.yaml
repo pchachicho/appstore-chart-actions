@@ -5,10 +5,12 @@ django:
   DEV_PHASE: dev
   # DOCKSTORE_APPS_BRANCH: "develop"
   # DOCKSTORE_APPS_BRANCH: "projects-volume"
-  DOCKSTORE_APPS_BRANCH: "eduhelx_chip690_fix"
+  # DOCKSTORE_APPS_BRANCH: "eduhelx_chip690_fix"
+  DOCKSTORE_APPS_BRANCH: "eduhelx-sandbox"
 
 # djangoSettings: eduhelx
-djangoSettings: eduhelx-chip690
+# djangoSettings: eduhelx-chip690
+djangoSettings: eduhelx-sandbox
 
 fetcherImage:
   repository: wateim/url-fetch
@@ -43,5 +45,5 @@ tycho:
   runAsGroup: 1136
   fsGroup: 1136
 
-# global:
-#   stdnfsPvc: helx-dev-projects-helx-users-pvc
+global:
+  stdnfsPvc: helx-dev-projects-helx-users-pvc

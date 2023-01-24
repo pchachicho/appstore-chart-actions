@@ -1,6 +1,6 @@
 # appstore
 
-![Version: 1.6.2](https://img.shields.io/badge/Version-1.6.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.6.0](https://img.shields.io/badge/AppVersion-1.6.0-informational?style=flat-square)
+![Version: 1.6.3](https://img.shields.io/badge/Version-1.6.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.6.1](https://img.shields.io/badge/AppVersion-1.6.1-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -37,6 +37,7 @@ A Helm chart for Kubernetes
 | artillery.loadTest | bool | `false` |  |
 | artillery.smokeTest | bool | `false` | When either smokeTest or loadTest is true, set CREATE_TEST_USERS, TEST_USERS_PATH under django settings. |
 | db | object | `{"host":"postgresql","name":"appstore","port":5432}` | appstore database settings |
+| debug | string | `""` |  |
 | django.ALLOW_DJANGO_LOGIN | string | `""` | show Django log in fields (true | false) |
 | django.ALLOW_SAML_LOGIN | string | `""` | show SAML log in fields (true | false) |
 | django.APPSTORE_DJANGO_PASSWORD | string | `""` |  |
@@ -71,7 +72,7 @@ A Helm chart for Kubernetes
 | helx_ui.REACT_APP_WORKSPACES_ENABLED | string | `"true"` | REACT_APP_WORKSPACES_ENABLED: (boolean) Enable/Disable workspaces |
 | image.pullPolicy | string | `"IfNotPresent"` | pull policy |
 | image.repository | string | `"containers.renci.org/helxplatform/appstore"` | repository where image is located |
-| image.tag | string | `nil` |  |
+| image.tag | string | `"develop"` |  |
 | imagePullSecrets | list | `[]` | credentials for a private repo |
 | irods.BRAINI_RODS | string | `""` |  |
 | irods.IROD_APPROVED_USERS | string | `""` |  |
@@ -81,7 +82,7 @@ A Helm chart for Kubernetes
 | irods.RODS_PASSWORD | string | `""` |  |
 | irods.RODS_USERNAME | string | `""` |  |
 | irods.enabled | bool | `false` | enable irods support (true | false) |
-| logLevel | string | `"info"` | Set the log level for the application. Overriden to be "debug" if DEBUG setting is true in the configmap. |
+| logLevel | string | `"WARNING"` | Set the log level for the application.  (DEBUG INFO WARNING ERROR CRITICAL) |
 | nameOverride | string | `""` |  |
 | networkPolicyLabels.role | string | `"appstore"` |  |
 | nodeSelector | object | `{}` |  |
