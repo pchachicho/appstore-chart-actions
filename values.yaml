@@ -10,7 +10,7 @@ image:
   # -- pull policy
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: PR-238
+  tag: develop
 
 fetcherImage:
   # -- repository where image is located
