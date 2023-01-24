@@ -1,3 +1,6 @@
+image:
+  tag: develop
+
 ACCOUNT_DEFAULT_HTTP_PROTOCOL: https
 
 django:
