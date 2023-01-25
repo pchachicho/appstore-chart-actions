@@ -43,10 +43,16 @@ saml:
 userStorage:
   createPVC: false
 
+apps:
+  WEBTOP_PUID: "30000"
+  WEBTOP_PGID: "1136"
+
 tycho:
   runAsUser: 30000
   runAsGroup: 1136
   fsGroup: 1136
+  initRunAsUser: 30000
+  initRunAsGroup: 1136
 
 global:
   stdnfsPvc: helx-dev-projects-helx-users-pvc
