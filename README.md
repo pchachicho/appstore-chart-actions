@@ -1,6 +1,6 @@
 # appstore
 
-![Version: 1.6.6](https://img.shields.io/badge/Version-1.6.6-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.6.0](https://img.shields.io/badge/AppVersion-1.6.0-informational?style=flat-square)
+![Version: 1.6.7](https://img.shields.io/badge/Version-1.6.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.6.0](https://img.shields.io/badge/AppVersion-1.6.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -108,9 +108,9 @@ A Helm chart for Kubernetes
 | postgresql.persistence | object | `{"existingClaim":"appstore-postgresql-pvc","storageClass":null}` | postgresql persistence storage |
 | postgresql.primary | object | `{"labels":{"np-label":"appstore-db"},"podLabels":{"np-label":"appstore-db"}}` | postgresql labels |
 | replicaCount | int | `1` |  |
-| resources.limits.cpu | string | `"400m"` |  |
-| resources.limits.memory | string | `"625Mi"` |  |
-| resources.requests.cpu | string | `"100m"` |  |
+| resources.limits.cpu | string | `"500m"` |  |
+| resources.limits.memory | string | `"1024Mi"` |  |
+| resources.requests.cpu | string | `"200m"` |  |
 | resources.requests.memory | string | `"300Mi"` |  |
 | saml.ASSERTION_URL | string | `""` |  |
 | saml.AUTHORITY_URL | string | `""` |  |

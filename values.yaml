@@ -57,10 +57,10 @@ service:
 
 resources:
   limits:
-    cpu: 400m
-    memory: 625Mi
+    cpu: 500m
+    memory: 1024Mi
   requests:
-    cpu: 100m
+    cpu: 200m
     memory: 300Mi
 
 security:
