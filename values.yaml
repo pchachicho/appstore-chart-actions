@@ -57,10 +57,10 @@ service:
 resources:
   limits:
     cpu: 400m
-    memory: 625Mi
+    memory: 1024Mi
   requests:
     cpu: 100m
-    memory: 300Mi
+    memory: 512Mi
 
 security:
   isolatedApps: true
@@ -201,6 +201,8 @@ apps:
   WEBTOP_PUID: "1000"
   # -- PGID variable in webtop specifies the GID to switch the user to after initialization.
   WEBTOP_PGID: "1000"
+  # -- Specify email for pgAdmin user.
+  PGADMIN_EMAIL: "user@domain.com"
 
 appStorage:
   existingClaim: false
