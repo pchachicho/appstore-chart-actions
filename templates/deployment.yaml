@@ -49,6 +49,8 @@ spec:
           value: {{ .Values.gitea.host }}
         - name: GITEA_USER
           value: {{ .Values.gitea.user }}
+        - name: GITEA_SERVICE_NAME
+          value: {{ .Values.gitea.serviceName }}
         {{- end }} 
         - name: GUNICORN_WORKERS
           valueFrom:

@@ -297,5 +297,6 @@ postgresql:
 # -- gitea settings
 gitea:
   enabled: true
-  host: "eduhelx-git.apps.renci.org"
-  user: "git"
+  host: eduhelx-git.apps.renci.org
+  user: git
+  serviceName: gitea-ssh

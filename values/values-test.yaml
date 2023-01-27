@@ -3,11 +3,12 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL: https
 django:
   ALLOW_SAML_LOGIN: true
   DEV_PHASE: dev
-  DOCKSTORE_APPS_BRANCH: "develop"
-  AUTHORIZED_USERS: "pjl@email.unc.edu,pjl@renci.org,pjl@unc.edu,tcheek@renci.org"
+  DOCKSTORE_APPS_BRANCH: "jupyter-lab"
+  AUTHORIZED_USERS: "pjl@email.unc.edu,pjl@renci.org,pjl@unc.edu,tcheek@renci.org,mbacon@renci.org"
 
-# image:
-#   tag: 
+image:
+  pullPolicy: Always
+  tag: jupyter-lab-with-gitea
 
 djangoSettings: eduhelx
 
@@ -17,15 +18,10 @@ fetcherImage:
   pullPolicy: Always
 
 helx_ui:
-  REACT_APP_HELX_SEARCH_URL: ""
   REACT_APP_SEMANTIC_SEARCH_ENABLED: "false"
   REACT_APP_UI_BRAND_NAME: eduhelx
-  REACT_APP_WORKSPACES_ENABLED: "true"
 
 logLevel: "debug"
-
-oauth:
-  OAUTH_PROVIDERS: ""
 
 saml:
   AUTHORITY_URL: "https://sso.unc.edu/metadata/unc"
