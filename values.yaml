@@ -197,12 +197,17 @@ apps:
   FLYWAY_DATASOURCE_PASSWORD: ""
   DATASOURCE_USERNAME: "ohdsi"
   FLYWAY_DATASOURCE_USERNAME: "ohdsi"
-  # -- PUID variable in webtop specifies the UID to switch the user to after initialization.
+  # -- PUID variable in webtop specifies the UID to switch the user to after
+  # initialization.
   WEBTOP_PUID: "1000"
-  # -- PGID variable in webtop specifies the GID to switch the user to after initialization.
+  # -- PGID variable in webtop specifies the GID to switch the user to after
+  # initialization.
   WEBTOP_PGID: "1000"
   # -- Specify email for pgAdmin user.
   PGADMIN_EMAIL: "user@domain.com"
+  # -- Specify the database hostname used for pgAdmin's clients to connect to.
+  # If specified this replaces 'mimic-postgresql' in the pgadmin4.db
+  # configuration file.
   HELX_DB_HOSTNAME: ""
 
 appStorage:
