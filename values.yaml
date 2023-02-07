@@ -203,6 +203,7 @@ apps:
   WEBTOP_PGID: "1000"
   # -- Specify email for pgAdmin user.
   PGADMIN_EMAIL: "user@domain.com"
+  HELX_DB_HOSTNAME: ""
 
 appStorage:
   existingClaim: false
