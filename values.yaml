@@ -30,8 +30,10 @@ networkPolicyLabels: {"role": "appstore"}
 
 podAnnotations: {}
 
-# -- Set the log level for the application. Overriden to be "debug" if DEBUG setting is true in the configmap.
-logLevel: "info"
+# An empty string equates to false, anything else is true.  If debug is true the logLevel is also set to DEBUG.
+debug: ""
+# -- Set the log level for the application.  (DEBUG INFO WARNING ERROR CRITICAL)
+logLevel: "WARNING"
 
 updateStrategy:
   # -- 'RollingUpdate' or 'Recreate'. Must use Recreate if mounting PVCs due to multi-attach errors.

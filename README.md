@@ -37,6 +37,7 @@ A Helm chart for Kubernetes
 | artillery.loadTest | bool | `false` |  |
 | artillery.smokeTest | bool | `false` | When either smokeTest or loadTest is true, set CREATE_TEST_USERS, TEST_USERS_PATH under django settings. |
 | db | object | `{"host":"postgresql","name":"appstore","port":5432}` | appstore database settings |
+| debug | string | `""` |  |
 | django.ALLOW_DJANGO_LOGIN | string | `""` | show Django log in fields (true | false) |
 | django.ALLOW_SAML_LOGIN | string | `""` | show SAML log in fields (true | false) |
 | django.APPSTORE_DJANGO_PASSWORD | string | `""` |  |
@@ -81,7 +82,7 @@ A Helm chart for Kubernetes
 | irods.RODS_PASSWORD | string | `""` |  |
 | irods.RODS_USERNAME | string | `""` |  |
 | irods.enabled | bool | `false` | enable irods support (true | false) |
-| logLevel | string | `"info"` | Set the log level for the application. Overriden to be "debug" if DEBUG setting is true in the configmap. |
+| logLevel | string | `"WARNING"` | Set the log level for the application.  (DEBUG INFO WARNING ERROR CRITICAL) |
 | nameOverride | string | `""` |  |
 | networkPolicyLabels.role | string | `"appstore"` |  |
 | nodeSelector | object | `{}` |  |
@@ -107,9 +108,9 @@ A Helm chart for Kubernetes
 | postgresql.persistence | object | `{"existingClaim":"appstore-postgresql-pvc","storageClass":null}` | postgresql persistence storage |
 | postgresql.primary | object | `{"labels":{"np-label":"appstore-db"},"podLabels":{"np-label":"appstore-db"}}` | postgresql labels |
 | replicaCount | int | `1` |  |
-| resources.limits.cpu | string | `"400m"` |  |
-| resources.limits.memory | string | `"625Mi"` |  |
-| resources.requests.cpu | string | `"100m"` |  |
+| resources.limits.cpu | string | `"500m"` |  |
+| resources.limits.memory | string | `"1024Mi"` |  |
+| resources.requests.cpu | string | `"200m"` |  |
 | resources.requests.memory | string | `"300Mi"` |  |
 | saml.ASSERTION_URL | string | `""` |  |
 | saml.AUTHORITY_URL | string | `""` |  |
