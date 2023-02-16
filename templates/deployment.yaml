@@ -41,7 +41,7 @@ spec:
         command:
           - sh
           - -c
-          - until pg_isready -h {{ include "appstore.fullname" . }}-postgresql -p 5432 -U postgres; do echo "waiting for postgresql"; sleep 5; done
+          - until pg_isready -h {{ .Chart.Name }}-postgresql -p 5432 -U postgres; do echo "waiting for postgresql"; sleep 5; done
       {{- end }}
       containers:
       - name: {{ .Chart.Name }}
