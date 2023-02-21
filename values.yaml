@@ -11,7 +11,7 @@ image:
   pullPolicy: IfNotPresent
   # -- Overrides the image tag whose default is the chart appVersion.
   # Set to "" before release!
-  tag: external-app-registry-v0.0.47
+  tag: develop
 
 fetcherImage:
   # -- repository where image is located
