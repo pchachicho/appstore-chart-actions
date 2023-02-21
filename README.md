@@ -74,7 +74,7 @@ A Helm chart for Kubernetes
 | helx_ui.REACT_APP_WORKSPACES_ENABLED | string | `"true"` | REACT_APP_WORKSPACES_ENABLED: (boolean) Enable/Disable workspaces |
 | image.pullPolicy | string | `"IfNotPresent"` | pull policy |
 | image.repository | string | `"containers.renci.org/helxplatform/appstore"` | repository where image is located |
-| image.tag | string | `"external-app-registry-v0.0.47"` | Overrides the image tag whose default is the chart appVersion. Set to "" before release! |
+| image.tag | string | `"develop"` | Overrides the image tag whose default is the chart appVersion. Set to "" before release! |
 | imagePullSecrets | list | `[]` | credentials for a private repo |
 | irods.BRAINI_RODS | string | `""` |  |
 | irods.IROD_APPROVED_USERS | string | `""` |  |
