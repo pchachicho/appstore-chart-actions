@@ -266,18 +266,20 @@ tycho:
       cpus: 250m
       memory: 250Mi
   # -- Enable/disable the external app registry file for Tycho.  Set
-  # 'django.DOCKSTORE_APPS_BRANCH' to an empty string when when using an external
-  # app registry.
+  # 'django.DOCKSTORE_APPS_BRANCH' to an empty string when when using an
+  # external app registry.
   externalAppRegistryEnabled: false
   # -- Can be set to a git repo URL for fetching the app registry file or
   # defaults file.  Something in the form of 
   # 'https://github.com/helxplatform/helx-apps/raw'.
   externalAppRegistryRepo: "https://github.com/helxplatform/helx-apps/raw"
-  # The branch that would be appended to 'appRegistryRepo' to retrieve the
-  # app registry and defaults files.  The full URL, if using the appRegistryRepo
-  # example for the app registry file would be 
+  # -- The branch that would be appended to 'externalAppRegistryRepo' to
+  # retrieve the app registry and defaults files.  The full URL, if using the
+  # externalAppRegistryRepo example for the app registry file would be 
   # 'https://github.com/helxplatform/helx-apps/raw/master/app-registry.yaml'.
-  externalAppRegistryBranch: "v1.7.0"
+  # The default value is the AppVersion of this chart prefixed with a 'v'
+  # (ex. v2.0.0).
+  externalAppRegistryBranch:
   externalAppRegistryAppSpecsDir: "app-specs"
 
 global:
