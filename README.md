@@ -138,7 +138,7 @@ A Helm chart for Kubernetes
 | tycho.createHomeDirs | bool | `true` | Create Home and shared directories for users. |
 | tycho.enableInitContainer | bool | `true` | Start the init container to take care of any needed tasks before the main container is started.  This can be to create certain directories or set file permissions. |
 | tycho.externalAppRegistryAppSpecsDir | string | `"app-specs"` |  |
-| tycho.externalAppRegistryBranch | string | `"v1.7.0"` |  |
+| tycho.externalAppRegistryBranch | string | `nil` | The branch that would be appended to 'externalAppRegistryRepo' to retrieve the app registry and defaults files.  The full URL, if using the externalAppRegistryRepo example for the app registry file would be  'https://github.com/helxplatform/helx-apps/raw/master/app-registry.yaml'. The default value is the AppVersion of this chart prefixed with a 'v' (ex. v2.0.0). |
 | tycho.externalAppRegistryEnabled | bool | `false` | Enable/disable the external app registry file for Tycho.  Set 'django.DOCKSTORE_APPS_BRANCH' to an empty string when when using an external app registry. |
 | tycho.externalAppRegistryRepo | string | `"https://github.com/helxplatform/helx-apps/raw"` | Can be set to a git repo URL for fetching the app registry file or defaults file.  Something in the form of  'https://github.com/helxplatform/helx-apps/raw'. |
 | tycho.fsGroup | int | `0` | Application processes launched will also be part of this supplimentary group. |
