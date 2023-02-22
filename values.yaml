@@ -9,7 +9,8 @@ image:
   repository: containers.renci.org/helxplatform/appstore
   # -- pull policy
   pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
+  # -- Overrides the image tag whose default is the chart appVersion.
+  # Set to "" before release!
   tag:
 
 fetcherImage:
@@ -84,7 +85,7 @@ ambassador:
    flag: true
 
 # -- set the theme for appstore (bdc, braini, restartr, scidas)
-djangoSettings: bdc
+djangoSettings: helx
 # -- Allow for a custom entrypoint command via the values file.
 appstoreEntrypointArgs: "make start"
 
@@ -106,13 +107,13 @@ helx_ui:
 # -- REACT_APP_SEMANTIC_SEARCH_ENABLED: (boolean) Enable/Disable helx-ui search.
   REACT_APP_SEMANTIC_SEARCH_ENABLED: "true"
 # -- REACT_APP_UI_BRAND_NAME: (string)
-# values: cat, braini, eduhelx, eduhelx-chip690, eduhelx-sandbox, restartr, scidas, tracs
+# values: bdc, braini, eduhelx, eduhelx-chip690, eduhelx-sandbox, restartr, scidas, tracs
   REACT_APP_UI_BRAND_NAME: ""
 # -- REACT_APP_WORKSPACES_ENABLED: (boolean) Enable/Disable workspaces
   REACT_APP_WORKSPACES_ENABLED: "true"
 
 gunicorn:
-  # -- Set the number of gunicorn workers.
+  # -- Set the number of gunicorn workers.  (2*CPU)+1 is recommended.
   workers: 5
 
 django:
@@ -126,7 +127,8 @@ django:
   AUTHORIZED_USERS: ""
   # -- user emails to remove from an already-existing database
   REMOVE_AUTHORIZED_USERS: ""
-  # -- Defaults to "master". Specify "develop" to switch.
+  # -- Specify the git branch to use for HeLx app specifications.  When
+  # declaring 'tycho.externalAppRegistryRepo' leave this as an empty string.
   DOCKSTORE_APPS_BRANCH: "v1.6.0"
   ###################################################
   APPSTORE_DJANGO_USERNAME: "admin"
@@ -145,7 +147,8 @@ django:
   SESSION_IDLE_TIMEOUT: 3600
   # -- list of appstore registration emails
   RECIPIENT_EMAILS: ""
-  DEV_PHASE: "prod"
+  # -- should be 'live' unless you are doing some kind of development
+  DEV_PHASE: "live"
 
 oauth:
   existingClaim: false
@@ -197,10 +200,18 @@ apps:
   FLYWAY_DATASOURCE_PASSWORD: ""
   DATASOURCE_USERNAME: "ohdsi"
   FLYWAY_DATASOURCE_USERNAME: "ohdsi"
-  # -- PUID variable in webtop specifies the UID to switch the user to after initialization.
+  # -- PUID variable in webtop specifies the UID to switch the user to after
+  # initialization.
   WEBTOP_PUID: "1000"
-  # -- PGID variable in webtop specifies the GID to switch the user to after initialization.
+  # -- PGID variable in webtop specifies the GID to switch the user to after
+  # initialization.
   WEBTOP_PGID: "1000"
+  # -- Specify email for pgAdmin user.
+  PGADMIN_EMAIL: "user@domain.com"
+  # -- Specify the database hostname used for pgAdmin's clients to connect to.
+  # If specified this replaces 'mimic-postgresql' in the pgadmin4.db
+  # configuration file.
+  HELX_DB_HOSTNAME: ""
 
 appStorage:
   existingClaim: false
@@ -254,6 +265,20 @@ tycho:
     resources:
       cpus: 250m
       memory: 250Mi
+  # -- Enable/disable the external app registry file for Tycho.  Set
+  # 'django.DOCKSTORE_APPS_BRANCH' to an empty string when when using an external
+  # app registry.
+  externalAppRegistryEnabled: false
+  # -- Can be set to a git repo URL for fetching the app registry file or
+  # defaults file.  Something in the form of 
+  # 'https://github.com/helxplatform/helx-apps/raw'.
+  externalAppRegistryRepo: "https://github.com/helxplatform/helx-apps/raw"
+  # The branch that would be appended to 'appRegistryRepo' to retrieve the
+  # app registry and defaults files.  The full URL, if using the appRegistryRepo
+  # example for the app registry file would be 
+  # 'https://github.com/helxplatform/helx-apps/raw/master/app-registry.yaml'.
+  externalAppRegistryBranch: "v1.7.0"
+  externalAppRegistryAppSpecsDir: "app-specs"
 
 global:
   # -- the name of the PVC to use for user's files
