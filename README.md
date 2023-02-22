@@ -152,7 +152,7 @@ A Helm chart for Kubernetes
 | tycho.subpath_dir | string | `nil` | Name of directory to use for a user's home directory.  If null then the user's username will be used. |
 | updateStrategy.type | string | `"Recreate"` | 'RollingUpdate' or 'Recreate'. Must use Recreate if mounting PVCs due to multi-attach errors. |
 | useSparkServiceAccount | bool | `false` | Set to true, when using blackbalsam. |
-| userStorage.createPVC | bool | `false` | Create a PVC for user's files.  If false then the PVC needs to be created outside of the appstore chart. |
+| userStorage.createPVC | bool | `true` | Create a PVC for user's files.  If false then the PVC needs to be created outside of the appstore chart. |
 | userStorage.nfs.createPV | bool | `false` |  |
 | userStorage.nfs.path | string | `nil` |  |
 | userStorage.nfs.server | string | `nil` |  |
