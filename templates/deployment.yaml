@@ -453,8 +453,10 @@ spec:
           - mountPath: {{ .Values.django.TEST_USERS_PATH }}/test-users/
             name: test-users-volume
           {{- end }}
+          {{- if not .Values.postgresql.enabled }}
           - mountPath: /var/lib/sqlite3
             name: appstore-oauth-volume
+          {{- end }}
           {{- if .Values.appStorage.claimName }}
           - name: app-mounts-claim
             mountPath: /usr/src/inst-mgmt/log
@@ -470,8 +472,10 @@ spec:
           # - mountPath: {{ .Values.django.TEST_USERS_PATH }}/test-users/
           #   name: test-users-volume
           # {{- end }}
+          {{- if not .Values.postgresql.enabled }}
           - mountPath: /var/lib/sqlite3
             name: appstore-oauth-volume
+          {{- end }}
           {{- if .Values.appStorage.claimName }}
           - name: app-mounts-claim
             mountPath: /usr/src/inst-mgmt/log
@@ -511,16 +515,18 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       restartPolicy: Always
-      {{- if .Values.oauth.claimName }}
       volumes:
         # {{- if .Values.loadTest }}
         # - name: test-users-volume
         #   secret:
         #     secretName: {{ .Values.django.TEST_USERS_SECRET }}
         # {{- end }}
+      {{- if not .Values.postgresql.enabled }}
+      {{- if .Values.oauth.claimName }}
         - name: appstore-oauth-volume
           persistentVolumeClaim:
             claimName: {{ .Values.oauth.claimName }}
+      {{- end }}
       {{- end }}
       {{- if .Values.appStorage.claimName }}
         - name: app-mounts-claim

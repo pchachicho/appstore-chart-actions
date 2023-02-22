@@ -222,7 +222,7 @@ appStorage:
 userStorage:
   # -- Create a PVC for user's files.  If false then the PVC needs to be created
   # outside of the appstore chart.
-  createPVC: false
+  createPVC: true
   storageSize: 10Gi
   storageClass:
   nfs:
