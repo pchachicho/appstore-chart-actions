@@ -34,7 +34,7 @@ data:
   REACT_APP_DOCKSTORE_BRANCH: "{{ .Values.helx_ui.REACT_APP_DOCKSTORE_BRANCH }}"
   REACT_APP_HELX_SEARCH_URL: '{{ .Values.helx_ui.REACT_APP_HELX_SEARCH_URL }}'
   REACT_APP_SEMANTIC_SEARCH_ENABLED: "{{ .Values.helx_ui.REACT_APP_SEMANTIC_SEARCH_ENABLED }}"
-  REACT_APP_UI_BRAND_NAME: "{{ .Values.djangoSettings }}"
+  REACT_APP_UI_BRAND_NAME: "{{ .Values.helx_ui.REACT_APP_UI_BRAND_NAME | default ( .Values.djangoSettings ) }}"
   REACT_APP_WORKSPACES_ENABLED: "{{ .Values.helx_ui.REACT_APP_WORKSPACES_ENABLED }}"
   {{- if .Values.saml.cache.enabled }}
   SAML_METADATA_SOURCE: "{{ .Values.saml.cache.APPSTORE_DIRECTORY }}/{{ .Values.saml.cache.APPSTORE_FILE }}"

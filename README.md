@@ -65,12 +65,12 @@ A Helm chart for Kubernetes
 | global.ambassador_id | string | `nil` | specify the id of the ambassador for Tycho-launched services. |
 | global.stdnfsPvc | string | `"stdnfs"` | the name of the PVC to use for user's files |
 | gunicorn.workers | int | `5` | Set the number of gunicorn workers.  (2*CPU)+1 is recommended. |
-| helx_ui | object | `{"REACT_APP_ANALYTICS":"","REACT_APP_APPSTORE_ASSET_BRANCH":"master","REACT_APP_HELX_SEARCH_URL":"","REACT_APP_SEMANTIC_SEARCH_ENABLED":"true","REACT_APP_UI_BRAND_NAME":"","REACT_APP_WORKSPACES_ENABLED":"true"}` | Various settings for helx-ui which will get expressed as env variables in container |
+| helx_ui | object | `{"REACT_APP_ANALYTICS":"","REACT_APP_APPSTORE_ASSET_BRANCH":"master","REACT_APP_HELX_SEARCH_URL":"","REACT_APP_SEMANTIC_SEARCH_ENABLED":"false","REACT_APP_UI_BRAND_NAME":"","REACT_APP_WORKSPACES_ENABLED":"true"}` | Various settings for helx-ui which will get expressed as env variables in container |
 | helx_ui.REACT_APP_ANALYTICS | string | `""` | REACT_APP_ANALYTICS (string) HeLx Mixpanel project analytics token |
 | helx_ui.REACT_APP_APPSTORE_ASSET_BRANCH | string | `"master"` | REACT_APP_APPSTORE_ASSET_BRANCH: (string) branchname of appstore branch |
 | helx_ui.REACT_APP_HELX_SEARCH_URL | string | `""` | REACT_APP_HELX_SEARCH_URL: (url)  URL of tranql |
-| helx_ui.REACT_APP_SEMANTIC_SEARCH_ENABLED | string | `"true"` | REACT_APP_SEMANTIC_SEARCH_ENABLED: (boolean) Enable/Disable helx-ui search. |
-| helx_ui.REACT_APP_UI_BRAND_NAME | string | `""` | REACT_APP_UI_BRAND_NAME: (string) values: bdc, braini, eduhelx, eduhelx-chip690, eduhelx-sandbox, restartr, scidas, tracs |
+| helx_ui.REACT_APP_SEMANTIC_SEARCH_ENABLED | string | `"false"` | REACT_APP_SEMANTIC_SEARCH_ENABLED: (boolean) Enable/Disable helx-ui search. |
+| helx_ui.REACT_APP_UI_BRAND_NAME | string | `""` | REACT_APP_UI_BRAND_NAME: (string) defaults to the value of djangoSettings values: bdc, braini, eduhelx, eduhelx-chip690, eduhelx-sandbox, restartr, scidas, tracs |
 | helx_ui.REACT_APP_WORKSPACES_ENABLED | string | `"true"` | REACT_APP_WORKSPACES_ENABLED: (boolean) Enable/Disable workspaces |
 | image.pullPolicy | string | `"IfNotPresent"` | pull policy |
 | image.repository | string | `"containers.renci.org/helxplatform/appstore"` | repository where image is located |

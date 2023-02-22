@@ -105,8 +105,8 @@ helx_ui:
 # -- REACT_APP_HELX_SEARCH_URL: (url)  URL of tranql
   REACT_APP_HELX_SEARCH_URL: ""
 # -- REACT_APP_SEMANTIC_SEARCH_ENABLED: (boolean) Enable/Disable helx-ui search.
-  REACT_APP_SEMANTIC_SEARCH_ENABLED: "true"
-# -- REACT_APP_UI_BRAND_NAME: (string)
+  REACT_APP_SEMANTIC_SEARCH_ENABLED: "false"
+# -- REACT_APP_UI_BRAND_NAME: (string) defaults to the value of djangoSettings
 # values: bdc, braini, eduhelx, eduhelx-chip690, eduhelx-sandbox, restartr, scidas, tracs
   REACT_APP_UI_BRAND_NAME: ""
 # -- REACT_APP_WORKSPACES_ENABLED: (boolean) Enable/Disable workspaces
