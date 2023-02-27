@@ -9,8 +9,8 @@ data:
   # /var/lib/sqlite3 is used for PVC mount point.
   DJANGO_SETTINGS_MODULE: appstore.settings.{{ .Values.djangoSettings }}_settings
   # Default is always "True" on the server. Change to "False" in prod.
-  DEBUG: "True"
-  LOG_LEVEL: "{{ .Values.logLevel }}"
+  DEBUG: "{{ .Values.debug }}"
+  LOG_LEVEL: "{{ upper .Values.logLevel }}"
   OAUTH_DB_DIR: /var/lib/sqlite3
   OAUTH_DB_FILE: DATABASE.sqlite3
   ACCOUNT_DEFAULT_HTTP_PROTOCOL: "{{ .Values.ACCOUNT_DEFAULT_HTTP_PROTOCOL }}"
@@ -34,7 +34,7 @@ data:
   REACT_APP_DOCKSTORE_BRANCH: "{{ .Values.helx_ui.REACT_APP_DOCKSTORE_BRANCH }}"
   REACT_APP_HELX_SEARCH_URL: '{{ .Values.helx_ui.REACT_APP_HELX_SEARCH_URL }}'
   REACT_APP_SEMANTIC_SEARCH_ENABLED: "{{ .Values.helx_ui.REACT_APP_SEMANTIC_SEARCH_ENABLED }}"
-  REACT_APP_UI_BRAND_NAME: "{{ .Values.djangoSettings }}"
+  REACT_APP_UI_BRAND_NAME: "{{ .Values.helx_ui.REACT_APP_UI_BRAND_NAME | default ( .Values.djangoSettings ) }}"
   REACT_APP_WORKSPACES_ENABLED: "{{ .Values.helx_ui.REACT_APP_WORKSPACES_ENABLED }}"
   {{- if .Values.saml.cache.enabled }}
   SAML_METADATA_SOURCE: "{{ .Values.saml.cache.APPSTORE_DIRECTORY }}/{{ .Values.saml.cache.APPSTORE_FILE }}"
