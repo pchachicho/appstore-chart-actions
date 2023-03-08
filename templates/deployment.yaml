@@ -129,12 +129,12 @@ spec:
             configMapKeyRef:
               key: ALLOW_DJANGO_LOGIN
               name: {{ include "appstore.fullname" . }}-env
-        {{- if .Values.saml.AUTHORITY_URL }}
         - name: ALLOW_SAML_LOGIN
           valueFrom:
             configMapKeyRef:
               key: ALLOW_SAML_LOGIN
               name: {{ include "appstore.fullname" . }}-env
+        {{- if .Values.saml.AUTHORITY_URL }}
         - name: SAML2_AUTH_ASSERTION_URL
           valueFrom:
             configMapKeyRef:
