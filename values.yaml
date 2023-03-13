@@ -213,9 +213,8 @@ apps:
   # configuration file.
   HELX_DB_HOSTNAME: ""
 
+# -- Settings for default django db sqlite3 oauth pvc storage, if postgreql is not enabled
 appStorage:
-  existingClaim: false
-  claimName:
   storageSize: 2Gi
   storageClass:
 
