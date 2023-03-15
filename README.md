@@ -1,6 +1,6 @@
 # appstore
 
-![Version: 1.7.1](https://img.shields.io/badge/Version-1.7.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.0](https://img.shields.io/badge/AppVersion-2.0.0-informational?style=flat-square)
+![Version: 1.7.2](https://img.shields.io/badge/Version-1.7.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.0](https://img.shields.io/badge/AppVersion-2.0.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -30,7 +30,9 @@ A Helm chart for Kubernetes
 | apps.FLYWAY_DATASOURCE_PASSWORD | string | `""` |  |
 | apps.FLYWAY_DATASOURCE_USERNAME | string | `"ohdsi"` |  |
 | apps.HELX_DB_HOSTNAME | string | `""` | Specify the database hostname used for pgAdmin's clients to connect to. If specified this replaces 'mimic-postgresql' in the pgadmin4.db configuration file. |
+| apps.PGADMIN_DISABLE_POSTFIX | string | `"true"` |  |
 | apps.PGADMIN_EMAIL | string | `"user@domain.com"` | Specify email for pgAdmin user. |
+| apps.PGADMIN_LISTEN_PORT | string | `"80"` |  |
 | apps.WEBTOP_PGID | string | `"1000"` | PGID variable in webtop specifies the GID to switch the user to after initialization. |
 | apps.WEBTOP_PUID | string | `"1000"` | PUID variable in webtop specifies the UID to switch the user to after initialization. |
 | appstoreEntrypointArgs | string | `"make start"` | Allow for a custom entrypoint command via the values file. |
