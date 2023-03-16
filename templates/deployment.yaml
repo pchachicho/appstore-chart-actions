@@ -27,15 +27,14 @@ spec:
         {{- end }}
     spec:
       serviceAccountName: {{ include "appstore.fullname" . }}-sa
-      initContainers:
       {{- if .Values.securityContext }}
       securityContext:
         runAsUser: {{ .Values.securityContext.runAsUser }}
         runAsGroup: {{ .Values.securityContext.runAsGroup }}
         fsGroup: {{ .Values.securityContext.fsGroup }}
       {{- end }}
-      {{- if .Values.postgresql.enabled }}
       initContainers:
+      {{- if .Values.postgresql.enabled }}
       - name: wait-for-postgresql
         image: postgres:11
         command:
