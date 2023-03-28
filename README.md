@@ -1,6 +1,6 @@
 # appstore
 
-![Version: 1.7.0](https://img.shields.io/badge/Version-1.7.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.0](https://img.shields.io/badge/AppVersion-2.0.0-informational?style=flat-square)
+![Version: 1.7.1](https://img.shields.io/badge/Version-1.7.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.0](https://img.shields.io/badge/AppVersion-2.0.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -97,7 +97,6 @@ A Helm chart for Kubernetes
 | oauth.GOOGLE_SITES | string | `""` |  |
 | oauth.OAUTH_PROVIDERS | string | `""` | oauth providers separated by commas (google, github) |
 | oauth.claimName | string | `"appstore-oauth-pvc"` |  |
-| oauth.existingClaim | bool | `false` |  |
 | oauth.storageClass | string | `nil` |  |
 | podAnnotations | object | `{}` |  |
 | postgresql | object | `{"audit":{"logConnections":true,"logHostname":true},"enabled":true,"global":{"postgresql":{"auth":{"database":"appstore-oauth","password":"renciAdmin","postgresPassword":"adminPass","username":"renci"}}},"networkPolicyEnabled":true,"persistence":{"existingClaim":"appstore-postgresql-pvc","storageClass":null},"primary":{"labels":{"np-label":"appstore-db"},"podLabels":{"np-label":"appstore-db"}},"volumePermissions":{"enabled":true}}` | postgresql settings |

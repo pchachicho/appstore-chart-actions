@@ -151,7 +151,6 @@ django:
   DEV_PHASE: "live"
 
 oauth:
-  existingClaim: false
   claimName: appstore-oauth-pvc
   storageClass:
   # -- oauth providers separated by commas (google, github)
