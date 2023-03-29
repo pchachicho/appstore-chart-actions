@@ -456,7 +456,7 @@ spec:
           - mountPath: /var/lib/sqlite3
             name: appstore-oauth-volume
           {{- end }}
-          {{- if .Values.appStorage.claimName }}
+          {{- if .Values.appStorage.enabled }}
           - name: app-mounts-claim
             mountPath: /usr/src/inst-mgmt/log
             subPath: log
@@ -498,12 +498,20 @@ spec:
       {{- if not .Values.postgresql.enabled }}
         - name: appstore-oauth-volume
           persistentVolumeClaim:
+            {{- if .Values.oauth.claimName }}
             claimName: {{ .Values.oauth.claimName }}
+            {{- else }}
+            claimName: appstore-oauth-pvc
+            {{- end }}
       {{- end }}
-      {{- if .Values.appStorage.claimName }}
+      {{- if .Values.appStorage.enabled }}
         - name: app-mounts-claim
           persistentVolumeClaim:
+            {{- if .Values.appStorage.claimName }}
             claimName: {{ .Values.appStorage.claimName }}
+            {{- else }}
+            claimName: appstore-logs-pvc
+            {{- end }}
       {{- end }}
       {{- if and .Values.saml.cache.enabled .Values.saml.cache.claimName }}
         - name: saml-claim

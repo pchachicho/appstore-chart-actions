@@ -1,9 +1,12 @@
 {{- if not .Values.postgresql.enabled }}
-{{- if not .Values.oauth.existingClaim }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
+  {{- if .Values.oauth.claimName }}
   name: {{ .Values.oauth.claimName }}
+  {{- else }}
+  name: appstore-oauth-pvc
+  {{- end }}
   labels:
     {{- include "appstore.labels" . | nindent 4 }}
 spec:
@@ -15,5 +18,4 @@ spec:
   {{ if .Values.oauth.storageClass }}
   storageClassName: {{ .Values.oauth.storageClass }}
   {{- end }}
-{{- end }}
 {{- end }}

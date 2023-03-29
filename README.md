@@ -18,7 +18,9 @@ A Helm chart for Kubernetes
 | SET_BUILD_ENV_FROM_FILE | bool | `false` | Set environment variables from a file. |
 | affinity | object | `{}` |  |
 | ambassador.flag | bool | `true` | register appstore with ambassador flag: <True or False> |
-| appStorage | object | `{"storageClass":null,"storageSize":"2Gi"}` | Settings for default django db sqlite3 oauth pvc storage, if postgreql is not enabled |
+| appStorage | object | `{"claimName":null,"enable":false,"existingClaim":false,"storageClass":null,"storageSize":"2Gi"}` | Settings for django logs persistence. |
+| appStorage.claimName | string | `nil` | Specify the claim name if it pre-exists or it defaults to appstore-logs-pvc. |
+| appStorage.existingClaim | bool | `false` | Set to true if a claim has been created outside of the appstore chart. |
 | apps.DATASOURCE_CONNECTION_URL | string | `""` |  |
 | apps.DATASOURCE_PASSWORD | string | `""` |  |
 | apps.DATASOURCE_USERNAME | string | `"ohdsi"` |  |
@@ -96,7 +98,7 @@ A Helm chart for Kubernetes
 | oauth.GOOGLE_SECRET | string | `""` |  |
 | oauth.GOOGLE_SITES | string | `""` |  |
 | oauth.OAUTH_PROVIDERS | string | `""` | oauth providers separated by commas (google, github) |
-| oauth.claimName | string | `"appstore-oauth-pvc"` |  |
+| oauth.claimName | string | `nil` | If a claim name is not specified, it defaults to appstore-oauth-pvc. |
 | oauth.storageClass | string | `nil` |  |
 | podAnnotations | object | `{}` |  |
 | postgresql | object | `{"audit":{"logConnections":true,"logHostname":true},"enabled":true,"global":{"postgresql":{"auth":{"database":"appstore-oauth","password":"renciAdmin","postgresPassword":"adminPass","username":"renci"}}},"networkPolicyEnabled":true,"persistence":{"existingClaim":"appstore-postgresql-pvc","storageClass":null},"primary":{"labels":{"np-label":"appstore-db"},"podLabels":{"np-label":"appstore-db"}},"volumePermissions":{"enabled":true}}` | postgresql settings |

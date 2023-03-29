@@ -151,7 +151,9 @@ django:
   DEV_PHASE: "live"
 
 oauth:
-  claimName: appstore-oauth-pvc
+  # -- Settings for django sqlite3 db file persistence, if postgresql is not enabled (postgresql.enabled: false).
+  # -- If a claim name is not specified, it defaults to appstore-oauth-pvc.
+  claimName:
   storageClass:
   # -- oauth providers separated by commas (google, github)
   OAUTH_PROVIDERS: ""
@@ -212,8 +214,13 @@ apps:
   # configuration file.
   HELX_DB_HOSTNAME: ""
 
-# -- Settings for default django db sqlite3 oauth pvc storage, if postgreql is not enabled
+# -- Settings for django logs persistence.
 appStorage:
+  enable: false
+  # -- Set to true if a claim has been created outside of the appstore chart.
+  existingClaim: false
+  # -- Specify the claim name if it pre-exists or it defaults to appstore-logs-pvc.
+  claimName:
   storageSize: 2Gi
   storageClass:
 

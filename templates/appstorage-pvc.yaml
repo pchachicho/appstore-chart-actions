@@ -1,9 +1,13 @@
-{{- if not .Values.postgresql.enabled }}
-{{- if .Values.appStorage.claimName }}
+{{- if .Values.appStorage.enabled }}
+{{- if not .Values.appStorage.existingClaim }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: appstore-oauth-volume
+  {{- if .Values.appStorage.claimName }}
+  name: {{ .Values.appStorage.claimName }}
+  {{- else }}
+  name: appstore-logs-pvc
+  {{- end }}
   labels:
     {{- include "appstore.labels" . | nindent 4 }}
 spec:
