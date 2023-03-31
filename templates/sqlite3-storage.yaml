@@ -2,10 +2,10 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  {{- if .Values.oauth.claimName }}
-  name: {{ .Values.oauth.claimName }}
+  {{- if .Values.sqliteStorage.claimName }}
+  name: {{ .Values.sqliteStorage.claimName }}
   {{- else }}
-  name: appstore-oauth-pvc
+  name: appstore-sqlite-pvc
   {{- end }}
   labels:
     {{- include "appstore.labels" . | nindent 4 }}

@@ -454,10 +454,10 @@ spec:
           {{- end }}
           {{- if not .Values.postgresql.enabled }}
           - mountPath: /var/lib/sqlite3
-            name: appstore-oauth-volume
+            name: appstore-sqlite-volume
           {{- end }}
-          {{- if .Values.appStorage.enabled }}
-          - name: app-mounts-claim
+          {{- if .Values.logsStorage.enabled }}
+          - name: appstore-logs-volume
             mountPath: /usr/src/inst-mgmt/log
             subPath: log
           {{- end}}
@@ -496,19 +496,19 @@ spec:
       restartPolicy: Always
       volumes:
       {{- if not .Values.postgresql.enabled }}
-        - name: appstore-oauth-volume
+        - name: appstore-sqlite-volume
           persistentVolumeClaim:
-            {{- if .Values.oauth.claimName }}
-            claimName: {{ .Values.oauth.claimName }}
+            {{- if .Values.sqliteStorage.claimName }}
+            claimName: {{ .Values.sqliteStorage.claimName }}
             {{- else }}
-            claimName: appstore-oauth-pvc
+            claimName: appstore-sqlite-pvc
             {{- end }}
       {{- end }}
-      {{- if .Values.appStorage.enabled }}
-        - name: app-mounts-claim
+      {{- if .Values.logsStorage.enabled }}
+        - name: appstore-logs-volume
           persistentVolumeClaim:
-            {{- if .Values.appStorage.claimName }}
-            claimName: {{ .Values.appStorage.claimName }}
+            {{- if .Values.logsStorage.claimName }}
+            claimName: {{ .Values.logsStorage.claimName }}
             {{- else }}
             claimName: appstore-logs-pvc
             {{- end }}
