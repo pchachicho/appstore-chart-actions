@@ -1,6 +1,7 @@
 # appstore
 
-![Version: 1.7.3](https://img.shields.io/badge/Version-1.7.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.0](https://img.shields.io/badge/AppVersion-2.0.0-informational?style=flat-square)
+![Version: 1.7.4](https://img.shields.io/badge/Version-1.7.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.0](https://img.shields.io/badge/AppVersion-2.0.0-informational?style=flat-square)
+
 
 A Helm chart for Kubernetes
 
@@ -79,13 +80,19 @@ A Helm chart for Kubernetes
 | image.tag | string | `nil` | Overrides the image tag whose default is the chart appVersion. Set to "" before release! |
 | imagePullSecrets | list | `[]` | credentials for a private repo |
 | irods.BRAINI_RODS | string | `""` |  |
-| irods.IROD_APPROVED_USERS | string | `""` |  |
 | irods.IROD_COLLECTIONS | string | `""` |  |
 | irods.IROD_ZONE | string | `""` |  |
 | irods.NRC_MICROSCOPY_IRODS | string | `""` |  |
 | irods.RODS_PASSWORD | string | `""` |  |
 | irods.RODS_USERNAME | string | `""` |  |
 | irods.enabled | bool | `false` | enable irods support (true | false) |
+| irodsUnbranded.IROD_HOST | string | `""` |  |
+| irodsUnbranded.IROD_PORT | string | `""` |  |
+| irodsUnbranded.IROD_USER_VALUES | object | `{}` |  |
+| irodsUnbranded.IROD_ZONE | string | `""` |  |
+| irodsUnbranded.RODS_PASSWORD | string | `""` |  |
+| irodsUnbranded.RODS_USERNAME | string | `""` |  |
+| irodsUnbranded.enabled | bool | `false` |  |
 | logLevel | string | `"WARNING"` | Set the log level for the application.  (DEBUG INFO WARNING ERROR CRITICAL) |
 | nameOverride | string | `""` |  |
 | networkPolicyLabels.role | string | `"appstore"` |  |

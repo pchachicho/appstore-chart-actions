@@ -327,6 +327,38 @@ spec:
               key: IROD_APPROVED_USERS
               name: {{ include "appstore.fullname" . }}
         {{- end }}
+        {{- if .Values.irodsUnbranded.enabled }}
+        - name: IROD_HOST
+          valueFrom:
+            secretKeyRef:
+              key: IROD_HOST
+              name: {{ include "appstore.fullname" . }}
+        - name: RODS_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: RODS_USERNAME
+              name: {{ include "appstore.fullname" . }}
+        - name: RODS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: RODS_PASSWORD
+              name: {{ include "appstore.fullname" . }}
+        - name: IROD_ZONE
+          valueFrom:
+            secretKeyRef:
+              key: IROD_ZONE
+              name: {{ include "appstore.fullname" . }}
+        - name: IROD_PORT
+          valueFrom:
+            secretKeyRef:
+              key: IROD_PORT
+              name: {{ include "appstore.fullname" . }}
+        - name: NFSRODS_HOST
+          valueFrom:
+            secretKeyRef:
+              key: NFSRODS_HOST
+              name: {{ include "appstore.fullname" . }}
+        {{- end }}
         - name: EMAIL_HOST_USER
           valueFrom:
             secretKeyRef:
@@ -465,6 +497,10 @@ spec:
           - name: saml-claim
             mountPath: {{ .Values.saml.cache.APPSTORE_DIRECTORY }}
           {{- end }}
+          {{- if .Values.irodsUnbranded.enabled }}
+          - mountPath: /etc/iroduserdata
+            name: irod-user-volume
+      {{- end}}
       {{- else if .Values.oauth.claimName }}
         volumeMounts:
           # {{- if .Values.loadTest }}
@@ -484,6 +520,10 @@ spec:
           - name: saml-claim
             mountPath: {{ .Values.saml.cache.APPSTORE_DIRECTORY }}
           {{- end }}
+          {{- if .Values.irodsUnbranded.enabled }}
+          - mountPath: /etc/iroduserdata
+            name: irod-user-volume
+      {{- end}}
       {{- end }}
       {{- if .Values.saml.cache.enabled }}
       - name: {{ .Chart.Name }}-saml-fetch
@@ -536,4 +576,12 @@ spec:
         - name: saml-claim
           persistentVolumeClaim:
             claimName: {{ .Values.saml.cache.claimName }}
+      {{- end }}
+      {{- if .Values.irodsUnbranded.enabled }}
+        - configMap:
+            name: appstore-nfsrods
+            items:
+              - key: iroduserdata
+                path: iroduserdata
+          name: irod-user-volume
       {{- end }}
