@@ -27,15 +27,22 @@ spec:
         {{- end }}
     spec:
       serviceAccountName: {{ include "appstore.fullname" . }}-sa
-      initContainers:
       {{- if .Values.securityContext }}
       securityContext:
         runAsUser: {{ .Values.securityContext.runAsUser }}
         runAsGroup: {{ .Values.securityContext.runAsGroup }}
         fsGroup: {{ .Values.securityContext.fsGroup }}
       {{- end }}
+      initContainers:
+      {{- if .Values.postgresql.enabled }}
+      - name: wait-for-postgresql
+        image: postgres:11
+        command:
+          - sh
+          - -c
+          - until pg_isready -h {{ .Release.Name }}-postgresql  -p 5432 -U postgres; do echo "waiting for postgresql"; sleep 5; done
+      {{- end }}
       containers:
-      
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default (printf "v%s" .Chart.AppVersion) }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -121,12 +128,12 @@ spec:
             configMapKeyRef:
               key: ALLOW_DJANGO_LOGIN
               name: {{ include "appstore.fullname" . }}-env
-        {{- if .Values.saml.AUTHORITY_URL }}
         - name: ALLOW_SAML_LOGIN
           valueFrom:
             configMapKeyRef:
               key: ALLOW_SAML_LOGIN
               name: {{ include "appstore.fullname" . }}-env
+        {{- if .Values.saml.AUTHORITY_URL }}
         - name: SAML2_AUTH_ASSERTION_URL
           valueFrom:
             configMapKeyRef:
@@ -436,6 +443,20 @@ spec:
           value: "{{- .Values.tycho.runAsGroup }}"
         - name: TYCHO_APP_FS_GROUP
           value: "{{- .Values.tycho.fsGroup }}"
+        - name: EXTERNAL_TYCHO_APP_REGISTRY_ENABLED
+          value: "{{- .Values.tycho.externalAppRegistryEnabled }}"
+        - name: EXTERNAL_TYCHO_APP_REGISTRY_REPO
+          value: "{{- .Values.tycho.externalAppRegistryRepo }}"
+        - name: EXTERNAL_TYCHO_APP_REGISTRY_BRANCH
+          value: "{{ .Values.tycho.externalAppRegistryBranch | default (printf "v%s" .Chart.AppVersion) }}"
+        - name: EXTERNAL_TYCHO_APP_REGISTRY_APP_SPECS_DIR
+          value: "{{- .Values.tycho.externalAppRegistryAppSpecsDir }}"
+        - name: DOCKSTORE_APP_SPECS_DIR_URL
+          {{- if .Values.tycho.externalAppRegistryEnabled }}
+          value: "{{- .Values.tycho.externalAppRegistryRepo }}/{{ .Values.tycho.externalAppRegistryBranch | default (printf "v%s" .Chart.AppVersion) }}/{{- .Values.tycho.externalAppRegistryAppSpecsDir }}"
+          {{- else }}
+          value: "{{- .Values.tycho.externalAppRegistryRepo }}/{{- .Values.django.DOCKSTORE_APPS_BRANCH }}/{{- .Values.tycho.externalAppRegistryAppSpecsDir }}"
+          {{- end }}
         - name: INIT_SC_RUN_AS_USER
           value: "{{- .Values.tycho.initRunAsUser }}"
         - name: INIT_SC_RUN_AS_GROUP
@@ -463,8 +484,10 @@ spec:
           - mountPath: {{ .Values.django.TEST_USERS_PATH }}/test-users/
             name: test-users-volume
           {{- end }}
+          {{- if not .Values.postgresql.enabled }}
           - mountPath: /var/lib/sqlite3
             name: appstore-oauth-volume
+          {{- end }}
           {{- if .Values.appStorage.claimName }}
           - name: app-mounts-claim
             mountPath: /usr/src/inst-mgmt/log
@@ -484,8 +507,10 @@ spec:
           # - mountPath: {{ .Values.django.TEST_USERS_PATH }}/test-users/
           #   name: test-users-volume
           # {{- end }}
+          {{- if not .Values.postgresql.enabled }}
           - mountPath: /var/lib/sqlite3
             name: appstore-oauth-volume
+          {{- end }}
           {{- if .Values.appStorage.claimName }}
           - name: app-mounts-claim
             mountPath: /usr/src/inst-mgmt/log
@@ -529,16 +554,18 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       restartPolicy: Always
-      {{- if .Values.oauth.claimName }}
       volumes:
         # {{- if .Values.loadTest }}
         # - name: test-users-volume
         #   secret:
         #     secretName: {{ .Values.django.TEST_USERS_SECRET }}
         # {{- end }}
+      {{- if not .Values.postgresql.enabled }}
+      {{- if .Values.oauth.claimName }}
         - name: appstore-oauth-volume
           persistentVolumeClaim:
             claimName: {{ .Values.oauth.claimName }}
+      {{- end }}
       {{- end }}
       {{- if .Values.appStorage.claimName }}
         - name: app-mounts-claim

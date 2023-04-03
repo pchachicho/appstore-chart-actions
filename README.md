@@ -1,6 +1,7 @@
 # appstore
 
-![Version: 1.6.4](https://img.shields.io/badge/Version-1.6.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.6.0](https://img.shields.io/badge/AppVersion-1.6.0-informational?style=flat-square)
+![Version: 1.7.4](https://img.shields.io/badge/Version-1.7.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.0](https://img.shields.io/badge/AppVersion-2.0.0-informational?style=flat-square)
+
 
 A Helm chart for Kubernetes
 
@@ -29,6 +30,10 @@ A Helm chart for Kubernetes
 | apps.FLYWAY_DATASOURCE_CONNECTION_URL | string | `""` |  |
 | apps.FLYWAY_DATASOURCE_PASSWORD | string | `""` |  |
 | apps.FLYWAY_DATASOURCE_USERNAME | string | `"ohdsi"` |  |
+| apps.HELX_DB_HOSTNAME | string | `""` | Specify the database hostname used for pgAdmin's clients to connect to. If specified this replaces 'mimic-postgresql' in the pgadmin4.db configuration file. |
+| apps.PGADMIN_DISABLE_POSTFIX | string | `"true"` |  |
+| apps.PGADMIN_EMAIL | string | `"user@domain.com"` | Specify email for pgAdmin user. |
+| apps.PGADMIN_LISTEN_PORT | string | `"80"` |  |
 | apps.WEBTOP_PGID | string | `"1000"` | PGID variable in webtop specifies the GID to switch the user to after initialization. |
 | apps.WEBTOP_PUID | string | `"1000"` | PUID variable in webtop specifies the UID to switch the user to after initialization. |
 | appstoreEntrypointArgs | string | `"make start"` | Allow for a custom entrypoint command via the values file. |
@@ -37,14 +42,15 @@ A Helm chart for Kubernetes
 | artillery.loadTest | bool | `false` |  |
 | artillery.smokeTest | bool | `false` | When either smokeTest or loadTest is true, set CREATE_TEST_USERS, TEST_USERS_PATH under django settings. |
 | db | object | `{"host":"postgresql","name":"appstore","port":5432}` | appstore database settings |
+| debug | string | `""` |  |
 | django.ALLOW_DJANGO_LOGIN | string | `""` | show Django log in fields (true | false) |
 | django.ALLOW_SAML_LOGIN | string | `""` | show SAML log in fields (true | false) |
 | django.APPSTORE_DJANGO_PASSWORD | string | `""` |  |
 | django.APPSTORE_DJANGO_USERNAME | string | `"admin"` |  |
 | django.AUTHORIZED_USERS | string | `""` | user emails for oauth providers |
 | django.CREATE_TEST_USERS | string | `"false"` | create test users for load testing |
-| django.DEV_PHASE | string | `"prod"` |  |
-| django.DOCKSTORE_APPS_BRANCH | string | `"v1.6.0"` | Defaults to "master". Specify "develop" to switch. |
+| django.DEV_PHASE | string | `"live"` | should be 'live' unless you are doing some kind of development |
+| django.DOCKSTORE_APPS_BRANCH | string | `"v1.6.0"` | Specify the git branch to use for HeLx app specifications.  When declaring 'tycho.externalAppRegistryRepo' leave this as an empty string. |
 | django.EMAIL_HOST_PASSWORD | string | `""` | password of account to use for outgoing emails |
 | django.EMAIL_HOST_USER | string | `""` | email of account to use for outgoing emails |
 | django.IMAGE_DOWNLOAD_URL | string | `""` | Specify URL to use for the "Image Download" link on the top part of website. |
@@ -53,7 +59,7 @@ A Helm chart for Kubernetes
 | django.SESSION_IDLE_TIMEOUT | int | `3600` | idle timeout for user web session |
 | django.TEST_USERS_PATH | string | `"/usr/src/inst-mgmt/artillery-tests/payloads"` | parent directory where the users.txt would be mounted |
 | django.TEST_USERS_SECRET | string | `"test-users-secret"` | secret file deployed on the cluster to fetch the test users |
-| djangoSettings | string | `"bdc"` | set the theme for appstore (bdc, braini, restartr, scidas) |
+| djangoSettings | string | `"helx"` | set the theme for appstore (bdc, braini, restartr, scidas) |
 | extraEnv | object | `{}` |  |
 | fetcherImage.pullPolicy | string | `"IfNotPresent"` | pull policy |
 | fetcherImage.repository | string | `"helxplatform/url-fetch"` | repository where image is located |
@@ -61,17 +67,17 @@ A Helm chart for Kubernetes
 | fullnameOverride | string | `""` |  |
 | global.ambassador_id | string | `nil` | specify the id of the ambassador for Tycho-launched services. |
 | global.stdnfsPvc | string | `"stdnfs"` | the name of the PVC to use for user's files |
-| gunicorn.workers | int | `5` | Set the number of gunicorn workers. |
-| helx_ui | object | `{"REACT_APP_ANALYTICS":"","REACT_APP_APPSTORE_ASSET_BRANCH":"master","REACT_APP_HELX_SEARCH_URL":"","REACT_APP_SEMANTIC_SEARCH_ENABLED":"true","REACT_APP_UI_BRAND_NAME":"","REACT_APP_WORKSPACES_ENABLED":"true"}` | Various settings for helx-ui which will get expressed as env variables in container |
+| gunicorn.workers | int | `5` | Set the number of gunicorn workers.  (2*CPU)+1 is recommended. |
+| helx_ui | object | `{"REACT_APP_ANALYTICS":"","REACT_APP_APPSTORE_ASSET_BRANCH":"master","REACT_APP_HELX_SEARCH_URL":"","REACT_APP_SEMANTIC_SEARCH_ENABLED":"false","REACT_APP_UI_BRAND_NAME":"","REACT_APP_WORKSPACES_ENABLED":"true"}` | Various settings for helx-ui which will get expressed as env variables in container |
 | helx_ui.REACT_APP_ANALYTICS | string | `""` | REACT_APP_ANALYTICS (string) HeLx Mixpanel project analytics token |
 | helx_ui.REACT_APP_APPSTORE_ASSET_BRANCH | string | `"master"` | REACT_APP_APPSTORE_ASSET_BRANCH: (string) branchname of appstore branch |
 | helx_ui.REACT_APP_HELX_SEARCH_URL | string | `""` | REACT_APP_HELX_SEARCH_URL: (url)  URL of tranql |
-| helx_ui.REACT_APP_SEMANTIC_SEARCH_ENABLED | string | `"true"` | REACT_APP_SEMANTIC_SEARCH_ENABLED: (boolean) Enable/Disable helx-ui search. |
-| helx_ui.REACT_APP_UI_BRAND_NAME | string | `""` | REACT_APP_UI_BRAND_NAME: (string) values: cat, braini, eduhelx, eduhelx-chip690, eduhelx-sandbox, restartr, scidas, tracs |
+| helx_ui.REACT_APP_SEMANTIC_SEARCH_ENABLED | string | `"false"` | REACT_APP_SEMANTIC_SEARCH_ENABLED: (boolean) Enable/Disable helx-ui search. |
+| helx_ui.REACT_APP_UI_BRAND_NAME | string | `""` | REACT_APP_UI_BRAND_NAME: (string) defaults to the value of djangoSettings values: bdc, braini, eduhelx, eduhelx-chip690, eduhelx-sandbox, restartr, scidas, tracs |
 | helx_ui.REACT_APP_WORKSPACES_ENABLED | string | `"true"` | REACT_APP_WORKSPACES_ENABLED: (boolean) Enable/Disable workspaces |
 | image.pullPolicy | string | `"IfNotPresent"` | pull policy |
 | image.repository | string | `"containers.renci.org/helxplatform/appstore"` | repository where image is located |
-| image.tag | string | `nil` |  |
+| image.tag | string | `nil` | Overrides the image tag whose default is the chart appVersion. Set to "" before release! |
 | imagePullSecrets | list | `[]` | credentials for a private repo |
 | irods.BRAINI_RODS | string | `""` |  |
 | irods.IROD_COLLECTIONS | string | `""` |  |
@@ -87,7 +93,7 @@ A Helm chart for Kubernetes
 | irodsUnbranded.RODS_PASSWORD | string | `""` |  |
 | irodsUnbranded.RODS_USERNAME | string | `""` |  |
 | irodsUnbranded.enabled | bool | `false` |  |
-| logLevel | string | `"info"` | Set the log level for the application. Overriden to be "debug" if DEBUG setting is true in the configmap. |
+| logLevel | string | `"WARNING"` | Set the log level for the application.  (DEBUG INFO WARNING ERROR CRITICAL) |
 | nameOverride | string | `""` |  |
 | networkPolicyLabels.role | string | `"appstore"` |  |
 | nodeSelector | object | `{}` |  |
@@ -113,9 +119,9 @@ A Helm chart for Kubernetes
 | postgresql.persistence | object | `{"existingClaim":"appstore-postgresql-pvc","storageClass":null}` | postgresql persistence storage |
 | postgresql.primary | object | `{"labels":{"np-label":"appstore-db"},"podLabels":{"np-label":"appstore-db"}}` | postgresql labels |
 | replicaCount | int | `1` |  |
-| resources.limits.cpu | string | `"400m"` |  |
-| resources.limits.memory | string | `"625Mi"` |  |
-| resources.requests.cpu | string | `"100m"` |  |
+| resources.limits.cpu | string | `"500m"` |  |
+| resources.limits.memory | string | `"1024Mi"` |  |
+| resources.requests.cpu | string | `"200m"` |  |
 | resources.requests.memory | string | `"300Mi"` |  |
 | saml.ASSERTION_URL | string | `""` |  |
 | saml.AUTHORITY_URL | string | `""` |  |
@@ -140,6 +146,10 @@ A Helm chart for Kubernetes
 | tolerations | list | `[]` |  |
 | tycho.createHomeDirs | bool | `true` | Create Home and shared directories for users. |
 | tycho.enableInitContainer | bool | `true` | Start the init container to take care of any needed tasks before the main container is started.  This can be to create certain directories or set file permissions. |
+| tycho.externalAppRegistryAppSpecsDir | string | `"app-specs"` |  |
+| tycho.externalAppRegistryBranch | string | `nil` | The branch that would be appended to 'externalAppRegistryRepo' to retrieve the app registry and defaults files.  The full URL, if using the externalAppRegistryRepo example for the app registry file would be  'https://github.com/helxplatform/helx-apps/raw/master/app-registry.yaml'. The default value is the AppVersion of this chart prefixed with a 'v' (ex. v2.0.0). |
+| tycho.externalAppRegistryEnabled | bool | `false` | Enable/disable the external app registry file for Tycho.  Set 'django.DOCKSTORE_APPS_BRANCH' to an empty string when when using an external app registry. |
+| tycho.externalAppRegistryRepo | string | `"https://github.com/helxplatform/helx-apps/raw"` | Can be set to a git repo URL for fetching the app registry file or defaults file.  Something in the form of  'https://github.com/helxplatform/helx-apps/raw'. |
 | tycho.fsGroup | int | `0` | Application processes launched will also be part of this supplimentary group. |
 | tycho.init | object | `{"resources":{"cpus":"250m","memory":"250Mi"}}` | Resource for Tycho init container. Defaults cpus|250m memory|250Mi |
 | tycho.initRunAsGroup | int | `0` | Init processes will have this group permissions. |
@@ -151,7 +161,7 @@ A Helm chart for Kubernetes
 | tycho.subpath_dir | string | `nil` | Name of directory to use for a user's home directory.  If null then the user's username will be used. |
 | updateStrategy.type | string | `"Recreate"` | 'RollingUpdate' or 'Recreate'. Must use Recreate if mounting PVCs due to multi-attach errors. |
 | useSparkServiceAccount | bool | `false` | Set to true, when using blackbalsam. |
-| userStorage.createPVC | bool | `false` | Create a PVC for user's files.  If false then the PVC needs to be created outside of the appstore chart. |
+| userStorage.createPVC | bool | `true` | Create a PVC for user's files.  If false then the PVC needs to be created outside of the appstore chart. |
 | userStorage.nfs.createPV | bool | `false` |  |
 | userStorage.nfs.path | string | `nil` |  |
 | userStorage.nfs.server | string | `nil` |  |
