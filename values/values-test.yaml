@@ -3,13 +3,14 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL: https
 django:
   ALLOW_SAML_LOGIN: true
   DEV_PHASE: dev
-  DOCKSTORE_APPS_BRANCH: "develop"
+  DOCKSTORE_APPS_BRANCH:
   AUTHORIZED_USERS: "pjl@email.unc.edu,pjl@renci.org,pjl@unc.edu,tcheek@renci.org"
 
-# image:
-#   tag: 
+image:
+  tag: develop
+  pullPolicy: Always
 
-djangoSettings: eduhelx
+djangoSettings: eduhelx-dev
 
 fetcherImage:
   repository: wateim/url-fetch
@@ -36,13 +37,13 @@ saml:
      storageSize: "50M"
      FETCH_INTERVAL: 3600000
 
-userStorage:
-  createPVC: true
-
 tycho:
   runAsUser: 30000
   runAsGroup: 1136
   fsGroup: 1136
+  externalAppRegistryEnabled: true
+  externalAppRegistryRepo: "https://github.com/helxplatform/helx-apps/raw"
+  externalAppRegistryBranch: "eduhelx-dev_brand"
 
 global:
   stdnfsPvc: helx-dev-projects-helx-users-pvc
