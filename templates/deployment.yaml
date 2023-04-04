@@ -321,11 +321,6 @@ spec:
             secretKeyRef:
               key: IROD_ZONE
               name: {{ include "appstore.fullname" . }}
-        # - name: IROD_APPROVED_USERS
-        #   valueFrom:
-        #     secretKeyRef:
-        #       key: IROD_APPROVED_USERS
-        #       name: {{ include "appstore.fullname" . }}
         {{- end }}
         {{- if .Values.irodsUnbranded.enabled }}
         - name: IROD_HOST
