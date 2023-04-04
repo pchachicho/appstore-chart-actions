@@ -1,7 +1,6 @@
 # appstore
 
-![Version: 1.7.4](https://img.shields.io/badge/Version-1.7.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.0](https://img.shields.io/badge/AppVersion-2.0.0-informational?style=flat-square)
-
+![Version: 1.7.4](https://img.shields.io/badge/Version-1.7.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.0](https://img.shields.io/badge/AppVersion-2.0.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -90,6 +89,7 @@ A Helm chart for Kubernetes
 | irodsUnbranded.IROD_PORT | string | `""` |  |
 | irodsUnbranded.IROD_USER_VALUES | object | `{}` |  |
 | irodsUnbranded.IROD_ZONE | string | `""` |  |
+| irodsUnbranded.NFSRODS_HOST | string | `""` |  |
 | irodsUnbranded.RODS_PASSWORD | string | `""` |  |
 | irodsUnbranded.RODS_USERNAME | string | `""` |  |
 | irodsUnbranded.enabled | bool | `false` |  |
