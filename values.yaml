@@ -193,7 +193,7 @@ irods:
 
 
 irodsUnbranded:
-  enabled: False
+  enabled: false
   RODS_USERNAME: ""
   RODS_PASSWORD: ""
   IROD_ZONE: ""
