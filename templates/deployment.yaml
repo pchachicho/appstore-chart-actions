@@ -27,15 +27,14 @@ spec:
         {{- end }}
     spec:
       serviceAccountName: {{ include "appstore.fullname" . }}-sa
-      initContainers:
       {{- if .Values.securityContext }}
       securityContext:
         runAsUser: {{ .Values.securityContext.runAsUser }}
         runAsGroup: {{ .Values.securityContext.runAsGroup }}
         fsGroup: {{ .Values.securityContext.fsGroup }}
       {{- end }}
-      {{- if .Values.postgresql.enabled }}
       initContainers:
+      {{- if .Values.postgresql.enabled }}
       - name: wait-for-postgresql
         image: postgres:11
         command:
@@ -129,12 +128,12 @@ spec:
             configMapKeyRef:
               key: ALLOW_DJANGO_LOGIN
               name: {{ include "appstore.fullname" . }}-env
-        {{- if .Values.saml.AUTHORITY_URL }}
         - name: ALLOW_SAML_LOGIN
           valueFrom:
             configMapKeyRef:
               key: ALLOW_SAML_LOGIN
               name: {{ include "appstore.fullname" . }}-env
+        {{- if .Values.saml.AUTHORITY_URL }}
         - name: SAML2_AUTH_ASSERTION_URL
           valueFrom:
             configMapKeyRef:
@@ -322,10 +321,37 @@ spec:
             secretKeyRef:
               key: IROD_ZONE
               name: {{ include "appstore.fullname" . }}
-        - name: IROD_APPROVED_USERS
+        {{- end }}
+        {{- if .Values.irodsUnbranded.enabled }}
+        - name: IROD_HOST
           valueFrom:
             secretKeyRef:
-              key: IROD_APPROVED_USERS
+              key: IROD_HOST
+              name: {{ include "appstore.fullname" . }}
+        - name: RODS_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: RODS_USERNAME
+              name: {{ include "appstore.fullname" . }}
+        - name: RODS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: RODS_PASSWORD
+              name: {{ include "appstore.fullname" . }}
+        - name: IROD_ZONE
+          valueFrom:
+            secretKeyRef:
+              key: IROD_ZONE
+              name: {{ include "appstore.fullname" . }}
+        - name: IROD_PORT
+          valueFrom:
+            secretKeyRef:
+              key: IROD_PORT
+              name: {{ include "appstore.fullname" . }}
+        - name: NFSRODS_HOST
+          valueFrom:
+            secretKeyRef:
+              key: NFSRODS_HOST
               name: {{ include "appstore.fullname" . }}
         {{- end }}
         - name: EMAIL_HOST_USER
@@ -517,4 +543,12 @@ spec:
         - name: saml-claim
           persistentVolumeClaim:
             claimName: {{ .Values.saml.cache.claimName }}
+      {{- end }}
+      {{- if .Values.irodsUnbranded.enabled }}
+        - configMap:
+            name: appstore-nfsrods
+            items:
+              - key: iroduserdata
+                path: iroduserdata
+          name: irod-user-volume
       {{- end }}
