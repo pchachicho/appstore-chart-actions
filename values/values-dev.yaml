@@ -8,7 +8,7 @@ django:
   DEV_PHASE: dev
   DOCKSTORE_APPS_BRANCH: 
 
-djangoSettings: eduhelx-sandbox
+djangoSettings: helx
 
 fetcherImage:
   repository: wateim/url-fetch
@@ -18,7 +18,6 @@ fetcherImage:
 helx_ui:
   REACT_APP_HELX_SEARCH_URL: ""
   REACT_APP_SEMANTIC_SEARCH_ENABLED: "false"
-  REACT_APP_UI_BRAND_NAME: eduhelx
   REACT_APP_WORKSPACES_ENABLED: "true"
 
 logLevel: "error"
@@ -50,7 +49,7 @@ tycho:
   initRunAsGroup: 1136
   externalAppRegistryEnabled: true
   externalAppRegistryRepo: "https://github.com/helxplatform/helx-apps/raw"
-  externalAppRegistryBranch: "eduhelx-sandbox"
+  externalAppRegistryBranch: "helx-dev"
 
 global:
   stdnfsPvc: helx-dev-projects-helx-users-pvc
