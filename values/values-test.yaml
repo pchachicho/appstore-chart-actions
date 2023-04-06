@@ -38,16 +38,13 @@ saml:
      storageSize: "50M"
      FETCH_INTERVAL: 3600000
 
-userStorage:
-  createPVC: true
-
 tycho:
   runAsUser: 30000
   runAsGroup: 1136
   fsGroup: 1136
   externalAppRegistryEnabled: true
   externalAppRegistryRepo: "https://github.com/helxplatform/helx-apps/raw"
-  externalAppRegistryBranch: "gitea_integration"
+  externalAppRegistryBranch: "eduhelx-dev_brand"
 
 global:
   stdnfsPvc: helx-dev-projects-helx-users-pvc

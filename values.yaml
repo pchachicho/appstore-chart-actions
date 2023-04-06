@@ -190,7 +190,18 @@ irods:
   RODS_PASSWORD: ""
   IROD_COLLECTIONS: ""
   IROD_ZONE: ""
-  IROD_APPROVED_USERS: ""
+
+
+irodsUnbranded:
+  enabled: False
+  RODS_USERNAME: ""
+  RODS_PASSWORD: ""
+  IROD_ZONE: ""
+  IROD_PORT: ""
+  IROD_HOST: ""
+  IROD_USER_VALUES: {}
+  NFSRODS_HOST: ""
+
 
 apps:
   DICOMGH_GOOGLE_CLIENT_ID: ""
@@ -212,6 +223,8 @@ apps:
   # If specified this replaces 'mimic-postgresql' in the pgadmin4.db
   # configuration file.
   HELX_DB_HOSTNAME: ""
+  PGADMIN_DISABLE_POSTFIX: "true"
+  PGADMIN_LISTEN_PORT: "80"
 
 appStorage:
   existingClaim: false
