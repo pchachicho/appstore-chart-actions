@@ -473,7 +473,6 @@ spec:
 
         ports:
         - containerPort: 8000
-      {{- if .Values.oauth.existingClaim }}
         volumeMounts:
           {{- if or .Values.artillery.loadTest .Values.artillery.smokeTest }}
           - mountPath: {{ .Values.django.TEST_USERS_PATH }}/test-users/
@@ -481,10 +480,10 @@ spec:
           {{- end }}
           {{- if not .Values.postgresql.enabled }}
           - mountPath: /var/lib/sqlite3
-            name: appstore-oauth-volume
+            name: appstore-sqlite-volume
           {{- end }}
-          {{- if .Values.appStorage.claimName }}
-          - name: app-mounts-claim
+          {{- if .Values.logsStorageAppstore.createPVC }}
+          - name: appstore-logs-volume
             mountPath: /usr/src/inst-mgmt/log
             subPath: log
           {{- end}}
@@ -492,34 +491,6 @@ spec:
           - name: saml-claim
             mountPath: {{ .Values.saml.cache.APPSTORE_DIRECTORY }}
           {{- end }}
-          {{- if .Values.irodsUnbranded.enabled }}
-          - mountPath: /etc/iroduserdata
-            name: irod-user-volume
-      {{- end}}
-      {{- else if .Values.oauth.claimName }}
-        volumeMounts:
-          # {{- if .Values.loadTest }}
-          # - mountPath: {{ .Values.django.TEST_USERS_PATH }}/test-users/
-          #   name: test-users-volume
-          # {{- end }}
-          {{- if not .Values.postgresql.enabled }}
-          - mountPath: /var/lib/sqlite3
-            name: appstore-oauth-volume
-          {{- end }}
-          {{- if .Values.appStorage.claimName }}
-          - name: app-mounts-claim
-            mountPath: /usr/src/inst-mgmt/log
-            subPath: log
-          {{- end}}
-          {{- if and .Values.saml.cache.claimName .Values.saml.cache.enabled }}
-          - name: saml-claim
-            mountPath: {{ .Values.saml.cache.APPSTORE_DIRECTORY }}
-          {{- end }}
-          {{- if .Values.irodsUnbranded.enabled }}
-          - mountPath: /etc/iroduserdata
-            name: irod-user-volume
-      {{- end}}
-      {{- end }}
       {{- if .Values.saml.cache.enabled }}
       - name: {{ .Chart.Name }}-saml-fetch
         image: "{{ .Values.fetcherImage.repository }}:{{ .Values.fetcherImage.tag }}"
@@ -550,22 +521,23 @@ spec:
       {{- end }}
       restartPolicy: Always
       volumes:
-        # {{- if .Values.loadTest }}
-        # - name: test-users-volume
-        #   secret:
-        #     secretName: {{ .Values.django.TEST_USERS_SECRET }}
-        # {{- end }}
       {{- if not .Values.postgresql.enabled }}
-      {{- if .Values.oauth.claimName }}
-        - name: appstore-oauth-volume
+        - name: appstore-sqlite-volume
           persistentVolumeClaim:
-            claimName: {{ .Values.oauth.claimName }}
+            {{- if .Values.sqliteStorage.claimName }}
+            claimName: {{ .Values.sqliteStorage.claimName }}
+            {{- else }}
+            claimName: appstore-sqlite-pvc
+            {{- end }}
       {{- end }}
-      {{- end }}
-      {{- if .Values.appStorage.claimName }}
-        - name: app-mounts-claim
+      {{- if .Values.logsStorageAppstore.createPVC }}
+        - name: appstore-logs-volume
           persistentVolumeClaim:
-            claimName: {{ .Values.appStorage.claimName }}
+            {{- if .Values.logsStorageAppstore.claimName }}
+            claimName: {{ .Values.logsStorageAppstore.claimName }}
+            {{- else }}
+            claimName: appstore-logs-pvc
+            {{- end }}
       {{- end }}
       {{- if and .Values.saml.cache.enabled .Values.saml.cache.claimName }}
         - name: saml-claim

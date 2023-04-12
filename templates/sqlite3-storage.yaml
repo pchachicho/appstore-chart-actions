@@ -1,9 +1,12 @@
 {{- if not .Values.postgresql.enabled }}
-{{- if not .Values.oauth.existingClaim }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ .Values.oauth.claimName }}
+  {{- if .Values.sqliteStorage.claimName }}
+  name: {{ .Values.sqliteStorage.claimName }}
+  {{- else }}
+  name: appstore-sqlite-pvc
+  {{- end }}
   labels:
     {{- include "appstore.labels" . | nindent 4 }}
 spec:
@@ -12,8 +15,7 @@ spec:
   resources:
     requests:
       storage: 100Mi
-  {{ if .Values.oauth.storageClass }}
-  storageClassName: {{ .Values.oauth.storageClass }}
+  {{ if .Values.sqliteStorage.storageClass }}
+  storageClassName: {{ .Values.sqliteStorage.storageClass }}
   {{- end }}
-{{- end }}
 {{- end }}

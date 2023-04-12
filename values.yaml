@@ -151,9 +151,6 @@ django:
   DEV_PHASE: "live"
 
 oauth:
-  existingClaim: false
-  claimName: appstore-oauth-pvc
-  storageClass:
   # -- oauth providers separated by commas (google, github)
   OAUTH_PROVIDERS: ""
   GITHUB_NAME: ""
@@ -226,8 +223,18 @@ apps:
   PGADMIN_DISABLE_POSTFIX: "true"
   PGADMIN_LISTEN_PORT: "80"
 
-appStorage:
+# -- Settings for django sqlite3 db file persistence, if postgresql is not enabled (postgresql.enabled: false).
+sqliteStorage:
+  # -- If a claim name is not specified, it defaults to appstore-oauth-pvc.
+  claimName:
+  storageClass:
+
+# -- Settings for django logs persistence.
+logsStorageAppstore:
+  createPVC: false
+  # -- Set to true if a claim has been created outside of the appstore chart.
   existingClaim: false
+  # -- Specify the claim name if it pre-exists or it defaults to appstore-logs-pvc.
   claimName:
   storageSize: 2Gi
   storageClass:
