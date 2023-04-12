@@ -230,8 +230,8 @@ sqliteStorage:
   storageClass:
 
 # -- Settings for django logs persistence.
-logsStorage:
-  enable: false
+logsStorageAppstore:
+  createPVC: false
   # -- Set to true if a claim has been created outside of the appstore chart.
   existingClaim: false
   # -- Specify the claim name if it pre-exists or it defaults to appstore-logs-pvc.

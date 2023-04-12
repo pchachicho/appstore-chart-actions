@@ -15,7 +15,7 @@ spec:
   resources:
     requests:
       storage: 100Mi
-  {{ if .Values.oauth.storageClass }}
-  storageClassName: {{ .Values.oauth.storageClass }}
+  {{ if .Values.sqliteStorage.storageClass }}
+  storageClassName: {{ .Values.sqliteStorage.storageClass }}
   {{- end }}
 {{- end }}

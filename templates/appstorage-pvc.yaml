@@ -1,21 +1,21 @@
-#{{- if .Values.logsStorage.enabled }}
-#{{- if not .Values.logsStorage.existingClaim }}
-#kind: PersistentVolumeClaim
-#apiVersion: v1
-#metadata:
-#  {{- if .Values.logsStorage.claimName }}
-#  name: {{ .Values.logsStorage.claimName }}
-#  {{- else }}
-#  name: appstore-logs-pvc
-#  {{- end }}
-#  labels:
-#    {{- include "appstore.labels" . | nindent 4 }}
-#spec:
-#  accessModes:
-#    - ReadWriteMany
-#  resources:
-#    requests:
-#      storage: {{ .Values.logsStorage.storageSize }}
-#  storageClassName: {{ .Values.logsStorage.storageClass }}
-#{{- end }}
-#{{- end }}
+{{- if .Values.logsStorageAppstore.createPVC }}
+{{- if not .Values.logsStorageAppstore.existingClaim }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  {{- if .Values.logsStorageAppstore.claimName }}
+  name: {{ .Values.logsStorageAppstore.claimName }}
+  {{- else }}
+  name: appstore-logs-pvc
+  {{- end }}
+  labels:
+    {{- include "appstore.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.logsStorageAppstore.storageSize }}
+  storageClassName: {{ .Values.logsStorageAppstore.storageClass }}
+{{- end }}
+{{- end }}

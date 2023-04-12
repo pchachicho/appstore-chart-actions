@@ -2,7 +2,6 @@
 
 ![Version: 1.8.0](https://img.shields.io/badge/Version-1.8.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.0](https://img.shields.io/badge/AppVersion-2.0.0-informational?style=flat-square)
 
-
 A Helm chart for Kubernetes
 
 ## Requirements
@@ -91,9 +90,9 @@ A Helm chart for Kubernetes
 | irodsUnbranded.RODS_USERNAME | string | `""` |  |
 | irodsUnbranded.enabled | bool | `false` |  |
 | logLevel | string | `"WARNING"` | Set the log level for the application.  (DEBUG INFO WARNING ERROR CRITICAL) |
-| logsStorage | object | `{"claimName":null,"enable":false,"existingClaim":false,"storageClass":null,"storageSize":"2Gi"}` | Settings for django logs persistence. |
-| logsStorage.claimName | string | `nil` | Specify the claim name if it pre-exists or it defaults to appstore-logs-pvc. |
-| logsStorage.existingClaim | bool | `false` | Set to true if a claim has been created outside of the appstore chart. |
+| logsStorageAppstore | object | `{"claimName":null,"createPVC":false,"existingClaim":false,"storageClass":null,"storageSize":"2Gi"}` | Settings for django logs persistence. |
+| logsStorageAppstore.claimName | string | `nil` | Specify the claim name if it pre-exists or it defaults to appstore-logs-pvc. |
+| logsStorageAppstore.existingClaim | bool | `false` | Set to true if a claim has been created outside of the appstore chart. |
 | nameOverride | string | `""` |  |
 | networkPolicyLabels.role | string | `"appstore"` |  |
 | nodeSelector | object | `{}` |  |
