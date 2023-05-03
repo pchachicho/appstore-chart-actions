@@ -409,6 +409,12 @@ spec:
           value: "{{ .Values.tycho.externalAppRegistryBranch | default (printf "v%s" .Chart.AppVersion) }}"
         - name: EXTERNAL_TYCHO_APP_REGISTRY_APP_SPECS_DIR
           value: "{{- .Values.tycho.externalAppRegistryAppSpecsDir }}"
+        - name: DOCKSTORE_APP_SPECS_DIR_URL
+          {{- if .Values.tycho.externalAppRegistryEnabled }}
+          value: "{{- .Values.tycho.externalAppRegistryRepo }}/{{ .Values.tycho.externalAppRegistryBranch | default (printf "v%s" .Chart.AppVersion) }}/{{- .Values.tycho.externalAppRegistryAppSpecsDir }}"
+          {{- else }}
+          value: "{{- .Values.tycho.externalAppRegistryRepo }}/{{- .Values.django.DOCKSTORE_APPS_BRANCH }}/{{- .Values.tycho.externalAppRegistryAppSpecsDir }}"
+          {{- end }}
         - name: INIT_SC_RUN_AS_USER
           value: "{{- .Values.tycho.initRunAsUser }}"
         - name: INIT_SC_RUN_AS_GROUP
