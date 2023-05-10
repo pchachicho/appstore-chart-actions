@@ -96,22 +96,6 @@ artillery:
   loadDuration: 10
   loadArrivalRate: 10
 
-# -- Various settings for helx-ui which will get expressed as env variables in container
-helx_ui:
-# -- REACT_APP_ANALYTICS (string) HeLx Mixpanel project analytics token
-  REACT_APP_ANALYTICS: ""
-# -- REACT_APP_APPSTORE_ASSET_BRANCH: (string) branchname of appstore branch
-  REACT_APP_APPSTORE_ASSET_BRANCH: "master"
-# -- REACT_APP_HELX_SEARCH_URL: (url)  URL of tranql
-  REACT_APP_HELX_SEARCH_URL: ""
-# -- REACT_APP_SEMANTIC_SEARCH_ENABLED: (boolean) Enable/Disable helx-ui search.
-  REACT_APP_SEMANTIC_SEARCH_ENABLED: "false"
-# -- REACT_APP_UI_BRAND_NAME: (string) defaults to the value of djangoSettings
-# values: bdc, braini, eduhelx, eduhelx-chip690, eduhelx-sandbox, restartr, scidas, tracs
-  REACT_APP_UI_BRAND_NAME: ""
-# -- REACT_APP_WORKSPACES_ENABLED: (boolean) Enable/Disable workspaces
-  REACT_APP_WORKSPACES_ENABLED: "true"
-
 gunicorn:
   # -- Set the number of gunicorn workers.  (2*CPU)+1 is recommended.
   workers: 5
@@ -151,9 +135,6 @@ django:
   DEV_PHASE: "live"
 
 oauth:
-  existingClaim: false
-  claimName: appstore-oauth-pvc
-  storageClass:
   # -- oauth providers separated by commas (google, github)
   OAUTH_PROVIDERS: ""
   GITHUB_NAME: ""
@@ -190,7 +171,18 @@ irods:
   RODS_PASSWORD: ""
   IROD_COLLECTIONS: ""
   IROD_ZONE: ""
-  IROD_APPROVED_USERS: ""
+
+
+irodsUnbranded:
+  enabled: false
+  RODS_USERNAME: ""
+  RODS_PASSWORD: ""
+  IROD_ZONE: ""
+  IROD_PORT: ""
+  IROD_HOST: ""
+  IROD_USER_VALUES: {}
+  NFSRODS_HOST: ""
+
 
 apps:
   DICOMGH_GOOGLE_CLIENT_ID: ""
@@ -212,9 +204,21 @@ apps:
   # If specified this replaces 'mimic-postgresql' in the pgadmin4.db
   # configuration file.
   HELX_DB_HOSTNAME: ""
+  PGADMIN_DISABLE_POSTFIX: "true"
+  PGADMIN_LISTEN_PORT: "80"
 
-appStorage:
+# -- Settings for django sqlite3 db file persistence, if postgresql is not enabled (postgresql.enabled: false).
+sqliteStorage:
+  # -- If a claim name is not specified, it defaults to appstore-oauth-pvc.
+  claimName:
+  storageClass:
+
+# -- Settings for django logs persistence.
+logsStorageAppstore:
+  createPVC: false
+  # -- Set to true if a claim has been created outside of the appstore chart.
   existingClaim: false
+  # -- Specify the claim name if it pre-exists or it defaults to appstore-logs-pvc.
   claimName:
   storageSize: 2Gi
   storageClass:

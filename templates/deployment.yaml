@@ -27,15 +27,14 @@ spec:
         {{- end }}
     spec:
       serviceAccountName: {{ include "appstore.fullname" . }}-sa
-      initContainers:
       {{- if .Values.securityContext }}
       securityContext:
         runAsUser: {{ .Values.securityContext.runAsUser }}
         runAsGroup: {{ .Values.securityContext.runAsGroup }}
         fsGroup: {{ .Values.securityContext.fsGroup }}
       {{- end }}
-      {{- if .Values.postgresql.enabled }}
       initContainers:
+      {{- if .Values.postgresql.enabled }}
       - name: wait-for-postgresql
         image: postgres:11
         command:
@@ -61,43 +60,6 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: LOG_LEVEL
-              name: {{ include "appstore.fullname" . }}-env
-        - name: REACT_APP_ANALYTICS
-          valueFrom:
-            configMapKeyRef:
-              key: REACT_APP_ANALYTICS
-              name: {{ include "appstore.fullname" . }}-env
-        - name: REACT_APP_APPSTORE_ASSET_BRANCH
-          valueFrom:
-            configMapKeyRef:
-              key: REACT_APP_APPSTORE_ASSET_BRANCH
-              name: {{ include "appstore.fullname" . }}-env
-        {{ if .Values.django.DOCKSTORE_APPS_BRANCH }}
-        - name: REACT_APP_DOCKSTORE_BRANCH
-          valueFrom:
-            secretKeyRef:
-              key: DOCKSTORE_APPS_BRANCH
-              name: {{ include "appstore.fullname" . }}
-        {{- end }}
-        - name: REACT_APP_HELX_SEARCH_URL
-          valueFrom:
-            configMapKeyRef:
-              key: REACT_APP_HELX_SEARCH_URL
-              name: {{ include "appstore.fullname" . }}-env
-        - name: REACT_APP_SEMANTIC_SEARCH_ENABLED
-          valueFrom:
-            configMapKeyRef:
-              key: REACT_APP_SEMANTIC_SEARCH_ENABLED
-              name: {{ include "appstore.fullname" . }}-env
-        - name: REACT_APP_UI_BRAND_NAME
-          valueFrom:
-            configMapKeyRef:
-              key: REACT_APP_UI_BRAND_NAME
-              name: {{ include "appstore.fullname" . }}-env
-        - name: REACT_APP_WORKSPACES_ENABLED
-          valueFrom:
-            configMapKeyRef:
-              key: REACT_APP_WORKSPACES_ENABLED
               name: {{ include "appstore.fullname" . }}-env
         - name: CREATE_TEST_USERS
           valueFrom:
@@ -129,12 +91,12 @@ spec:
             configMapKeyRef:
               key: ALLOW_DJANGO_LOGIN
               name: {{ include "appstore.fullname" . }}-env
-        {{- if .Values.saml.AUTHORITY_URL }}
         - name: ALLOW_SAML_LOGIN
           valueFrom:
             configMapKeyRef:
               key: ALLOW_SAML_LOGIN
               name: {{ include "appstore.fullname" . }}-env
+        {{- if .Values.saml.AUTHORITY_URL }}
         - name: SAML2_AUTH_ASSERTION_URL
           valueFrom:
             configMapKeyRef:
@@ -322,10 +284,37 @@ spec:
             secretKeyRef:
               key: IROD_ZONE
               name: {{ include "appstore.fullname" . }}
-        - name: IROD_APPROVED_USERS
+        {{- end }}
+        {{- if .Values.irodsUnbranded.enabled }}
+        - name: IROD_HOST
           valueFrom:
             secretKeyRef:
-              key: IROD_APPROVED_USERS
+              key: IROD_HOST
+              name: {{ include "appstore.fullname" . }}
+        - name: RODS_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: RODS_USERNAME
+              name: {{ include "appstore.fullname" . }}
+        - name: RODS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: RODS_PASSWORD
+              name: {{ include "appstore.fullname" . }}
+        - name: IROD_ZONE
+          valueFrom:
+            secretKeyRef:
+              key: IROD_ZONE
+              name: {{ include "appstore.fullname" . }}
+        - name: IROD_PORT
+          valueFrom:
+            secretKeyRef:
+              key: IROD_PORT
+              name: {{ include "appstore.fullname" . }}
+        - name: NFSRODS_HOST
+          valueFrom:
+            secretKeyRef:
+              key: NFSRODS_HOST
               name: {{ include "appstore.fullname" . }}
         {{- end }}
         - name: EMAIL_HOST_USER
@@ -447,7 +436,6 @@ spec:
 
         ports:
         - containerPort: 8000
-      {{- if .Values.oauth.existingClaim }}
         volumeMounts:
           {{- if or .Values.artillery.loadTest .Values.artillery.smokeTest }}
           - mountPath: {{ .Values.django.TEST_USERS_PATH }}/test-users/
@@ -455,10 +443,10 @@ spec:
           {{- end }}
           {{- if not .Values.postgresql.enabled }}
           - mountPath: /var/lib/sqlite3
-            name: appstore-oauth-volume
+            name: appstore-sqlite-volume
           {{- end }}
-          {{- if .Values.appStorage.claimName }}
-          - name: app-mounts-claim
+          {{- if .Values.logsStorageAppstore.createPVC }}
+          - name: appstore-logs-volume
             mountPath: /usr/src/inst-mgmt/log
             subPath: log
           {{- end}}
@@ -466,26 +454,6 @@ spec:
           - name: saml-claim
             mountPath: {{ .Values.saml.cache.APPSTORE_DIRECTORY }}
           {{- end }}
-      {{- else if .Values.oauth.claimName }}
-        volumeMounts:
-          # {{- if .Values.loadTest }}
-          # - mountPath: {{ .Values.django.TEST_USERS_PATH }}/test-users/
-          #   name: test-users-volume
-          # {{- end }}
-          {{- if not .Values.postgresql.enabled }}
-          - mountPath: /var/lib/sqlite3
-            name: appstore-oauth-volume
-          {{- end }}
-          {{- if .Values.appStorage.claimName }}
-          - name: app-mounts-claim
-            mountPath: /usr/src/inst-mgmt/log
-            subPath: log
-          {{- end}}
-          {{- if and .Values.saml.cache.claimName .Values.saml.cache.enabled }}
-          - name: saml-claim
-            mountPath: {{ .Values.saml.cache.APPSTORE_DIRECTORY }}
-          {{- end }}
-      {{- end }}
       {{- if .Values.saml.cache.enabled }}
       - name: {{ .Chart.Name }}-saml-fetch
         image: "{{ .Values.fetcherImage.repository }}:{{ .Values.fetcherImage.tag }}"
@@ -516,25 +484,34 @@ spec:
       {{- end }}
       restartPolicy: Always
       volumes:
-        # {{- if .Values.loadTest }}
-        # - name: test-users-volume
-        #   secret:
-        #     secretName: {{ .Values.django.TEST_USERS_SECRET }}
-        # {{- end }}
       {{- if not .Values.postgresql.enabled }}
-      {{- if .Values.oauth.claimName }}
-        - name: appstore-oauth-volume
+        - name: appstore-sqlite-volume
           persistentVolumeClaim:
-            claimName: {{ .Values.oauth.claimName }}
+            {{- if .Values.sqliteStorage.claimName }}
+            claimName: {{ .Values.sqliteStorage.claimName }}
+            {{- else }}
+            claimName: appstore-sqlite-pvc
+            {{- end }}
       {{- end }}
-      {{- end }}
-      {{- if .Values.appStorage.claimName }}
-        - name: app-mounts-claim
+      {{- if .Values.logsStorageAppstore.createPVC }}
+        - name: appstore-logs-volume
           persistentVolumeClaim:
-            claimName: {{ .Values.appStorage.claimName }}
+            {{- if .Values.logsStorageAppstore.claimName }}
+            claimName: {{ .Values.logsStorageAppstore.claimName }}
+            {{- else }}
+            claimName: appstore-logs-pvc
+            {{- end }}
       {{- end }}
       {{- if and .Values.saml.cache.enabled .Values.saml.cache.claimName }}
         - name: saml-claim
           persistentVolumeClaim:
             claimName: {{ .Values.saml.cache.claimName }}
+      {{- end }}
+      {{- if .Values.irodsUnbranded.enabled }}
+        - configMap:
+            name: appstore-nfsrods
+            items:
+              - key: iroduserdata
+                path: iroduserdata
+          name: irod-user-volume
       {{- end }}

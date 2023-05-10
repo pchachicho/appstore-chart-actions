@@ -16,12 +16,6 @@ fetcherImage:
   tag: develop
   pullPolicy: Always
 
-helx_ui:
-  REACT_APP_HELX_SEARCH_URL: ""
-  REACT_APP_SEMANTIC_SEARCH_ENABLED: "false"
-  REACT_APP_UI_BRAND_NAME: eduhelx
-  REACT_APP_WORKSPACES_ENABLED: "true"
-
 logLevel: "debug"
 
 oauth:
