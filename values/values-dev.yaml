@@ -8,14 +8,12 @@ django:
   DEV_PHASE: dev
   DOCKSTORE_APPS_BRANCH: 
 
-djangoSettings: helx
-
 fetcherImage:
   repository: wateim/url-fetch
   tag: develop
   pullPolicy: Always
 
-logLevel: "error"
+logLevel: "info"
 
 oauth:
   OAUTH_PROVIDERS: ""
