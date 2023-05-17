@@ -1,9 +1,13 @@
-{{- if not .Values.appStorage.existingClaim }}
-{{- if .Values.appStorage.claimName }}
+{{- if .Values.logsStorageAppstore.createPVC }}
+{{- if not .Values.logsStorageAppstore.existingClaim }}
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ .Values.appStorage.claimName }}
+  {{- if .Values.logsStorageAppstore.claimName }}
+  name: {{ .Values.logsStorageAppstore.claimName }}
+  {{- else }}
+  name: appstore-logs-pvc
+  {{- end }}
   labels:
     {{- include "appstore.labels" . | nindent 4 }}
 spec:
@@ -11,7 +15,7 @@ spec:
     - ReadWriteMany
   resources:
     requests:
-      storage: {{ .Values.appStorage.storageSize }}
-  storageClassName: {{ .Values.appStorage.storageClass }}
+      storage: {{ .Values.logsStorageAppstore.storageSize }}
+  storageClassName: {{ .Values.logsStorageAppstore.storageClass }}
 {{- end }}
 {{- end }}

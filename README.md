@@ -1,14 +1,14 @@
 # appstore
 
-![Version: 1.7.4](https://img.shields.io/badge/Version-1.7.4-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.0.0](https://img.shields.io/badge/AppVersion-2.0.0-informational?style=flat-square)
-
 A Helm chart for Kubernetes
 
-## Requirements
+![Version: 3.0.1](https://img.shields.io/badge/Version-3.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.0.0](https://img.shields.io/badge/AppVersion-3.0.0-informational?style=flat-square)
 
-| Repository | Name | Version |
-|------------|------|---------|
-| https://charts.bitnami.com/bitnami | postgresql | 11.6.26 |
+## CI/CD
+
+When the main branch of this chart is updated, using Github Actions we send the updated version to helm-charts repo to be indexed and packaged automatically.
+
+Additionally there is a workflow that allows bumping the chart version, if this is all that is needed to the cooresponding version of the appstore repository.
 
 ## Values
 
@@ -18,10 +18,6 @@ A Helm chart for Kubernetes
 | SET_BUILD_ENV_FROM_FILE | bool | `false` | Set environment variables from a file. |
 | affinity | object | `{}` |  |
 | ambassador.flag | bool | `true` | register appstore with ambassador flag: <True or False> |
-| appStorage.claimName | string | `nil` |  |
-| appStorage.existingClaim | bool | `false` |  |
-| appStorage.storageClass | string | `nil` |  |
-| appStorage.storageSize | string | `"2Gi"` |  |
 | apps.DATASOURCE_CONNECTION_URL | string | `""` |  |
 | apps.DATASOURCE_PASSWORD | string | `""` |  |
 | apps.DATASOURCE_USERNAME | string | `"ohdsi"` |  |
@@ -72,13 +68,6 @@ A Helm chart for Kubernetes
 | global.ambassador_id | string | `nil` | specify the id of the ambassador for Tycho-launched services. |
 | global.stdnfsPvc | string | `"stdnfs"` | the name of the PVC to use for user's files |
 | gunicorn.workers | int | `5` | Set the number of gunicorn workers.  (2*CPU)+1 is recommended. |
-| helx_ui | object | `{"REACT_APP_ANALYTICS":"","REACT_APP_APPSTORE_ASSET_BRANCH":"master","REACT_APP_HELX_SEARCH_URL":"","REACT_APP_SEMANTIC_SEARCH_ENABLED":"false","REACT_APP_UI_BRAND_NAME":"","REACT_APP_WORKSPACES_ENABLED":"true"}` | Various settings for helx-ui which will get expressed as env variables in container |
-| helx_ui.REACT_APP_ANALYTICS | string | `""` | REACT_APP_ANALYTICS (string) HeLx Mixpanel project analytics token |
-| helx_ui.REACT_APP_APPSTORE_ASSET_BRANCH | string | `"master"` | REACT_APP_APPSTORE_ASSET_BRANCH: (string) branchname of appstore branch |
-| helx_ui.REACT_APP_HELX_SEARCH_URL | string | `""` | REACT_APP_HELX_SEARCH_URL: (url)  URL of tranql |
-| helx_ui.REACT_APP_SEMANTIC_SEARCH_ENABLED | string | `"false"` | REACT_APP_SEMANTIC_SEARCH_ENABLED: (boolean) Enable/Disable helx-ui search. |
-| helx_ui.REACT_APP_UI_BRAND_NAME | string | `""` | REACT_APP_UI_BRAND_NAME: (string) defaults to the value of djangoSettings values: bdc, braini, eduhelx, eduhelx-chip690, eduhelx-sandbox, restartr, scidas, tracs |
-| helx_ui.REACT_APP_WORKSPACES_ENABLED | string | `"true"` | REACT_APP_WORKSPACES_ENABLED: (boolean) Enable/Disable workspaces |
 | image.pullPolicy | string | `"IfNotPresent"` | pull policy |
 | image.repository | string | `"containers.renci.org/helxplatform/appstore"` | repository where image is located |
 | image.tag | string | `nil` | Overrides the image tag whose default is the chart appVersion. Set to "" before release! |
@@ -99,6 +88,9 @@ A Helm chart for Kubernetes
 | irodsUnbranded.RODS_USERNAME | string | `""` |  |
 | irodsUnbranded.enabled | bool | `false` |  |
 | logLevel | string | `"WARNING"` | Set the log level for the application.  (DEBUG INFO WARNING ERROR CRITICAL) |
+| logsStorageAppstore | object | `{"claimName":null,"createPVC":false,"existingClaim":false,"storageClass":null,"storageSize":"2Gi"}` | Settings for django logs persistence. |
+| logsStorageAppstore.claimName | string | `nil` | Specify the claim name if it pre-exists or it defaults to appstore-logs-pvc. |
+| logsStorageAppstore.existingClaim | bool | `false` | Set to true if a claim has been created outside of the appstore chart. |
 | nameOverride | string | `""` |  |
 | networkPolicyLabels.role | string | `"appstore"` |  |
 | nodeSelector | object | `{}` |  |
@@ -113,9 +105,6 @@ A Helm chart for Kubernetes
 | oauth.GOOGLE_SECRET | string | `""` |  |
 | oauth.GOOGLE_SITES | string | `""` |  |
 | oauth.OAUTH_PROVIDERS | string | `""` | oauth providers separated by commas (google, github) |
-| oauth.claimName | string | `"appstore-oauth-pvc"` |  |
-| oauth.existingClaim | bool | `false` |  |
-| oauth.storageClass | string | `nil` |  |
 | podAnnotations | object | `{}` |  |
 | postgresql | object | `{"audit":{"logConnections":true,"logHostname":true},"enabled":true,"global":{"postgresql":{"auth":{"database":"appstore-oauth","password":"renciAdmin","postgresPassword":"adminPass","username":"renci"}}},"networkPolicyEnabled":true,"persistence":{"existingClaim":"appstore-postgresql-pvc","storageClass":null},"primary":{"labels":{"np-label":"appstore-db"},"podLabels":{"np-label":"appstore-db"}},"volumePermissions":{"enabled":true}}` | postgresql settings |
 | postgresql.audit | object | `{"logConnections":true,"logHostname":true}` | postgresql logs |
@@ -148,6 +137,8 @@ A Helm chart for Kubernetes
 | service.type | string | `"ClusterIP"` |  |
 | serviceAccount.create | bool | `true` | specifies whether a service account should be created |
 | serviceAccount.name | string | `nil` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
+| sqliteStorage | object | `{"claimName":null,"storageClass":null}` | Settings for django sqlite3 db file persistence, if postgresql is not enabled (postgresql.enabled: false). |
+| sqliteStorage.claimName | string | `nil` | If a claim name is not specified, it defaults to appstore-oauth-pvc. |
 | tolerations | list | `[]` |  |
 | tycho.createHomeDirs | bool | `true` | Create Home and shared directories for users. |
 | tycho.enableInitContainer | bool | `true` | Start the init container to take care of any needed tasks before the main container is started.  This can be to create certain directories or set file permissions. |
@@ -175,3 +166,4 @@ A Helm chart for Kubernetes
 
 ----------------------------------------------
 Autogenerated from chart metadata using [helm-docs v1.11.0](https://github.com/norwoodj/helm-docs/releases/v1.11.0)
+
