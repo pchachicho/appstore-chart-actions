@@ -1,5 +1,6 @@
 ACCOUNT_DEFAULT_HTTP_PROTOCOL: https
 debug: "true"
+logLevel: "debug"
 
 django:
   ALLOW_SAML_LOGIN: true
@@ -30,8 +31,6 @@ resources:
     cpu: 1
     memory: 1024Mi
 
-logLevel: "debug"
-
 useSparkServiceAccount: false
 
 saml:
@@ -54,4 +53,5 @@ tycho:
   externalAppRegistryBranch: "eduhelx-dev_brand"
 
 gitea:
+  enabled: true
   host: helx-test-git.apps.renci.org

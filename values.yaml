@@ -330,7 +330,7 @@ postgresql:
 # -- gitea settings
 gitea:
   # -- set whether a gitea connection is enabled
-  enabled: true
+  enabled: false
   # -- the hostname of the gitea server
   host: eduhelx-git.apps.renci.org
   # -- the default user that gets populated in the gitea ssh config file
