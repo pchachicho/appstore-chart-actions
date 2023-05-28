@@ -62,9 +62,9 @@ jobs:
     - name: Query Github and Set Latest AppVersion Tag
       env:
         GH_TOKEN: ${{ github.token }}
-        # Because the tag uses "v2.0.0" the awk Field to split on is 'v'.
+        # Because the tag uses "v2.0.0" the awk Field to split on is 'v'. -Fv was used but is now unnecessary.
       run: |
-        APPVERSION=$(gh release view -R github.com/helxplatform/appstore | grep 'tag:' | awk -Fv '{print $2}') \
+        APPVERSION=$(gh release view -R github.com/helxplatform/appstore | grep 'tag:' | awk '{print $2}') \
         yq --inplace '.appVersion = env(APPVERSION)' Chart.yaml
       if: ( steps.checkAppVersion.outputs.appVersionPresent == 'NO')
 
