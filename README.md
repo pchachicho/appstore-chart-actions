@@ -140,6 +140,7 @@ Additionally there is a workflow that allows bumping the chart version, if this 
 | sqliteStorage | object | `{"claimName":null,"storageClass":null}` | Settings for django sqlite3 db file persistence, if postgresql is not enabled (postgresql.enabled: false). |
 | sqliteStorage.claimName | string | `nil` | If a claim name is not specified, it defaults to appstore-oauth-pvc. |
 | tolerations | list | `[]` |  |
+| tycho.GPUResourceName | string | `"nvidia.com/gpu"` | The GPU resource name that a container can utilize.  Typically this is "nvidia.com/gpu", but other types exist, such as "nvidia.com/mig-1g.5gb" and other manufacturers have their own types. |
 | tycho.createHomeDirs | bool | `true` | Create Home and shared directories for users. |
 | tycho.enableInitContainer | bool | `true` | Start the init container to take care of any needed tasks before the main container is started.  This can be to create certain directories or set file permissions. |
 | tycho.externalAppRegistryAppSpecsDir | string | `"app-specs"` |  |
@@ -147,7 +148,6 @@ Additionally there is a workflow that allows bumping the chart version, if this 
 | tycho.externalAppRegistryEnabled | bool | `false` | Enable/disable the external app registry file for Tycho.  Set 'django.DOCKSTORE_APPS_BRANCH' to an empty string when when using an external app registry. |
 | tycho.externalAppRegistryRepo | string | `"https://github.com/helxplatform/helx-apps/raw"` | Can be set to a git repo URL for fetching the app registry file or defaults file.  Something in the form of  'https://github.com/helxplatform/helx-apps/raw'. |
 | tycho.fsGroup | int | `0` | Application processes launched will also be part of this supplimentary group. |
-| tycho.gpuResourceName | string | `"nvidia.com/gpu"` | The GPU resource name that a container can utilize.  Typically this is "nvidia.com/gpu", but other types exist, such as "nvidia.com/mig-1g.5gb" and other manufacturers have their own types. |
 | tycho.init | object | `{"resources":{"cpus":"250m","memory":"250Mi"}}` | Resource for Tycho init container. Defaults cpus|250m memory|250Mi |
 | tycho.initRunAsGroup | int | `0` | Init processes will have this group permissions. |
 | tycho.initRunAsUser | int | `0` | Init processes will run as this user. |

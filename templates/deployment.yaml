@@ -404,7 +404,7 @@ spec:
               key: TYCHO_INIT_RESOURCES_CPUS
               name: {{ include "appstore.fullname" . }}-env
         - name: TYCHO_APP_GPU_RESOURCE_NAME
-          value: "{{- .Values.tycho.gpuResourceName }}"
+          value: "{{- .Values.tycho.GPUResourceName }}"
         - name: TYCHO_APP_RUN_AS_USER
           value: "{{- .Values.tycho.runAsUser }}"
         - name: TYCHO_APP_RUN_AS_GROUP
