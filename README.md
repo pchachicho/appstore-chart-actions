@@ -2,7 +2,7 @@
 
 A Helm chart for Kubernetes
 
-![Version: 3.0.0](https://img.shields.io/badge/Version-3.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.0.0](https://img.shields.io/badge/AppVersion-3.0.0-informational?style=flat-square)
+![Version: 3.1.0](https://img.shields.io/badge/Version-3.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.0.0](https://img.shields.io/badge/AppVersion-3.0.0-informational?style=flat-square)
 
 ## CI/CD
 
@@ -60,6 +60,11 @@ Additionally there is a workflow that allows bumping the chart version, if this 
 | fetcherImage.repository | string | `"helxplatform/url-fetch"` | repository where image is located |
 | fetcherImage.tag | string | `"latest"` |  |
 | fullnameOverride | string | `""` |  |
+| gitea | object | `{"enabled":false,"host":"eduhelx-git.apps.renci.org","serviceName":"gitea-ssh","user":"git"}` | gitea settings |
+| gitea.enabled | bool | `false` | set whether a gitea connection is enabled |
+| gitea.host | string | `"eduhelx-git.apps.renci.org"` | the hostname of the gitea server |
+| gitea.serviceName | string | `"gitea-ssh"` | the name of service in Kubernetes to connect to gitea |
+| gitea.user | string | `"git"` | the default user that gets populated in the gitea ssh config file |
 | global.ambassador_id | string | `nil` | specify the id of the ambassador for Tycho-launched services. |
 | global.stdnfsPvc | string | `"stdnfs"` | the name of the PVC to use for user's files |
 | gunicorn.workers | int | `5` | Set the number of gunicorn workers.  (2*CPU)+1 is recommended. |
