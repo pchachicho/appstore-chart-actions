@@ -16,7 +16,7 @@ helx_ui:
 
 image:
   pullPolicy: Always
-  tag: jupyter-lab
+  tag: develop
 
 fetcherImage:
   repository: wateim/url-fetch
