@@ -269,6 +269,10 @@ tycho:
     resources:
       cpus: 250m
       memory: 250Mi
+  # -- The GPU resource name that a container can utilize.  Typically this is
+  # "nvidia.com/gpu", but other types exist, such as "nvidia.com/mig-1g.5gb"
+  # and other manufacturers have their own types.
+  GPUResourceName: "nvidia.com/gpu"
   # -- Enable/disable the external app registry file for Tycho.  Set
   # 'django.DOCKSTORE_APPS_BRANCH' to an empty string when when using an
   # external app registry.
