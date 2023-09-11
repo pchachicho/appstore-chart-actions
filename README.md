@@ -68,12 +68,12 @@ Additionally there is a workflow that allows bumping the chart version, if this 
 | global.ambassador_id | string | `nil` | specify the id of the ambassador for Tycho-launched services. |
 | global.stdnfsPvc | string | `"stdnfs"` | the name of the PVC to use for user's files |
 | gunicorn.workers | int | `5` | Set the number of gunicorn workers.  (2*CPU)+1 is recommended. |
-| image-postgresql.pullPolicy | string | `"Always"` | pull policy |
-| image-postgresql.repository | string | `"docker.io/bitnami/postgresql"` | repository where postgresql image is located |
-| image-postgresql.tag | int | `11` | Image tag for postgresql, coordinate this with postgresql dependency. |
 | image.pullPolicy | string | `"IfNotPresent"` | pull policy |
 | image.repository | string | `"containers.renci.org/helxplatform/appstore"` | repository where image is located |
 | image.tag | string | `nil` | Overrides the image tag whose default is the chart appVersion. Set to "" before release! |
+| imagePostgresql.pullPolicy | string | `"IfNotPresent"` | pull policy |
+| imagePostgresql.repository | string | `"docker.io/bitnami/postgresql"` | repository where postgresql image is located |
+| imagePostgresql.tag | int | `11` | Image tag for postgresql, coordinate this with postgresql dependency. |
 | imagePullSecrets | list | `[]` | credentials for a private repo |
 | irods.BRAINI_RODS | string | `""` |  |
 | irods.IROD_COLLECTIONS | string | `""` |  |

@@ -13,7 +13,7 @@ image:
   # Set to "" before release!
   tag:
 
-image-postgresql:
+imagePostgresql:
   # -- repository where postgresql image is located
   repository: docker.io/bitnami/postgresql
   # -- pull policy
