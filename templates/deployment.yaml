@@ -36,7 +36,7 @@ spec:
       initContainers:
       {{- if .Values.postgresql.enabled }}
       - name: wait-for-postgresql
-        image: "{{ .Values.imagePostgresql.image.repository }}:{{ .Values.imagePostgresql.image.tag }}"
+        image: "{{ .Values.imagePostgresql.repository }}:{{ .Values.imagePostgresql.tag }}"
         imagePullPolicy: "{{ .Values.imagePostgresql.pullPolicy }}"
         command:
           - sh
