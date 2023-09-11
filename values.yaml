@@ -13,6 +13,14 @@ image:
   # Set to "" before release!
   tag:
 
+image-postgresql:
+  # -- repository where postgresql image is located
+  repository: docker.io/bitnami/postgresql
+  # -- pull policy
+  pullPolicy: Always
+  # -- Image tag for postgresql, coordinate this with postgresql dependency.
+  tag: 11
+
 fetcherImage:
   # -- repository where image is located
   repository: helxplatform/url-fetch
