@@ -17,7 +17,7 @@ image-postgresql:
   # -- repository where postgresql image is located
   repository: docker.io/bitnami/postgresql
   # -- pull policy
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   # -- Image tag for postgresql, coordinate this with postgresql dependency.
   tag: 11
 
