@@ -426,6 +426,10 @@ spec:
           {{- else }}
           value: "{{- .Values.tycho.externalAppRegistryRepo }}/{{- .Values.django.DOCKSTORE_APPS_BRANCH }}/{{- .Values.tycho.externalAppRegistryAppSpecsDir }}"
           {{- end }}
+        - name: TYCHO_APP_INIT_IMAGE_REPOSITORY
+          value: "{{- .Values.tycho.initImageRepository }}"
+        - name: TYCHO_APP_INIT_IMAGE_TAG
+          value: "{{- .Values.tycho.initImageTag }}"
         - name: INIT_SC_RUN_AS_USER
           value: "{{- .Values.tycho.initRunAsUser }}"
         - name: INIT_SC_RUN_AS_GROUP

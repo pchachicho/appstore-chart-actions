@@ -259,6 +259,10 @@ tycho:
   # main container is started.  This can be to create certain directories or
   # set file permissions.
   enableInitContainer: true
+  # -- The image repository to use for HeLx app init containers.
+  initImageRepository: busybox
+  # -- The image tag to use for HeLx app init containers.
+  initImageTag: latest
   # -- Init processes will run as this user.
   initRunAsUser: 0
   # -- Init processes will have this group permissions.
