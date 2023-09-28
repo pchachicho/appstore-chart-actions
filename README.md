@@ -2,7 +2,7 @@
 
 A Helm chart for Kubernetes
 
-![Version: 3.2.2](https://img.shields.io/badge/Version-3.2.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.1.0](https://img.shields.io/badge/AppVersion-3.1.0-informational?style=flat-square)
+![Version: 3.2.3](https://img.shields.io/badge/Version-3.2.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.1.0](https://img.shields.io/badge/AppVersion-3.1.0-informational?style=flat-square)
 
 ## CI/CD
 
@@ -152,6 +152,8 @@ Additionally there is a workflow that allows bumping the chart version, if this 
 | tycho.externalAppRegistryRepo | string | `"https://github.com/helxplatform/helx-apps/raw"` | Can be set to a git repo URL for fetching the app registry file or defaults file.  Something in the form of  'https://github.com/helxplatform/helx-apps/raw'. |
 | tycho.fsGroup | int | `0` | Application processes launched will also be part of this supplimentary group. |
 | tycho.init | object | `{"resources":{"cpus":"250m","memory":"250Mi"}}` | Resource for Tycho init container. Defaults cpus|250m memory|250Mi |
+| tycho.initImageRepository | string | `"busybox"` | The image repository to use for HeLx app init containers. |
+| tycho.initImageTag | string | `"latest"` | The image tag to use for HeLx app init containers. |
 | tycho.initRunAsGroup | int | `0` | Init processes will have this group permissions. |
 | tycho.initRunAsUser | int | `0` | Init processes will run as this user. |
 | tycho.parent_dir | string | `"/home"` | directory that will be used to mount user's home directories in |
