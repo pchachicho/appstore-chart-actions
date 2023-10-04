@@ -147,7 +147,7 @@ django:
   # -- Specify URL to use for the "Image Download" link on the top part of website.
   IMAGE_DOWNLOAD_URL: ""
   # -- idle timeout for user web session
-  SESSION_IDLE_TIMEOUT: 2592000 # 30 days
+  SESSION_IDLE_TIMEOUT: "2592000" # 30 days
   # -- list of appstore registration emails
   RECIPIENT_EMAILS: ""
   # -- should be 'live' unless you are doing some kind of development
