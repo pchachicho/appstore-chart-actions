@@ -137,6 +137,11 @@ spec:
             configMapKeyRef:
               key: ACCOUNT_DEFAULT_HTTP_PROTOCOL
               name: {{ include "appstore.fullname" . }}-env
+        - name: AUTO_WHITELIST_PATTERNS
+          valueFrom:
+            configMapKeyRef:
+              key: AUTO_WHITELIST_PATTERNS
+              name: {{ include "appstore.fullname" . }}-env
         - name: DEV_PHASE
           valueFrom:
             configMapKeyRef:
