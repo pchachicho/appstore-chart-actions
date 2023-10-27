@@ -13,6 +13,14 @@ image:
   # Set to "" before release!
   tag:
 
+imagePostgresql:
+  # -- repository where postgresql image is located
+  repository: docker.io/bitnami/postgresql
+  # -- pull policy
+  pullPolicy: IfNotPresent
+  # -- Image tag for postgresql, coordinate this with postgresql dependency.
+  tag: 11
+
 fetcherImage:
   # -- repository where image is located
   repository: helxplatform/url-fetch
@@ -101,6 +109,17 @@ gunicorn:
   workers: 5
 
 django:
+  # Note that these only run on a user's primary alias.
+  # If a user has primary@cs.unc.edu as their primary alias,
+  # and secondary@renci.org as a secondary alias, they will only
+  # be whitelisted automatically if cs.unc.edu emails are allowed.
+  AUTO_WHITELIST_PATTERNS:
+    ### Whitelist all RENCI emails ###
+    # - "^[A-Za-z0-9._%+-]+@renci\\.org$"
+    ### Whitelist all UNC emails ###
+    # - "^[A-Za-z0-9._%+-]+@([A-Za-z0-9.-]+\.)?unc\.edu$"
+    ### Whitelist CS dept. (grad./prof.) UNC emails ###
+    # - "^[A-Za-z0-9._%+-]+@cs\.unc\.edu$"
   # -- create test users for load testing
   CREATE_TEST_USERS: "false"
   # -- parent directory where the users.txt would be mounted
@@ -128,7 +147,7 @@ django:
   # -- Specify URL to use for the "Image Download" link on the top part of website.
   IMAGE_DOWNLOAD_URL: ""
   # -- idle timeout for user web session
-  SESSION_IDLE_TIMEOUT: 3600
+  SESSION_IDLE_TIMEOUT: "2592000" # 30 days
   # -- list of appstore registration emails
   RECIPIENT_EMAILS: ""
   # -- should be 'live' unless you are doing some kind of development
@@ -251,6 +270,10 @@ tycho:
   # main container is started.  This can be to create certain directories or
   # set file permissions.
   enableInitContainer: true
+  # -- The image repository to use for HeLx app init containers.
+  initImageRepository: busybox
+  # -- The image tag to use for HeLx app init containers.
+  initImageTag: latest
   # -- Init processes will run as this user.
   initRunAsUser: 0
   # -- Init processes will have this group permissions.

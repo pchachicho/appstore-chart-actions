@@ -36,7 +36,8 @@ spec:
       initContainers:
       {{- if .Values.postgresql.enabled }}
       - name: wait-for-postgresql
-        image: postgres:11
+        image: "{{ .Values.imagePostgresql.repository }}:{{ .Values.imagePostgresql.tag }}"
+        imagePullPolicy: "{{ .Values.imagePostgresql.pullPolicy }}"
         command:
           - sh
           - -c
@@ -135,6 +136,11 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: ACCOUNT_DEFAULT_HTTP_PROTOCOL
+              name: {{ include "appstore.fullname" . }}-env
+        - name: AUTO_WHITELIST_PATTERNS
+          valueFrom:
+            configMapKeyRef:
+              key: AUTO_WHITELIST_PATTERNS
               name: {{ include "appstore.fullname" . }}-env
         - name: DEV_PHASE
           valueFrom:
@@ -425,6 +431,10 @@ spec:
           {{- else }}
           value: "{{- .Values.tycho.externalAppRegistryRepo }}/{{- .Values.django.DOCKSTORE_APPS_BRANCH }}/{{- .Values.tycho.externalAppRegistryAppSpecsDir }}"
           {{- end }}
+        - name: TYCHO_APP_INIT_IMAGE_REPOSITORY
+          value: "{{- .Values.tycho.initImageRepository }}"
+        - name: TYCHO_APP_INIT_IMAGE_TAG
+          value: "{{- .Values.tycho.initImageTag }}"
         - name: INIT_SC_RUN_AS_USER
           value: "{{- .Values.tycho.initRunAsUser }}"
         - name: INIT_SC_RUN_AS_GROUP
