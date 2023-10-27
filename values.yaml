@@ -115,7 +115,7 @@ django:
   # be whitelisted automatically if cs.unc.edu emails are allowed.
   AUTO_WHITELIST_PATTERNS:
     ### Whitelist all RENCI emails ###
-    - "^[A-Za-z0-9._%+-]+@renci\\.org$"
+    # - "^[A-Za-z0-9._%+-]+@renci\\.org$"
     ### Whitelist all UNC emails ###
     # - "^[A-Za-z0-9._%+-]+@([A-Za-z0-9.-]+\.)?unc\.edu$"
     ### Whitelist CS dept. (grad./prof.) UNC emails ###
