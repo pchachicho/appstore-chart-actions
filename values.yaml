@@ -109,17 +109,14 @@ gunicorn:
   workers: 5
 
 django:
-  # Note that these only run on a user's primary alias.
+  # -- Note that these only run on a user's primary alias.
   # If a user has primary@cs.unc.edu as their primary alias,
   # and secondary@renci.org as a secondary alias, they will only
   # be whitelisted automatically if cs.unc.edu emails are allowed.
-  AUTO_WHITELIST_PATTERNS:
-    ### Whitelist all RENCI emails ###
-    # - "^[A-Za-z0-9._%+-]+@renci\\.org$"
-    ### Whitelist all UNC emails ###
-    # - "^[A-Za-z0-9._%+-]+@([A-Za-z0-9.-]+\.)?unc\.edu$"
-    ### Whitelist CS dept. (grad./prof.) UNC emails ###
-    # - "^[A-Za-z0-9._%+-]+@cs\.unc\.edu$"
+  # ex. Whitelist all RENCI emails - "^[A-Za-z0-9._%+-]+@renci\\.org$"
+  # ex. Whitelist all UNC emails - "^[A-Za-z0-9._%+-]+@([A-Za-z0-9.-]+\\.)?unc\\.edu$"
+  # ex. Whitelist CS dept. (grad./prof.) UNC emails - "^[A-Za-z0-9._%+-]+@cs\\.unc\\.edu$"
+  AUTO_WHITELIST_PATTERNS: {}
   # -- create test users for load testing
   CREATE_TEST_USERS: "false"
   # -- parent directory where the users.txt would be mounted
