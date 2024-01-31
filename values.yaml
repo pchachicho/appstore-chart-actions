@@ -94,13 +94,6 @@ djangoSettings: helx
 # -- Allow for a custom entrypoint command via the values file.
 appstoreEntrypointArgs: "make start"
 
-artillery:
-  # -- When either smokeTest or loadTest is true, set CREATE_TEST_USERS, TEST_USERS_PATH under django settings.
-  smokeTest: false
-  loadTest: false
-  loadDuration: 10
-  loadArrivalRate: 10
-
 gunicorn:
   # -- Set the number of gunicorn workers.  (2*CPU)+1 is recommended.
   workers: 5
@@ -134,6 +127,12 @@ django:
   ALLOW_DJANGO_LOGIN: ""
   # -- show SAML log in fields (true | false)
   ALLOW_SAML_LOGIN: ""
+  # -- Email Server host ie relay.unc.edu | relay.renci.org
+  EMAIL_HOST: ""
+  # -- Email Server port ie 25 or other.
+  EMAIL_PORT: ""
+  # -- Does the Email Server require TLS connection or not? Boolean (true | false)
+  EMAIL_USE_TLS: False
   # -- email of account to use for outgoing emails
   EMAIL_HOST_USER: ""
   # -- password of account to use for outgoing emails

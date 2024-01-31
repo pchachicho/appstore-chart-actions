@@ -327,6 +327,21 @@ spec:
               key: NFSRODS_HOST
               name: {{ include "appstore.fullname" . }}
         {{- end }}
+        - name: EMAIL_HOST
+          valueFrom:
+            secretKeyRef:
+              key: EMAIL_HOST
+              name: {{ include "appstore.fullname" . }}
+        - name: EMAIL_PORT
+          valueFrom:
+            secretKeyRef:
+              key: EMAIL_PORT
+              name: {{ include "appstore.fullname" . }}
+        - name: EMAIL_USE_TLS
+          valueFrom:
+            secretKeyRef:
+              key: EMAIL_USE_TLS
+              name: {{ include "appstore.fullname" . }}
         - name: EMAIL_HOST_USER
           valueFrom:
             secretKeyRef:
