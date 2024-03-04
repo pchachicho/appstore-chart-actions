@@ -66,16 +66,6 @@ spec:
             configMapKeyRef:
               key: LOG_LEVEL
               name: {{ include "appstore.fullname" . }}-env
-        - name: CREATE_TEST_USERS
-          valueFrom:
-            configMapKeyRef:
-              key: CREATE_TEST_USERS
-              name: {{ include "appstore.fullname" . }}-env
-        - name: TEST_USERS_PATH
-          valueFrom:
-            configMapKeyRef:
-              key: TEST_USERS_PATH
-              name: {{ include "appstore.fullname" . }}-env
         - name: DEBUG
           valueFrom:
             configMapKeyRef:
@@ -468,10 +458,6 @@ spec:
         ports:
         - containerPort: 8000
         volumeMounts:
-          {{- if or .Values.artillery.loadTest .Values.artillery.smokeTest }}
-          - mountPath: {{ .Values.django.TEST_USERS_PATH }}/test-users/
-            name: test-users-volume
-          {{- end }}
           {{- if not .Values.postgresql.enabled }}
           - mountPath: /var/lib/sqlite3
             name: appstore-sqlite-volume

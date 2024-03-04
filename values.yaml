@@ -107,12 +107,7 @@ django:
   # ex. Whitelist all UNC emails - "^[A-Za-z0-9._%+-]+@([A-Za-z0-9.-]+\\.)?unc\\.edu$"
   # ex. Whitelist CS dept. (grad./prof.) UNC emails - "^[A-Za-z0-9._%+-]+@cs\\.unc\\.edu$"
   AUTO_WHITELIST_PATTERNS: []
-  # -- create test users for load testing
-  CREATE_TEST_USERS: "false"
-  # -- parent directory where the users.txt would be mounted
-  TEST_USERS_PATH: "/usr/src/inst-mgmt/artillery-tests/payloads"
-  # -- secret file deployed on the cluster to fetch the test users
-  TEST_USERS_SECRET: "test-users-secret"
+
   # -- user emails for oauth providers
   AUTHORIZED_USERS: ""
   # -- user emails to remove from an already-existing database
