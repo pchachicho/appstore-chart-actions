@@ -31,6 +31,6 @@ on:
         type: string
     
 jobs:
-  build-push-release:
+  bump-chart:
     uses: pchachicho/renci-github-actions/.github/workflows/bump-chart.yml@main
     secrets: inherit
