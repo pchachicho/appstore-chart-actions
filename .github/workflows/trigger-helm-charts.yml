@@ -5,12 +5,12 @@
 name: Trigger-Helm-Charts
 on:
   push:
-    branches:
-      - main 
-      - master
-    paths-ignore:
-      - .github/workflows/*
-      - .github/*
+    # branches:
+    #   - main 
+    #   - master
+    # # paths-ignore:
+    # #   - .github/workflows/*
+    # #   - .github/*
 jobs:
     build-push-release:
         uses: pchachicho/renci-github-actions/.github/workflows/trigger-helm-charts.yml@main
