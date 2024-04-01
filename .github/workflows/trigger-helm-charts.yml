@@ -11,8 +11,9 @@ on:
     # # paths-ignore:
     # #   - .github/workflows/*
     # #   - .github/*
-    
+
 jobs:
+  
   Get-Chart-Info:
     outputs:
       APPREPO: ${{ steps.chartInfo.outputs.APPREPO }}
