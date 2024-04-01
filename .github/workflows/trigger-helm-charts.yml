@@ -13,7 +13,7 @@ on:
     # #   - .github/*
 jobs:
   Trigger-Helm:
-    runs-on: ubuntu
+    runs-on: ubuntu-latest
     steps:
       - name: SanityCheck
         run: |
