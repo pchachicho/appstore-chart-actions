@@ -12,16 +12,24 @@ on:
     # #   - .github/workflows/*
     # #   - .github/*
 jobs:
-  Trigger-Helm:
+  Get-Chart-Info:
+    outputs:
+      APPREPO: ${{ steps.chartInfo.outputs.APPREPO }}
+      ACTOR: ${{ steps.chartInfo.outputs.ACTOR }}
+      TOKEN: ${{ steps.chartInfo.outputs.TOKEN }}
     runs-on: ubuntu-latest
     steps:
-      - name: SanityCheck
+      - name: chartInfo
+        id: chartInfo
         run: |
-          echo ${{ github.repository}}
-          echo ${{ github.actor }}
+          echo "APPREPO=${{ github.repository}}" >> GITHUB_OUTPUT
+          echo "ACTOR=${{ github.actor }}" >> GITHUB_OUTPUT
+          echo "TOKEN=${{ secrets.GH_TOKEN }}" >> GITHUB_OUTPUT
   Trigger-Helm-Charts:
+    needs: Get-Chart-Info
     uses: pchachicho/renci-github-actions/.github/workflows/trigger-helm-charts.yml@main
-    secrets: inherit
-    with:
-      appRepo: ${{ github.repository }}
-      actor: ${{ github.actor }}
+    secrets:
+      env_vars: |
+        APPREPO=${{ needs.Get-Chart-Info.outputs.APPREPO }}
+        ACTOR=${{ needs.Get-Chart-Info.outputs.ACTOR }}
+        TOKEN=${{ needs.Get-Chart-Info.outputs.TOKEN }}
