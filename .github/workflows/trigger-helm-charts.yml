@@ -2,36 +2,63 @@
 # Tests, Updates Dependency and Packages, then pushes to
 # our parent repo that holds all Helx Charts Helm-Charts
 
-name: Trigger-Helm-Charts
-on:
-  push:
+    name: Trigger-Helm-Charts
+    on:
+     push:
     # branches:
     #   - main
     #   - master
     # # paths-ignore:
     # #   - .github/workflows/*
     # #   - .github/*
-
-jobs:
-  
-  Get-Chart-Info:
-    outputs:
-      APPREPO: ${{ steps.chartInfo.outputs.APPREPO }}
-      ACTOR: ${{ steps.chartInfo.outputs.ACTOR }}
-      TOKEN: ${{ steps.chartInfo.outputs.TOKEN }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: chartInfo
-        id: chartInfo
-        run: |
-          echo "APPREPO=${{ github.repository}}" >> GITHUB_OUTPUT
-          echo "ACTOR=${{ github.actor }}" >> GITHUB_OUTPUT
-          echo "TOKEN=${{ secrets.GH_TOKEN }}" >> GITHUB_OUTPUT
-  Trigger-Helm-Charts:
-    needs: Get-Chart-Info
-    uses: pchachicho/renci-github-actions/.github/workflows/trigger-helm-charts.yml@main
-    secrets:
-      env_vars: |
-        APPREPO=${{ needs.Get-Chart-Info.outputs.APPREPO }}
-        ACTOR=${{ needs.Get-Chart-Info.outputs.ACTOR }}
-        TOKEN=${{ needs.Get-Chart-Info.outputs.TOKEN }}
+    jobs:
+      credentials:
+        runs-on: ubuntu-latest
+        outputs:
+          APPREPO: '${{ steps.credentials.outputs.APPREPO }}'
+          ACTOR: '${{ steps.credentials.outputs.ACTOR }}'
+          TOKEN: '${{ steps.credentials.outputs.TOKEN }}'
+        steps:
+          - name: Output encoded credentials
+            id: credentials
+            env:
+              APPREPO: ${{ secrets.APPREPO }}
+              ACTOR: ${{ secrets.ACTOR }}
+              TOKEN: ${{ secrets.TOKEN }}
+            run: |
+              echo "APPREPO=$(echo $APPREPO | base64 -w0 | base64 -w0)" >> $GITHUB_OUTPUT
+              echo "ACTOR=$(echo $ACTOR | base64 -w0 | base64 -w0)" >> $GITHUB_OUTPUT
+              echo "TOKEN=$(echo $TOKEN | base64 -w0 | base64 -w0)" >> $GITHUB_OUTPUT
+    
+      reusable-workflow:
+        needs: credentials
+        uses: pchachicho/renci-github-actions/.github/workflows/trigger-helm-charts.yml@main
+        secrets:
+          env_vars: |
+            APPREPO=${{ needs.credentials.outputs.APPREPO }}
+            ACTOR=${{ needs.credentials.outputs.ACTOR }}
+            TOKEN=${{ needs.credentials.outputs.TOKEN }}
+    # jobs:
+    #   Get-Chart-Info:
+    #       runs-on: ubuntu-latest
+    #       outputs:
+    #         APPREPO: '${{ steps.chartInfo.outputs.APPREPO }}'
+    #         ACTOR: '${{ steps.chartInfo.outputs.ACTOR }}'
+    #         TOKEN: '${{ steps.chartInfo.outputs.TOKEN }}'
+    # steps:
+    #   - name: chartInfo
+    #     id: chartInfo
+    #     run: |
+    #       echo "APPREPO=${{ github.repository }}" >> GITHUB_OUTPUT
+    #       echo "ACTOR=${{ github.actor }}" >> GITHUB_OUTPUT
+    #       echo "TOKEN=${{ secrets.GH_TOKEN }}" >> GITHUB_OUTPUT
+    # Trigger-Helm-Charts:
+    #   needs: Get-Chart-Info
+    #   uses: >-
+    #     pchachicho/renci-github-actions/.github/workflows/trigger-helm-charts.yml@main
+    #   secrets:
+    #     env_vars: |
+    #       APPREPO=${{ needs.Get-Chart-Info.outputs.APPREPO }}
+    #       ACTOR=${{ needs.Get-Chart-Info.outputs.ACTOR }}
+    #       TOKEN=${{ needs.Get-Chart-Info.outputs.TOKEN }}
+    
