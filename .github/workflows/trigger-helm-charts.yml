@@ -12,7 +12,7 @@ on:
     # #   - .github/workflows/*
     # #   - .github/*
 jobs:
-    build-push-release:
+    Trigger-Helm-Charts:
         uses: pchachicho/renci-github-actions/.github/workflows/trigger-helm-charts.yml@main
         secrets: inherit
 
