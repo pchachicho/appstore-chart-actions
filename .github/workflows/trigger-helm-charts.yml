@@ -12,15 +12,16 @@ on:
     # #   - .github/workflows/*
     # #   - .github/*
 jobs:
-  Trigger-Helm-Charts:
+  Trigger-Helm:
     runs-on: ubuntu
     steps:
       - name: SanityCheck
         run: |
           echo ${{ github.repository}}
           echo ${{ github.actor }}
-      - uses: pchachicho/renci-github-actions/.github/workflows/trigger-helm-charts.yml@main
-        secrets: inherit
-        with:
-          appRepo: ${{ github.repository }}
-          actor: ${{ github.actor }}
+  Trigger-Helm-Charts:
+    uses: pchachicho/renci-github-actions/.github/workflows/trigger-helm-charts.yml@main
+    secrets: inherit
+    with:
+      appRepo: ${{ github.repository }}
+      actor: ${{ github.actor }}
